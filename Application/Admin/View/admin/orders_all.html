@@ -423,10 +423,10 @@
 													<span class="ms-helper " style="display: inline;">No suggestions</span>
 													<div class="ms-sel-ctn">
 														<div class="ms-sel-item ">
-															nobugboy<span class="ms-close-btn"></span>
+															<span class="ms-close-btn"></span>
 														</div>
 														<input type="text" class="" placeholder=""  style="width: 310.094px;" />
-														<div style="display: none;"><input type="hidden" value="nobugboy"></div>
+														<div style="display: none;"><input type="hidden" value=""></div>
 													</div>
 													<div class="ms-trigger">
 														<div class="ms-trigger-ico"></div>
@@ -756,14 +756,15 @@
 			Demo.init(); // init demo features
 			ComponentsPickers.init();
         });
-		var myarray={:json_encode($orders)};  
-		console.log(myarray);
+		
 		$(function() {
-
+			var myarray={:json_encode($search_ct)};  
+			//console.log(myarray);
 			$('#ms-scrabble').magicSuggest({
 				placeholder: 'Type some real or fake fruits',
 				data: ['Banana', 'Apple', 'Orange', 'Lemon'],
-				name: "search"
+				name: "search",
+				value: myarray
 			});
 
 			// note that it would be a lot more proper to use CSS classes here instead of inline style
