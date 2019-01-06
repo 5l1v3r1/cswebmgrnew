@@ -348,28 +348,13 @@
 					</a>
 				</li>
 				<li>
-					<a href="form_controls_md.html">
+					<a href="{:U('Configure/techlist');}">
 						Technologies Conf
 					</a>
 				</li>
-
-			</ul>
-		</li>
-		<li>
-			<a href="javascript:;">
-			<i class="icon-settings"></i>
-			<span class="title">Configuration</span>
-			<span class="arrow "></span>
-			</a>
-			<ul class="sub-menu">
 				<li>
-					<a href="form_controls.html">
-						Exchange Rate
-					</a>
-				</li>
-				<li>
-					<a href="form_controls_md.html">
-						Technologies Conf
+					<a href="{:U('Configure/tradelist');}">
+						Trade Conf
 					</a>
 				</li>
 
@@ -541,6 +526,9 @@
 													<i class="fa fa-dot-circle-o"></i> {$vo.wxname}
 													<br>
 													<i class="fa fa-circle-o"></i> {$vo.wxid}
+													<br>
+													<span class="badge label-danger">{$vo.attrs}</span>
+
 												</td>
 												<td>{$vo.email}</td>
 												<td>
@@ -558,7 +546,9 @@
 													<br>
 													<span class="label label-sm label-success">Complete projects:  {$vo.ordercomplete}</span>
 													<br>
-													<span class="label label-sm label-danger">Incomplete projects:  {$vo.orderincomplete}</span>
+													<span class="label label-sm label-danger">Doing projects:  {$vo.orderonging}</span>
+													<br>
+													<span class="label label-sm label-danger">Unpaid projects:  {$vo.orderunpaid}</span>
 
 												</td>
 												<td>{$vo.description}</td>

@@ -112,12 +112,12 @@ class WorkerController extends CommonController {
       					//array_push($workeroutput ,$workers[$k]);
                 switch($type){
                   case 1:
-                    if($v['income'] == 0.00 && $workers[$k]["status"] == 0){
+                    if($income == 0.00 && $workers[$k]["status"] == 0){
                       array_push($workersres,$workers[$k]);
                     }
                     break;
                   case 2:
-                    if($v['income'] > 0.00 && $workers[$k]["status"] == 0){
+                    if($income > 0.00 && $workers[$k]["status"] == 0){
                       array_push($workersres,$workers[$k]);
                     }
                     break;
@@ -182,12 +182,12 @@ class WorkerController extends CommonController {
               //echo $k;
               switch($type){
                 case 1:
-                  if($v['income'] == 0.00 && $workers[$k]["status"] == 0){
+                  if($income == 0.00 && $workers[$k]["status"] == 0){
                     array_push($workersres,$workers[$k]);
                   }
                   break;
                 case 2:
-                  if($v['income'] > 0.00 && $workers[$k]["status"] == 0){
+                  if($income > 0.00 && $workers[$k]["status"] == 0){
                     array_push($workersres,$workers[$k]);
                   }
                   break;

@@ -30,21 +30,16 @@ class OrderController extends CommonController {
 		}*/
 		//echo $todate;
 		$se_condition = "";
+		$se_conditionall = "";
+		$search = "";
 		if(!empty(I('get.search'))){
 			$search = I('get.search');
 			//print_r($search);
-			foreach($search as $vv){ 
-				if($se_condition == ""){
-					$se_condition = 'AND (db_guests.wxid like "%'.$vv.'%" OR db_guests.wxname Like "%'.$vv.'%" OR db_workers.wxid like "%'.$vv.'%" OR db_workers.wxname Like "%'.$vv.'%"';
-				}else
-				{
-					$se_condition = $se_condition.' OR db_guests.wxid like "%'.$vv.'%" OR db_guests.wxname Like "%'.$vv.'%" OR db_workers.wxid like "%'.$vv.'%" OR db_workers.wxname Like "%'.$vv.'%"' ; 
-				}
-				$se_condition =  $se_condition.")";
-			}
-			$this->assign('search_ct',I('get.search'));// 赋值分页输出
+			$se_condition = 'AND (db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+			$se_conditionall = '(db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+			// 赋值分页输出
 			//print($se_condition);
-			
+
 		}
 		//$search =I('post.search');
 		/*$search =I('post.search');
@@ -119,8 +114,8 @@ class OrderController extends CommonController {
 				//echo $fromdate;
 				//$fromdate = "2017-12-25 00:00:00";
 				//$todate = "2017-12-28 00:00:00";
-				$orderinfolist = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where($se_condition)->order('db_orders.createtime desc')->page($pp.',20')->select();
-				$count = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where($se_condition)->count();
+				$orderinfolist = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where($se_conditionall)->order('db_orders.createtime desc')->page($pp.',20')->select();
+				$count = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where($se_conditionall)->count();
 
 				//echo "hahah";
 				//echo "all";
@@ -139,6 +134,7 @@ class OrderController extends CommonController {
 		$this->assign('page',$show);// 赋值分页输出
 		$this->assign('orders',$orderinfolist);//
 		/*search default*/
+		$this->assign('search[]',I('get.search'));
 		$this->assign('fflag',$flag);// 赋值分页输出
 		$this->assign('newfrom',$newfrom);// 赋值分页输出
 		$this->assign('newto',$newto);// 赋值分页输出
@@ -146,21 +142,74 @@ class OrderController extends CommonController {
 	}
 	public function orderaddpage(){
 		$Model = M('workers');
-		$workers = $Model->select();
+		$workers = $Model->field("wxid as email,wxname as name")->where("status = 0")->order('wxname asc')->select();
 		$this->assign('workers',$workers);
+		/* get technology list*/
+		$Model = M('technologies');
+		$teches = $Model->field("techid as email,content as name")->select();
+		$this->assign('teches',$teches);
+
 		$flag =3;
 		if(isset($_GET["flag"])){
 			$flag =I('get.flag');
 		}
+
 		$this->assign('fflag',$flag);// 赋值分页输出
 		$this->display(T('admin/orders_add'));
 	}
 	public function ordernew(){
+		$projectname = "";
+		if(!empty(I('post.projectname'))){
+			// projectname is [1,2,3,4,5]
+			$digitstr = "";
+			$projectnum = I('post.projectname');
+			foreach($projectnum as $v){
+				if (ctype_digit($v)) {
+					//echo "The string $testcase consists of all digits.\n";
 
+					if ($digitstr == "") {
+						$digitstr = $v;
+					}else{
+						$digitstr = $digitstr.",".$v;
+					}
+
+				} else {
+					if($projectname == ""){
+						$projectname = $v;
+					}else{
+						$projectname = $projectname."^".$v;
+					}
+
+				}
+			}
+
+			#print($digitstr);
+			if(strlen($digitstr) >0){
+				//print_r($digitstr);
+				$Model = M('technologies');
+				$m['techid'] = array('in',$digitstr);
+				//print_r($m);
+				$techinfos = $Model->field("techid,content")->where($m)->select();
+				#print_r($techinfos);
+				$keywordsid = "";
+				foreach($techinfos as $k=>$v){
+						#echo $v[content];
+						$keywordsid = $keywordsid."#".$v["techid"];
+						if($projectname == ""){
+							$projectname = $v[content];
+						}else{
+							$projectname = $projectname."^".$v[content];
+						}
+				}
+				$projectname = $projectname."$".$keywordsid;
+			}
+
+		}
+		#print($projectname);
 		$orderid = uniqid('cs_');
 		$data['orderid'] = $orderid;
 		$data['createtime'] = date('Y-m-d H:i:s',time());//
-		$data['projectname'] = I('post.projectname','','htmlspecialchars');//
+		$data['projectname'] = $projectname;//
 		$data['moneytype'] = I('post.moneytype','','htmlspecialchars');//
 		$data['totalprice'] = I('post.totalprice','','htmlspecialchars');//
 		$data['guarantee'] = I('post.guarantee','','htmlspecialchars');//
@@ -193,7 +242,11 @@ class OrderController extends CommonController {
 		$go['g_state'] = I('post.g_state','','htmlspecialchars');//
 		$Model->data($go)->add();
 		/* worker_order */
-		$map['wxid'] = I('post.wxid','','htmlspecialchars');//
+		$workers = I('post.wxid','','htmlspecialchars');
+		$map['wxid'] = "";
+		if(count($workers)>0){
+			$map['wxid'] = $workers[0];
+		}
 		$map['orderid'] = $orderid;//
 		$map['w_deadline'] = I('post.w_deadline','','htmlspecialchars');//
 		$map['w_payment'] = I('post.w_payment','','htmlspecialchars');//
@@ -208,15 +261,11 @@ class OrderController extends CommonController {
 		if(isset($_GET["flag"])){
 			$flag =I('get.flag');
 		}
+
+
+
 		$this->assign('fflag',$flag);// 赋值分页输出
 		$this->success('Add a new order successfully!',U('Order/orderlist?flag='.$flag),1);
-		//$this->success('Add a new order successfully!',U('Order/orderlist'),1);
-		/*
-		$Model = M('workers');
-        $workers = $Model->select();
-		$this->assign('workers',$workers);
-        $this->display(T('mgr/orders_add'));
-		*/
 	}
 	public function ordereditpage(){
 		$orderid = I('get.orderid','','htmlspecialchars');//
@@ -224,15 +273,121 @@ class OrderController extends CommonController {
 		$Model = M('orders');
 		$orderinfo = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('db_orders.orderid =  "'.$orderid.'"' )->find();
 		//dump($orderinfo);
-		$this->assign("orderinfo",$orderinfo);
+
 		$Model = M('workers');
-		$workers = $Model->select();
+		//echo $orderinfo[wxid];
+
+		$mmap['status'] = 0;
+		$workers = $Model->field("wxid as email,wxname as name")->where($mmap)->order('wxname asc')->select();
 		$this->assign('workers',$workers);
+		$mmap['wxid'] = $orderinfo[wxid];
+		$worker = $Model->field("wxid as email,wxname as name")->where($mmap)->select();
+		$this->assign('worker',$worker);
+		//print($worker);
+
+		/* get technology list*/
+		$Model = M('technologies');
+		$teches = $Model->field("techid as email,content as name")->select();
+		$this->assign('teches',$teches);
+		/* projectname*/
+		//print_r($orderinfo);
+		$resstr = explode('$', $orderinfo["projectname"]);
+		//echo $resstr[1];
+		$digitstr = "";
+		$title ="";
+		if(count($resstr)>=2){
+			$techids = explode('#', $resstr[count($resstr)-1]);
+			$title = $resstr[0];
+			//print($techids);
+			foreach($techids as $v){
+				if (ctype_digit($v)) {
+					//echo "The string $testcase consists of all digits.\n";
+
+					if ($digitstr == "") {
+						$digitstr = $v;
+					}else{
+						$digitstr = $digitstr.",".$v;
+					}
+
+				}
+			}
+		}else if(count($resstr) == 1){
+			$title = $resstr[0];
+		}
+
+		//echo $title;
+		$techinit = array();
+		if(strlen($digitstr)>0){
+			//echo $digitstr;
+			$m['techid'] = array('in',$digitstr);
+			//print_r($m);
+			$techinit = $Model->field("techid as email,content as name")->where($m)->select();
+
+		}
+
+		if($title != ""){
+			$titlearrs = explode('^', $title);
+			$techtmp = array();
+			if(count($techinit) == 0){
+				$techtmp = array();
+			}else{
+				$techtmp = $techinit;
+			}
+
+			//print_r(count($techtmp));
+			//echo $title;
+			//print_r($titlearrs);
+			//print_r($titlearrs);
+			foreach($titlearrs as $v){
+
+				if(count($techinit)>0){
+					$cff = 0;
+					foreach($techinit as $k){
+						//echo $v;
+
+						if($k["name"] == $v && $v !=""){
+							//echo ",,,<br>";
+							//echo $v;
+							//echo "<br>";
+
+							//print_r($techtmp);
+							//echo $k["name"];
+							//echo ",,,<br>";
+							$cff = 1;
+							break;
+						}
+					}
+					if($cff == 0){
+						$item = array("email" => $v,"name" =>$v);
+						array_push($techtmp,$item);
+					}else{
+						$cff = 0;
+					}
+
+
+				}else{
+					//echo $v;
+					if($v !=""){
+						$item = array("email" => $v,"name" =>$v);
+						print($techtmp);
+
+						array_push($techtmp,$item);
+						print_r($techtmp);
+
+					}
+				}
+
+			}
+			$techinit = $techtmp;
+		}
+		//print_r($techtmp);
+		$this->assign('techinit',$techinit);
 		$flag =3;
 		if(isset($_GET["flag"])){
 			$flag =I('get.flag');
 		}
 		$this->assign('fflag',$flag);// 赋值分页输出
+		$this->assign("orderinfo",$orderinfo);
 		$this->display(T('admin/orders_edit'));
 		/*
 		$Model = M('workers');
@@ -242,6 +397,53 @@ class OrderController extends CommonController {
 				*/
 	}
 	public function orderupdate(){
+		$projectname = "";
+		if(!empty(I('post.projectname'))){
+			// projectname is [1,2,3,4,5]
+			$digitstr = "";
+			$projectnum = I('post.projectname');
+			foreach($projectnum as $v){
+				if (ctype_digit($v)) {
+					//echo "The string $testcase consists of all digits.\n";
+
+					if ($digitstr == "") {
+						$digitstr = $v;
+					}else{
+						$digitstr = $digitstr.",".$v;
+					}
+
+				} else {
+					if($projectname == ""){
+						$projectname = $v;
+					}else{
+						$projectname = $projectname."^".$v;
+					}
+
+				}
+			}
+
+			#print($digitstr);
+			if(strlen($digitstr) >0){
+				//print_r($digitstr);
+				$Model = M('technologies');
+				$m['techid'] = array('in',$digitstr);
+				//print_r($m);
+				$techinfos = $Model->field("techid,content")->where($m)->select();
+				#print_r($techinfos);
+				$keywordsid = "";
+				foreach($techinfos as $k=>$v){
+						#echo $v[content];
+						$keywordsid = $keywordsid."#".$v["techid"];
+						if($projectname == ""){
+							$projectname = $v[content];
+						}else{
+							$projectname = $projectname."^".$v[content];
+						}
+				}
+				$projectname = $projectname."$".$keywordsid;
+			}
+
+		}
 		$orderid = I('post.orderid','','htmlspecialchars');
 		$ORDER = M('orders');
 		$condition['orderid'] = $orderid;
@@ -250,9 +452,10 @@ class OrderController extends CommonController {
 		if(isset($_GET["flag"])){
 			$flag =I('get.flag');
 		}
+
 		//dump($orderinfo);
 		if(!empty($orderinfo)){
-			$data['projectname'] = I('post.projectname','','htmlspecialchars');//
+			$data['projectname'] = $projectname;//
 			$data['moneytype'] = I('post.moneytype','','htmlspecialchars');//
 			$data['totalprice'] = I('post.totalprice','','htmlspecialchars');//
 			$data['guarantee'] = I('post.guarantee','','htmlspecialchars');//
@@ -279,7 +482,11 @@ class OrderController extends CommonController {
 					//dump($guestinfo);
 					/*worker*/
 					/* worker_order */
-					$map['wxid'] = I('post.wxid','','htmlspecialchars');//
+					$workers = I('post.wxid','','htmlspecialchars');//
+					$map['wxid'] = "";
+					if(count($workers)>0){
+						$map['wxid'] = $workers[0];
+					}
 					$map['orderid'] = $orderid;//
 					$mapadd['w_deadline'] = I('post.w_deadline','','htmlspecialchars');//
 					$mapadd['w_payment'] = I('post.w_payment','','htmlspecialchars');//
@@ -287,10 +494,19 @@ class OrderController extends CommonController {
 
 
 					$WORKEROORDER = M('worker_order');
+
 					if($map['wxid'] != ""){
+						//echo $map['wxid'];
+						//echo $map['orderid'];
 						$mapadd['wxid'] = $map['wxid'];
 						$connd['orderid'] = $map['orderid'];
-						$WORKEROORDER->where($connd)->save($mapadd);
+						$workerorders = $WORKEROORDER->where($connd)->select();
+						if(count($workerorders)>0){
+							$WORKEROORDER->where($connd)->save($mapadd);
+						}else{
+							$mapadd['orderid'] = $map['orderid'];
+							$WORKEROORDER->add($mapadd);
+						}
 						//dump($ii);
 					}else
 					{
@@ -298,44 +514,19 @@ class OrderController extends CommonController {
 						$WORKEROORDER->where($map)->delete();
 					}
 					$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist?flag='.$flag),1);
-					/*
-					if(isset($_GET["go"]) && $_GET["go"] == 1){
-						//$this->error('Update order #'.$orderid.' failure!',U('Order/orderlist_ongoing'),1);
-						$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist?fflag=2'),1);
-					}else{
-						$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist'),1);
-					}
-					*/
-					//$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist'),1);
+
 
 				}else{
-					/*
-					if(isset($_GET["go"]) && $_GET["go"] == 1){
-						$this->error('Update order #'.$orderid.' failure!',U('Order/orderlist?fflag=2'),1);
-					}else{
-						$this->error('Update order #'.$orderid.' failure!',U('Order/orderlist'),1);
-					}*/
 					$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist?flag='.$flag),1);
-					//$this->error('Update order #'.$orderid.' failure!',U('Order/orderlist'),1);
 				}
 				//$Model->data($go)->add();
 
 			}else
 			{
-				/*if(isset($_GET["go"]) && $_GET["go"] == 1){
-					$this->error('Update order #'.$orderid.' failure!',U('Order/orderlist?fflag=2'),1);
-				}else{
-					$this->error('Update order #'.$orderid.' failure!',U('Order/orderlist'),1);
-				}*/
 				$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist?flag='.$flag),1);
 
 			}
 		}else{
-			/*if(isset($_GET["go"]) && $_GET["go"] == 1){
-				$this->error('Update order #'.$orderid.' failure!',U('Order/orderlist?fflag=2'),1);
-			}else{
-				$this->error('Update order #'.$orderid.' failure!',U('Order/orderlist'),1);
-			}*/
 			$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist?flag='.$flag),1);
 		}
 		/*
@@ -375,55 +566,6 @@ class OrderController extends CommonController {
 		$this->display(T('admin/orders_detail'));
 
 	}
-
-	/*in complete*/
-	/*
-	public function orderlist_ongoing()
-	{
-		$pp = 0;
-		if(isset($_GET["p"])){
-			$pp = $_GET["p"];
-		}
-		$flag =2;
-		//$fromdate = date('Y-m-d',strtotime('1016-01-30'));//
-		//$todate = date('Y-m-d',strtotime('3016-01-30'));//
-		$fromdate = "1000-10-10 00:00:00";
-		//echo $fromdate;
-		$todate = "3000-10-10 00:00:00";
-		$newfrom = "";
-		$newto = "";
-		if(isset($_GET["fromdate"]) && $_GET["fromdate"] != ""){
-			$fromdate = $_GET["fromdate"];
-			$newfrom = $fromdate;
-
-		}
-		if(isset($_GET["todate"]) && $_GET["todate"] != ""){
-			$todate = $_GET["todate"];
-			$newto = $todate;
-		}
-		$Model = M('orders');
-		$orderinfolist = [];
-		$count = 0;
-		$orderinfolist = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59" AND (db_guest_order.g_state != 2 OR db_worker_order.w_state != 3)')->order('db_orders.createtime asc')->page($pp.',20')->select();
-		$count = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59" AND (db_guest_order.g_state != 2 OR db_worker_order.w_state != 3)')->count();
-		//dump($orderinfolist);
-		//echo $count;
-		$Page = new \Think\Page($count,20);// 实例化分页类 传入总记录数和每页显示的记录数
-		$Page->setConfig('prev','last');
-		$Page->setConfig('next','next');
-		$Page->setConfig('first','first');
-		$Page->setConfig('last','last');
-		$Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER% ');
-		$show = $Page->show();// 分页显示输出
-		$this->assign('page',$show);// 赋值分页输出
-		$this->assign('orders',$orderinfolist);//
-		//search default
-		$this->assign('fflag',$flag);// 赋值分页输出
-		$this->assign('newfrom',$newfrom);// 赋值分页输出
-		$this->assign('newto',$newto);// 赋值分页输出
-		$this->display(T('admin/orders_ongoing'));
-	}
-	*/
 	public function orderremark(){
 		$orderid = I('get.orderid');
 		$Model = M('guest_order');
@@ -436,6 +578,16 @@ class OrderController extends CommonController {
 		}else{
 			$this->success('Remark order #'.$cond['orderid'].' successfully!',U('Order/orderlist'),1);
 		}
+	}
+	public function ajaxRecommand(){
+		//$data = 'ok';
+		$data = I('post.data');
+		//$data = array(array("email"=>"1","name"=>"php"),array("email"=>"9","name"=>"C"));
+
+
+		$res = Recommand($data);
+
+		$this->ajaxReturn($res);
 	}
 
 

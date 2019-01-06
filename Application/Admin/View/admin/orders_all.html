@@ -271,28 +271,13 @@
 					</a>
 				</li>
 				<li>
-					<a href="form_controls_md.html">
+					<a href="{:U('Configure/techlist');}">
 						Technologies Conf
 					</a>
 				</li>
-
-			</ul>
-		</li>
-		<li>
-			<a href="javascript:;">
-			<i class="icon-settings"></i>
-			<span class="title">Configuration</span>
-			<span class="arrow "></span>
-			</a>
-			<ul class="sub-menu">
 				<li>
-					<a href="form_controls.html">
-						Exchange Rate
-					</a>
-				</li>
-				<li>
-					<a href="form_controls_md.html">
-						Technologies Conf
+					<a href="{:U('Configure/tradelist');}">
+						Trade Conf
 					</a>
 				</li>
 
@@ -327,7 +312,18 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="{:U('Order/orderlist?flag=3');}">Orders All</a>
+
+						<if condition="$fflag eq 1">
+
+							<a href="{:U('Order/orderlist?flag='.$fflag.'');}"> Completed orders</a>
+						<elseif condition="$fflag eq 2"/>
+
+							<a href="{:U('Order/orderlist?flag='.$fflag.'');}"> Ongoing orders</a>
+						<elseif condition="$fflag eq 4"/>
+							<a href="{:U('Order/orderlist?flag='.$fflag.'');}"> Warning orders</a>
+						<else/>
+							<a href="{:U('Order/orderlist?flag='.$fflag.'');}">	All Orders</a>
+						</if>
 					</li>
 				</ul>
 				<div class="page-toolbar">
@@ -413,35 +409,20 @@
 								<div class="row">
 									<form role="form" action="{:U('Order/orderlist?p=1&flag='.$fflag.'');}" method="GET">
 									<div class="col-md-12 col-sm-12">
-										
+
 										<div class="form-group">
-											<div class="col-md-2 col-sm-12">
-												<label>Keywords search</label>	
-											</div>
 											<div class="col-md-5 col-sm-12">
-												<div class="ms-ctn form-control ms-ctn-focus" style="" id="ms-scrabble">
-													<span class="ms-helper " style="display: inline;">No suggestions</span>
-													<div class="ms-sel-ctn">
-														<div class="ms-sel-item ">
-															<span class="ms-close-btn"></span>
-														</div>
-														<input type="text" class="" placeholder=""  style="width: 310.094px;" />
-														<div style="display: none;"><input type="hidden" value=""></div>
-													</div>
-													<div class="ms-trigger">
-														<div class="ms-trigger-ico"></div>
-													</div>
-													<div class="ms-res-ctn dropdown-menu" style="display: block; height: 12px;"></div>
-												</div>
+												<label>Keywords search</label>
+												<input name="search" type="text" size="50" class="form-control input-inline input-large" placeholder="From" value="" >
 											</div>
 											<div class="col-md-5 col-sm-12">
 												<button class="btn yellow table-group-action-submit"><i class="fa fa-search"></i> Search</button>
 												<a class="btn red filter-cancel" type="reset" href="{:U('Order/orderlist?p=1');}"><i class="fa fa-times"></i> Reset</a>
 											</div>
 										</div>
-										
+
 										<!--
-										
+
 										<div class="form-group">
 											<div class="col-md-2 col-sm-12">
 													<select name="flag" class="form-control">
@@ -489,7 +470,7 @@
 											</div>
 										</div>
 										-->
-									
+
 								</div>
 									</form>
 									<div class="col-md-12 col-sm-12"><hr></div>
@@ -626,11 +607,10 @@
 																</div>
 															<!-- /.modal-dialog -->
 															</div>
-														<if condition="($vo.g_state eq 2) AND ($vo.w_state eq 3) ">
+
 															<a class="btn btn-xs green" data-target="#stack{$vo['orderid']}" data-toggle="modal">
-																<i class="fa fa-comment-o"></i>
+																<i class="fa fa-comment-o"> {$vo['gremark']}</i>
 															</a>
-														</if>
 
 														<div class="modal fade modal-overflow in" id="stack{$vo['orderid']}" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
 															<div class="modal-dialog">
@@ -756,31 +736,7 @@
 			Demo.init(); // init demo features
 			ComponentsPickers.init();
         });
-		
-		$(function() {
-			var myarray={:json_encode($search_ct)};  
-			//console.log(myarray);
-			$('#ms-scrabble').magicSuggest({
-				placeholder: 'Type some real or fake fruits',
-				data: ['Banana', 'Apple', 'Orange', 'Lemon'],
-				name: "search",
-				value: myarray
-			});
 
-			// note that it would be a lot more proper to use CSS classes here instead of inline style
-			$('#ms-complex-templating').magicSuggest({
-				data: 'random.json',
-				renderer: function(data){
-					return '<div style="padding: 5px; overflow:hidden;">' +
-						'<div style="float: left;"><img src="' + data.picture + '" /></div>' +
-						'<div style="float: left; margin-left: 5px">' +
-							'<div style="font-weight: bold; color: #333; font-size: 10px; line-height: 11px">' + data.name + '</div>' +
-							'<div style="color: #999; font-size: 9px">' + data.email + '</div>' +
-						'</div>' +
-					'</div><div style="clear:both;"></div>'; // make sure we have closed our dom stuff
-				}
-			});
 
-});
 		</script>
 </block>

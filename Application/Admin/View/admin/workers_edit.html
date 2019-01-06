@@ -156,28 +156,13 @@
 					</a>
 				</li>
 				<li>
-					<a href="form_controls_md.html">
+					<a href="{:U('Configure/techlist');}">
 						Technologies Conf
 					</a>
 				</li>
-
-			</ul>
-		</li>
-		<li>
-			<a href="javascript:;">
-			<i class="icon-settings"></i>
-			<span class="title">Configuration</span>
-			<span class="arrow "></span>
-			</a>
-			<ul class="sub-menu">
 				<li>
-					<a href="form_controls.html">
-						Exchange Rate
-					</a>
-				</li>
-				<li>
-					<a href="form_controls_md.html">
-						Technologies Conf
+					<a href="{:U('Configure/tradelist');}">
+						Trade Conf
 					</a>
 				</li>
 
@@ -294,6 +279,37 @@
 													</label>
 												</foreach>
 											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 control-label">worker attr</label>
+										<div class="col-md-9">
+											<div class="checkbox-list">
+												<foreach name="attrsche" item="vo">
+													<label class="checkbox-inline">
+														<in name="vo" value="$worker.attrs">
+															<input type="checkbox" name="attrs[]"  value="{$vo}" checked> {$vo}
+														<else/>
+															<input type="checkbox" name="attrs[]"  value="{$vo}"> {$vo}
+														</in>
+													</label>
+												</foreach>
+											</div>
+										</div>
+									</div>
+									<div class="form-group has-error">
+										<label class="col-md-3 control-label">Worker status</label>
+										<div class="col-md-9">
+											<select name="status" class="form-control input-inline input-medium">
+												<if condition="$worker.status eq 1">
+													<option value="0">live</option>
+													<option value="1" selected>dead</option>
+												<else />
+													<option value="0" selected>live</option>
+													<option value="1">dead</option>
+												</if>
+
+											</select>
 										</div>
 									</div>
 									<div class="form-group">

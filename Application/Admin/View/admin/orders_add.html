@@ -14,7 +14,7 @@
 
 </block>
 <block name="siderbarmenu">
-	<ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+	<ul class="page-sidebar-menu page-sidebar-menu-closed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
 		<!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
 		<li class="sidebar-toggler-wrapper">
 			<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
@@ -166,27 +166,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="form_controls_md.html">
-						Technologies Conf
-					</a>
-				</li>
-
-			</ul>
-		</li>
-		<li>
-			<a href="javascript:;">
-			<i class="icon-settings"></i>
-			<span class="title">Configuration</span>
-			<span class="arrow "></span>
-			</a>
-			<ul class="sub-menu">
-				<li>
-					<a href="form_controls.html">
-						Exchange Rate
-					</a>
-				</li>
-				<li>
-					<a href="form_controls_md.html">
+					<a href="{:U('Configure/techlist');}">
 						Technologies Conf
 					</a>
 				</li>
@@ -213,11 +193,7 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<if condition="$go eq 1">
-							<a href="{:U('Order/orderlist_ongoing');}">Orders Ongoing</a>
-						<else />
-							<a href="{:U('Order/orderlist?flag=3');}">Orders All</a>
-						</if>
+						<a href="{:U('Order/orderlist?flag='.$fflag.'');}">Father page</a>
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
@@ -272,139 +248,209 @@
 						<div class="portlet-body form">
 							<form class="form-horizontal" action="{:U('Order/ordernew?flag='.$fflag.'');}" method="post"  role="form">
 								<div class="form-body">
-									<div class="form-group has-error">
-										<label class="col-md-3 control-label">Guest Wechat ID</label>
-										<div class="col-md-9">
-											<input name="guest_wxid" type="text" placeholder="Guest Wechat ID" class="form-control input-inline input-medium" required>
-											<span class="help-inline">
-											guest's wechat id. </span>
-										</div>
-									</div>
-									<div class="form-group has-error">
-										<label class="col-md-3 control-label">Guest Wechat Name</label>
-										<div class="col-md-9">
-											<input name="guest_wxname" type="text" placeholder="Guest Wechat Name" class="form-control input-inline input-medium" required>
-											<span class="help-inline"> guest's wechat name. </span>
-										</div>
-									</div>
-									<div class="form-group has-error">
-										<label class="col-md-3 control-label">Project Name</label>
-										<div class="col-md-9">
-											<input name="projectname" type="text" placeholder="Project name" class="form-control" required>
-										</div>
-									</div>
-									<div class="form-group has-error">
-										<label class="col-md-3 control-label">Guest deadline</label>
-										<div class="col-md-3">
-											<div class="input-group date form_meridian_datetimenew" data-date="{$dateform}">
-												<input name="g_deadtime" type="text" size="10" class="form-control input-inline " placeholder="Guest deadline" required>
-												<span class="input-group-btn">
-												<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
-												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
+									<div class="col-md-4">
+											<div class="form-group has-error">
+												<label class="col-md-4 control-label">Guest Wechat ID</label>
+												<div class="col-md-8">
+													<input name="guest_wxid" type="text" placeholder="Guest Wechat ID" class="form-control input-inline input-medium" required>
+												</div>
 											</div>
-										</div>
-									</div>
-									<div class="form-group has-error">
-										<label class="col-md-3 control-label">Currency Type</label>
-										<div class="col-md-9">
-											<select name="moneytype" class="form-control input-inline input-medium">
-												<foreach name="currencies" item="vo">
-													<option value="{$vo['currency']}">{$vo['currency']}</option>
-												</foreach>
-											</select>
-										</div>
-									</div>
-									<div class="form-group has-error">
-										<label class="col-md-3 control-label">Total Price</label>
-										<div class="col-md-9">
-											<input name="totalprice" type="number" value="0.00" min="0" step="0.01" class="form-control input-inline input-medium" required>
-											<span class="help-inline"> guest's total price. </span>
-										</div>
-									</div>
-									<div class="form-group has-error">
-										<label class="col-md-3 control-label">Guarantee</label>
-										<div class="col-md-9">
-											<input name="guarantee" type="number" value="0.00" min="0" step="0.01" class="form-control input-inline input-medium" required>
-											<span class="help-inline"> guest's guarantee price. </span>
-										</div>
+											<div class="form-group has-error">
+												<label class="col-md-4 control-label">Guest Wechat Name</label>
+												<div class="col-md-8">
+													<input name="guest_wxname" type="text" placeholder="Guest Wechat Name" class="form-control input-inline input-medium" required>
+												</div>
+											</div>
+											<div class="form-group has-error">
+												<label class="col-md-4 control-label">Project Name</label>
+												<div class="col-md-8">
+													<div class="ms-ctn form-control ms-as-string " style="" id="ms-emails"><span class="ms-helper " style="display: inline;"></span><div class="ms-sel-ctn"><input class="form-control input-inline input-large" type="text" placeholder="Enter project name ..." required></div><div class="ms-trigger"><div class="ms-trigger-ico"></div></div></div>
+													<!--<input name="projectname" type="text" placeholder="Project name" class="form-control" required>-->
+												</div>
+											</div>
+											<div class="form-group has-error">
+												<label class="col-md-4 control-label">Guest deadline</label>
+												<div class="col-md-8">
+													<div class="input-group date form_meridian_datetimenew" data-date="{$dateform}">
+														<input name="g_deadtime" type="text" size="10" class="form-control input-inline" placeholder="Guest deadline" required>
+														<span class="input-group-btn">
+														<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
+														<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
+														</span>
+													</div>
+												</div>
+											</div>
+											<div class="form-group has-error">
+												<label class="col-md-4 control-label">Currency Type</label>
+												<div class="col-md-8">
+													<select name="moneytype" class="form-control input-inline input-medium">
+														<foreach name="currencies" item="vo">
+															<option value="{$vo['currency']}">{$vo['currency']}</option>
+														</foreach>
+													</select>
+												</div>
+											</div>
+											<div class="form-group has-error">
+												<label class="col-md-4 control-label">Total Price</label>
+												<div class="col-md-8">
+													<input name="totalprice" type="number" value="0.00" min="0" step="0.01" class="form-control input-inline input-medium" required>
+												</div>
+											</div>
+											<div class="form-group has-error">
+												<label class="col-md-4 control-label">Guarantee</label>
+												<div class="col-md-8">
+													<input name="guarantee" type="number" value="0.00" min="0" step="0.01" class="form-control input-inline input-medium" required>
+												</div>
+											</div>
+											<!--
+												0. guest have no paid gurrentee
+												1. guest have paid gurrentee
+												2. guest have pain all money
+											-->
+											<!--
+												0. no
+												1. worker is doing
+												2. worker has completed and no pay
+												3. worker has completed and paid
+											-->
+											<div class="form-group has-error">
+												<label class="col-md-4 control-label">Guest state</label>
+												<div class="col-md-8">
+													<select name="g_state" class="form-control input-inline input-medium">
+														<option value="0">Guest have no paid gurrentee</option>
+														<option value="1">Guest have paid gurrentee</option>
+														<option value="2">Guest have pain all money</option>
+													</select>
+												</div>
+											</div>
+											<hr>
+											<div class="form-group">
+												<label class="col-md-4 control-label">Select worker</label>
+												<div class="col-md-8">
+													<div class="ms-ctn form-control ms-as-string " style="" id="ms-workers"><span class="ms-helper " style="display: inline;"></span><div class="ms-sel-ctn"><input class="form-control input-inline input-large" type="text" placeholder="Enter project name ..." required></div><div class="ms-trigger"><div class="ms-trigger-ico"></div></div></div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-4 control-label">Worker deadline</label>
+												<div class="col-md-8">
+													<div class="input-group date form_meridian_datetimenew" data-date="{$dateform}">
+														<input name="w_deadline" type="text" size="10" class="form-control input-inline " placeholder="Worker deadline" >
+														<span class="input-group-btn">
+														<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
+														<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
+														</span>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-4 control-label">Worker salary</label>
+												<div class="col-md-8">
+													<input name="w_payment" type="number" value="0.00" min="0" step="0.01" class="form-control input-inline input-medium" required>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-4 control-label">Worker state</label>
+												<div class="col-md-8">
+													<select name="w_state" class="form-control input-inline input-medium">
+														<option value="0">Unset</option>
+														<option value="1">worker is doing</option>
+														<option value="2">worker has completed and no pay</option>
+														<option value="3">worker has completed and paid</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-4 control-label">Description</label>
+												<div class="col-md-8">
+													<textarea name="description" class="form-control input-inline input-medium" rows="3"></textarea>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-4 control-label"></label>
+												<div class="col-md-8">
+													<button type="submit" class="btn green">Submit</button>
+													<a type="button" href="{:U('Order/orderlist?flag='.$fflag.'');}" class="btn default">Cancel</a>
+												</div>
+											</div>
+
 									</div>
 									<!--
-										0. guest have no paid gurrentee
-										1. guest have paid gurrentee
-										2. guest have pain all money
+									show recommand user list
 									-->
-									<!--
-										0. no
-										1. worker is doing
-										2. worker has completed and no pay
-										3. worker has completed and paid
-									-->
-									<div class="form-group has-error">
-										<label class="col-md-3 control-label">Guest state</label>
-										<div class="col-md-9">
-											<select name="g_state" class="form-control input-inline input-medium">
-												<option value="0">Guest have no paid gurrentee</option>
-												<option value="1">Guest have paid gurrentee</option>
-												<option value="2">Guest have pain all money</option>
-											</select>
-										</div>
-									</div>
-									<hr>
-									<div class="form-group">
-										<label class="col-md-3 control-label">Select worker</label>
-										<div class="col-md-9">
-											<select name="wxid" class="form-control input-inline input-medium">
-												<option value="">Please Choose a worker</option>
-												<foreach name="workers" item="vo">
-													<option value="{$vo.wxid}">{$vo.wxid} : {$vo.wxname}</option>
-												</foreach>
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label">Worker deadline</label>
-										<div class="col-md-3">
-											<div class="input-group date form_meridian_datetimenew" data-date="{$dateform}">
-												<input name="w_deadline" type="text" size="10" class="form-control input-inline " placeholder="Worker deadline" >
-												<span class="input-group-btn">
-												<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
-												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
+									<div class="col-md-5">
+											<div class="portlet box red-pink" >
+												<div class="portlet-title">
+													<div class="caption">
+														<i class="fa fa-gift"></i>Recomand Old workers
+														<span class="label label-sm label-success ">Complete</span>
+														<span class="label label-sm label-info ">Ongoing</span>
+														<span class="label label-sm label-primary">Remark</span>
+													</div>
+													<div class="tools">
+														<a href="javascript:;" class="collapse" data-original-title="" title="">
+														</a>
+														<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+														</a>
+														<a href="javascript:;" class="reload" data-original-title="" title="">
+														</a>
+													</div>
+												</div>
+												<div class="portlet-body" >
+													<h6><span class="text-success" id="oldworkernum"></span></h6>
+														<div style="max-height:630px;overflow-y: scroll; ">
+
+															<table class="table table-striped table-advance table-hover">
+																<tbody id="ShowOldWorkers">
+
+																</tbody>
+															</table>
+														</div>
+												</div>
 											</div>
-										</div>
 									</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label">Worker salary</label>
-										<div class="col-md-9">
-											<input name="w_payment" type="number" value="0.00" min="0" step="0.01" class="form-control input-inline input-medium" required>
-											<span class="help-inline"> Worker salary. </span>
-										</div>
+									<div class="col-md-3">
+											<div class="portlet box red-pink" >
+												<div class="portlet-title">
+													<div class="caption">
+														<i class="fa fa-gift"></i>Recomand New workers
+													</div>
+													<div class="tools">
+														<a href="javascript:;" class="collapse" data-original-title="" title="">
+														</a>
+														<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+														</a>
+														<a href="javascript:;" class="reload" data-original-title="" title="">
+														</a>
+													</div>
+												</div>
+												<div class="portlet-body" >
+													<h6><span class="text-success" id="newworkernum"></span></h6>
+														<div style="max-height:630px;overflow-y: scroll; ">
+															<table class="table table-striped table-advance table-hover">
+																<tbody id="ShowNewWorkers">
+																	<tr class="unread" data-messageid="1">
+
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+												</div>
+											</div>
+<!--
+-->
+
+<!--
+-->
+
+
+
 									</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label">Worker state</label>
-										<div class="col-md-9">
-											<select name="w_state" class="form-control input-inline input-medium">
-												<option value="0">Unset</option>
-												<option value="1">worker is doing</option>
-												<option value="2">worker has completed and no pay</option>
-												<option value="3">worker has completed and paid</option>
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label">Description</label>
-										<div class="col-md-9">
-											<textarea name="description" class="form-control input-inline input-medium" rows="3"></textarea>
-										</div>
-									</div>
+
+
+
 								</div>
-								<div class="form-actions">
+								<div >
 									<div class="row">
-										<div class="col-md-offset-3 col-md-9">
-											<button type="submit" class="btn green">Submit</button>
-											<button type="button" class="btn default">Cancel</button>
-										</div>
 									</div>
 								</div>
 							</form>
@@ -449,6 +495,158 @@
 				Metronic.init(); // init metronic core components
 				Layout.init(); // init current layout
 				ComponentsPickers.init();
-	        });
+	    });
+					/*auto fill*/
+					$(function() {
+						var myarray={:json_encode($teches)};
+						console.log(myarray);
+						var data= [{
+								name: 'Georges Washington',
+								email: 'georges.washington@whitehouse.gov'
+						},{
+								name: 'Theodore Roosevelt',
+								email: 'theodore.roosevelt@whitehouse.gov'
+						},{
+								name: 'Benjamin Franklin',
+								email: 'benjamin.franlin@whitehouse.gov'
+						},{
+								name: 'Abraham Lincoln',
+								email: 'abraham.lincoln@whitehouse.gov'
+						}];
+						console.log(data);
+						var ms = $('#ms-emails').magicSuggest({
+							placeholder: 'Select technologies label ...',
+			        data: myarray,
+			        valueField: 'email',
+							/*value:[{
+									name: 'Georges Washington',
+									email: 'georges.washington@whitehouse.gov'
+							}],*/
+			        renderer: function(data){
+			            return data.email + ' (<b>' + data.name + '</b>)';
+			        },
+			        resultAsString: true,
+							name: "projectname"
+						});
+						$(ms).on('selectionchange', function(e,m){
+						  //console.log(ms.getSelection());
+							var res = ms.getSelection();
+							//console.log(res);
+							var datas = [];
+							for(var i=0;i<res.length;i++){
+								if(res[i]["email"] != res[i]["name"]){
+									//console.log(res[i]);
+									datas.push(res[i]);
+
+								}
+							}
+							//console.log(datas);
+							$.ajax({
+								url: "{:U('Order/ajaxRecommand');}", // server url
+								type: 'POST', //POST or GET
+								data: {"data":datas}, // data to send in ajax format or querystring format
+								datatype: 'json',
+								success: function(data) {
+									//callback(data); // return data in callback
+									//console.log(data[1]);
+									showOldWorkers(data[0],"#oldworkernum","#ShowOldWorkers");
+									showNewWorkers(data[1],"#newworkernum","#ShowNewWorkers");
+								},
+								error: function(xhr, status, error) {
+										alert(xhr.responseText);
+								}
+							});
+						});
+						/*select workers*/
+						var workers ={:json_encode($workers)};
+						for(var i=0;i<workers.length;i++){
+							workers[i]["name"] = workers[i]["name"]+"("+workers[i]["email"] + ")";
+
+						}
+						var ms1 = $('#ms-workers').magicSuggest({
+							placeholder: 'Select workers ...',
+			        data: workers,
+			        valueField: 'email',
+							/*value:[{
+									name: 'Georges Washington',
+									email: 'georges.washington@whitehouse.gov'
+							}],*/
+			        renderer: function(data){
+			            return data.name ;
+			        },
+			        resultAsString: true,
+							name: "wxid"
+						});
+						$("#ShowOldWorkers").on("click","a", function() {
+							//console.log($(this).attr("id"));
+							var id = $(this).attr("id")
+
+							ms1.setSelection([{email:id.split("|")[0], name:id.split("|")[1]+"("+id.split("|")[0]+")"}]);
+						});
+						$("#ShowNewWorkers").on("click","a", function() {
+							//console.log($(this).attr("id"));
+							var id = $(this).attr("id")
+
+							ms1.setSelection([{email:id.split("|")[0], name:id.split("|")[1]+"("+id.split("|")[0]+")"}]);
+						});
+					});
+					/* show workers*/
+					function showOldWorkers(data,numlabel,showtbody){
+
+						$(numlabel).html('<i class="fa fa-users"></i>  recommand total workers '+data.length);
+						$(showtbody).html("");
+						for(var i=0;i<data.length;i++){
+								var trc = '\
+<td><i class="fa fa-paperclip"></i> '+ (i+1) +'\
+<br> 	<i class="fa fa-star"></i> '+ data[i].mark_sum +'\
+</td>\
+<td class="view-message">\
+<a href="javascript:;" class="name">'+ data[i].wxname +'<br><small>'+ data[i].wxid +'</small></a>\
+</td>\
+<td class="view-message ">\
+<span class="label label-sm text-danger">\
+<i class="fa fa-paperclip"> <small>DC: '+ data[i].ordercomplete +' </small> </i>\
+<i class="fa fa-paperclip"> <small>OG: '+ data[i].orderonging +' </small></i>\
+<br>\
+<i class="fa fa-paperclip"> <small>UP: '+ data[i].orderunpaid +' </small></i>\
+<i class="fa fa-paperclip"> <small>RM: '+ data[i].remark +' </small></i>\
+</span>\
+</td>\
+<td class="view-message text-right">\
+<span class="label label-sm label-success">'+ data[i].mark_ordercomplete +'</span>\
+<span class="label label-sm label-info">'+ data[i].mark_orderongoing +'</span>\
+<span class="label label-sm label-primary">'+ data[i].mark_remark +'</span>\
+</td>\
+<td class="view-message text-right">\
+<a type="button" class="btn red btn-sm" id="'+data[i].wxid +"|"+ data[i].wxname+'">Get</a>\
+</td>\
+';
+							$(showtbody).append($('<tr class="unread"></tr>').append(trc));
+					}
+				}
+				function showNewWorkers(data,numlabel,showtbody){
+					$(numlabel).html('<i class="fa fa-users"></i>  recommand total workers '+data.length);
+					$(showtbody).html("");
+					for(var i=0;i<data.length;i++){
+						var trc='\
+<td class="view-message" style="width:auto">\
+	<a href="javascript:;" class="name"><small>'+ (i+1) +'  '+ data[i].wxname +'<br>'+ data[i].wxid +'</small></a>\
+</td>\
+<td class="view-message ">\
+	<span class="label label-sm label-danger">\
+'+ data[i].attr +'\
+	</span>\
+	<span class="label label-sm label-info">\
+		'+ data[i].addtime.split(" ")[0] +'\
+	</span>\
+</td>\
+<td class="view-message text-right">\
+	<a class="btn red btn-sm" id="'+data[i].wxid +"|"+ data[i].wxname+'" >Get</a>\
+</td>\
+					';
+					$(showtbody).append($('<tr class="unread"></tr>').append(trc));
+					}
+				}
+
 			</script>
 </block>

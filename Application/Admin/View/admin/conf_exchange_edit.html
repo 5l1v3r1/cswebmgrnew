@@ -40,7 +40,7 @@
 			</form>
 			<!-- END RESPONSIVE QUICK SEARCH FORM -->
 		</li>
-		<li class="start">
+		<li>
 			<a href="javascript:;">
 			<i class="icon-home"></i>
 			<span class="title">Dashboard</span>
@@ -48,7 +48,7 @@
 			<span class="arrow open"></span>
 			</a>
 			<ul class="sub-menu">
-				<li>
+				<li class="active">
 					<a href="{:U('Dashboard/index');}">
 					<i class="icon-bar-chart"></i>
 					Default Dashboard</a>
@@ -68,12 +68,23 @@
 					Dashboard</a>
 				</li>
 				<li>
-					<a href="{:U('Order/orderlist_ongoing');}">
+					<a href="{:U('Order/orderlist?flag=2');}">
 					<i class="icon-bell"></i>
 					<span class="badge badge-danger">{$cin}</span>
 					Orders Ongoing</a>
 				</li>
-				<li class="active">
+				<li>
+					<a href="{:U('Order/orderlist?flag=4');}">
+					<i class="fa fa-warning"></i>
+					<span class="badge badge-danger">{$cin1}</span>
+					<font color="red">Orders Warning</font></a>
+				</li>
+				<li>
+					<a href="{:U('Order/orderlist?flag=1');}">
+					<i class="fa fa-lock"></i>
+					Complete Orders</a>
+				</li>
+				<li>
 					<a href="{:U('Order/orderlist?flag=3');}">
 					<i class="icon-basket"></i>
 					Orders All</a>
@@ -142,7 +153,7 @@
 				</li>
 			</ul>
 		</li>
-		<li class="active open">
+		<li class="start active open">
 			<a href="javascript:;">
 			<i class="icon-settings"></i>
 			<span class="title">Configuration</span>
@@ -154,29 +165,14 @@
 						Exchange Rate
 					</a>
 				</li>
-				<li>
-					<a href="form_controls_md.html">
+				<li >
+					<a href="{:U('Configure/techlist');}">
 						Technologies Conf
 					</a>
 				</li>
-
-			</ul>
-		</li>
-		<li>
-			<a href="javascript:;">
-			<i class="icon-settings"></i>
-			<span class="title">Configuration</span>
-			<span class="arrow "></span>
-			</a>
-			<ul class="sub-menu">
 				<li>
-					<a href="form_controls.html">
-						Exchange Rate
-					</a>
-				</li>
-				<li>
-					<a href="form_controls_md.html">
-						Technologies Conf
+					<a href="{:U('Configure/tradelist');}">
+						Trade Conf
 					</a>
 				</li>
 
