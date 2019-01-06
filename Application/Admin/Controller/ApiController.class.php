@@ -13,15 +13,7 @@ class ApiController  extends Controller {
 			$techinfo = $techinfo.$item;
 		}
 		$this->assign('techinfo',$techinfo);
-		echo "<br><br>";
-		echo $res["paypal_info"];
-		echo "<br><br>";
-		echo $res["guest_remark"];
-		echo "<br><br>";
-		echo $techinfo.$res["worker_techlist"];
-		echo "<br><br>";
-		echo $res["workers_notice0"];
-		//$this->display(T('admin/conf_trade_list'));
+		$this->display(T('admin/apipage'));
 	}
 
 }
