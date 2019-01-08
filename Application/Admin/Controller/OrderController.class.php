@@ -539,6 +539,10 @@ class OrderController extends CommonController {
 		//dump($data);
 	}
 	public function orderdelete(){
+		$flag =3;
+		if(isset($_GET["flag"])){
+			$flag =I('get.flag');
+		}
 		$data['orderid'] = I('get.orderid');
 		$Model = M('orders');
 		$Model->where($data)->delete();
@@ -548,36 +552,35 @@ class OrderController extends CommonController {
 		}else{
 			$this->success('Delete order #'.$data['orderid'].' successfully!',U('Order/orderlist'),1);
 		}*/
-		$this->success('Delete order #'.$data['orderid'].' successfully!',U('Order/orderlist?flag=2'),1);
+		$this->success('Delete order #'.$data['orderid'].' successfully!',U('Order/orderlist?flag='.$flag),1);
 		//$this->success('Delete order #'.$data['orderid'].' successfully!',U('Order/orderlist'),1);
 	}
 	public function orderdetailpage()
 	{
+		$flag =3;
+		if(isset($_GET["flag"])){
+			$flag =I('get.flag');
+		}
 		$orderid = I('get.orderid');
 		$Model = M('orders');
 		$orderinfo = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('db_orders.orderid =  "'.$orderid.'"' )->find();
 		//dump($orderinfo);
 		$this->assign("orderinfo",$orderinfo);
-		if(isset($_GET["go"])){
-			$this->assign('go',1);// 赋值分页输出
-		}else{
-        	$this->assign('go',0);// 赋值分页输出
-		}
+		$this->assign('fflag',$flag);
 		$this->display(T('admin/orders_detail'));
 
 	}
 	public function orderremark(){
+		$flag =3;
+		if(isset($_GET["flag"])){
+			$flag =I('get.flag');
+		}
 		$orderid = I('get.orderid');
 		$Model = M('guest_order');
 		$cond['orderid'] = $orderid;
 		$cell['remark'] = I('post.remarkoption');
 		$Model->where($cond)->save($cell);
-		if(isset($_GET["go"]) && $_GET["go"] == 1){
-			//$this->error('Update order #'.$orderid.' failure!',U('Order/orderlist_ongoing'),1);
-			$this->success('Delete order #'.$cond['orderid'].' successfully!',U('Order/orderlist_ongoing'),1);
-		}else{
-			$this->success('Remark order #'.$cond['orderid'].' successfully!',U('Order/orderlist'),1);
-		}
+		$this->success('Remark order #'.$cond['orderid'].' successfully!',U('Order/orderlist?flag='.$flag),1);
 	}
 	public function ajaxRecommand(){
 		//$data = 'ok';

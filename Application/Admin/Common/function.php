@@ -244,7 +244,7 @@ function Recommand($data){
   * orderunpaid passed
   * orderall  passed
   * remark    15
-  * income    5
+  * attr remark 5
   * fresh    60*10 / today - recent orders time
   * work type: stu v2ex qq
   */
@@ -286,9 +286,17 @@ function Recommand($data){
       $mark_remark = ($v['remark']-$min_remark)*$rate_remark/$diff_remark;
     }
     $workerOld[$k]["mark_remark"] = $mark_remark;
-
-    /* */
-    $workerOld[$k]["mark_sum"] = $workerOld[$k]["mark_ordercomplete"] + $workerOld[$k]["mark_orderongoing"] +$workerOld[$k]["mark_remark"];
+    /*$attrsche = ["v2ex","student","cs","abroad","other"];*/
+    $attrsche = ["v2ex","student","cs","abroad","other"];
+    $attr_mark = 0;
+    foreach($attrsche as $v){
+        if(strstr($workerOld[$k]["attrs"], $v) != false){
+            $attr_mark = $attr_mark + 1;
+        }
+    }
+    $workerOld[$k]["mark_attrs"] = $attr_mark;
+    /* total */
+    $workerOld[$k]["mark_sum"] = $workerOld[$k]["mark_ordercomplete"] + $workerOld[$k]["mark_orderongoing"] +$workerOld[$k]["mark_remark"] + $workerOld[$k]["attrs"];
 
     $workerOld[$k]["mark_ordercomplete"] = round($workerOld[$k]["mark_ordercomplete"],1);
     $workerOld[$k]["mark_orderongoing"] = round($workerOld[$k]["mark_orderongoing"],1);

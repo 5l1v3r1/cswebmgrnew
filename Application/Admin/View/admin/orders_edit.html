@@ -431,6 +431,7 @@
 														<i class="fa fa-gift"></i>Recomand Old workers
 														<span class="label label-sm label-success ">Complete</span>
 														<span class="label label-sm label-info ">Ongoing</span>
+														<span class="label label-sm label-default ">Attr</span>
 														<span class="label label-sm label-primary">Remark</span>
 													</div>
 													<div class="tools">
@@ -544,21 +545,6 @@
 				var techinit ={:json_encode($techinit)};
 				console.log(techinit);
 				init(techinit);
-
-				var data= [{
-						name: 'Georges Washington',
-						email: 'georges.washington@whitehouse.gov'
-				},{
-						name: 'Theodore Roosevelt',
-						email: 'theodore.roosevelt@whitehouse.gov'
-				},{
-						name: 'Benjamin Franklin',
-						email: 'benjamin.franlin@whitehouse.gov'
-				},{
-						name: 'Abraham Lincoln',
-						email: 'abraham.lincoln@whitehouse.gov'
-				}];
-				console.log(data);
 				var ms = $('#ms-emails').magicSuggest({
 					placeholder: 'Select technologies label ...',
 					data: myarray,
@@ -675,20 +661,18 @@
 <br> 	<i class="fa fa-star"></i> '+ data[i].mark_sum +'\
 </td>\
 <td class="view-message">\
-<a href="javascript:;" class="name">'+ data[i].wxname +'<br><small>'+ data[i].wxid +'</small></a>\
+<a href="javascript:;" class="name"><small>'+ data[i].wxname +'<br>'+ data[i].wxid +'</small></a>\
 </td>\
 <td class="view-message ">\
-<span class="label label-sm text-danger">\
-<i class="fa fa-paperclip"> <small>DC: '+ data[i].ordercomplete +' </small> </i>\
-<i class="fa fa-paperclip"> <small>OG: '+ data[i].orderonging +' </small></i>\
+<span class="label label-sm label-success">oc:'+ data[i].ordercomplete +'</span>\
+<span class="label label-sm label-info">og:'+ data[i].orderonging +'</span>\
 <br>\
-<i class="fa fa-paperclip"> <small>UP: '+ data[i].orderunpaid +' </small></i>\
-<i class="fa fa-paperclip"> <small>RM: '+ data[i].remark +' </small></i>\
-</span>\
+<span class="label label-sm label-warning">up:'+ data[i].orderunpaid +'</span>\
 </td>\
 <td class="view-message text-right">\
 <span class="label label-sm label-success">'+ data[i].mark_ordercomplete +'</span>\
 <span class="label label-sm label-info">'+ data[i].mark_orderongoing +'</span>\
+<span class="label label-sm label-default">'+ data[i].mark_attrs +'</span>\
 <span class="label label-sm label-primary">'+ data[i].mark_remark +'</span>\
 </td>\
 <td class="view-message text-right">\
@@ -707,9 +691,6 @@
 <a href="javascript:;" class="name"><small>'+ (i+1) +'  '+ data[i].wxname +'<br>'+ data[i].wxid +'</small></a>\
 </td>\
 <td class="view-message ">\
-<span class="label label-sm label-danger">\
-'+ data[i].attr +'\
-</span>\
 <span class="label label-sm label-info">\
 '+ data[i].addtime.split(" ")[0] +'\
 </span>\

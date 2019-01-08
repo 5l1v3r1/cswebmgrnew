@@ -362,7 +362,7 @@
 								<if condition="$fflag eq 1">
 									Completed orders
 								<elseif condition="$fflag eq 2"/>
-								  Ongoing orders
+								  	Ongoing orders
 								<elseif condition="$fflag eq 4"/>
 									  warning incomplte orders
 								<else/>
@@ -570,12 +570,12 @@
 													</td>
 													<td>
 														<if condition="$vo.description neq '' ">
-															<a href="{:U('Order/orderdetailpage?orderid='.$vo['orderid'].'');}" class="btn btn-xs yellow">
+															<a href="{:U('Order/orderdetailpage?flag='.$fflag.'&orderid='.$vo['orderid'].'');}" class="btn btn-xs yellow">
 																<i class="fa fa-list-ul">
 																</i>
 															</a>
 														<else />
-															<a href="{:U('Order/orderdetailpage?orderid='.$vo['orderid'].'');}" class="btn btn-xs yellow">
+															<a href="{:U('Order/orderdetailpage?flag='.$fflag.'&orderid='.$vo['orderid'].'');}" class="btn btn-xs yellow">
 																<i class="fa fa-search">
 
 																</i>
@@ -600,7 +600,7 @@
 																		</div>
 																		<div class="modal-footer">
 																			<a class="btn default" data-dismiss="modal"> Cancel </a>
-																			<a href="{:U('Order/orderdelete?orderid='.$vo['orderid'].'');}" type="button" class="btn blue"> Delete </a>
+																			<a href="{:U('Order/orderdelete?flag='.$fflag.'&orderid='.$vo['orderid'].'');}" type="button" class="btn blue"> Delete </a>
 																		</div>
 																	</div>
 																	<!-- /.modal-content -->
@@ -619,7 +619,7 @@
 																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
 																		<h4 class="modal-title">Remark</h4>
 																	</div>
-																	<form action="{:U('Order/orderremark?orderid='.$vo['orderid'].'');}" method="post"  role="form">
+																	<form action="{:U('Order/orderremark?flag='.$fflag.'&orderid='.$vo['orderid'].'');}" method="post"  role="form">
 																	<div class="modal-body">
 																		<div class="form-group">
 																			<if condition="$vo.gremark eq 5">

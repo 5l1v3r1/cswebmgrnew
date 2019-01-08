@@ -198,10 +198,14 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<if condition="$go eq 1">
-							<a href="{:U('Order/orderlist_ongoing');}">Orders Ongoing</a>
-						<else />
-							<a href="{:U('Order/orderlist?flag=3');}">Orders All</a>
+						<if condition="$fflag eq 1">
+							Completed orders
+						<elseif condition="$fflag eq 2"/>
+							Ongoing orders
+						<elseif condition="$fflag eq 4"/>
+							  warning incomplte orders
+						<else/>
+							  All orders
 						</if>
 						<i class="fa fa-angle-right"></i>
 					</li>
@@ -245,19 +249,11 @@
 								| {$orderinfo.createtime} </span>
 							</div>
 							<div class="actions">
-								<if condition="$go eq 1">
-									<a href="{:U('Order/orderlist_incomplete');}" class="btn default yellow-stripe">
-										<i class="fa fa-angle-left"></i>
-										<span class="hidden-480">
-										Back </span>
-									</a>
-								<else />
-									<a href="{:U('Order/orderlist');}" class="btn default yellow-stripe">
-										<i class="fa fa-angle-left"></i>
-										<span class="hidden-480">
-										Back </span>
-									</a>
-								</if>
+								<a href="{:U('Order/orderlist?flag='.$fflag.'');}" class="btn default yellow-stripe">
+									<i class="fa fa-angle-left"></i>
+									<span class="hidden-480">
+									Back </span>
+								</a>
 
 								<div class="btn-group">
 									<a class="btn default yellow-stripe dropdown-toggle" href="javascript:;" data-toggle="dropdown">
