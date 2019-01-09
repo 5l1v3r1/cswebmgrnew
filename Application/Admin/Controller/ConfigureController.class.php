@@ -23,7 +23,15 @@ class ConfigureController extends CommonController {
 	public function techlist(){
 		$Model = M('technologies');
 		$teches = $Model->select();
+		$Model = M('worker_tech');
+		foreach($teches as $k=>$v){
+			$techcount = $Model->where('techid = '.$v['techid'])->count();
+			$v['workernum'] = $techcount;
+			$teches[$k] = $v;
+		}
+		
 		$this->assign('teches',$teches);
+		//print_r($teches);
 		$this->display(T('admin/conf_tech_list'));
 
 	}

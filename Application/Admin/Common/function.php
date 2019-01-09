@@ -140,6 +140,21 @@ function Recommand($data){
 
 
         $v['remark'] = round($orderremark,2);
+        /* handle fontend show attrs*/
+        $attrarr = array();
+        $attrarr = explode(',', $v["attrs"]);
+        $attrsimple = "";
+        if(count($attrarr)>=1){
+            foreach($attrarr as $m){
+                if($attrsimple == ""){
+                    $attrsimple = $m[0];
+                }else{
+                    $attrsimple = $attrsimple."|".$m[0];
+                }
+            }
+
+        }
+        $v["attrsimple"] = $attrsimple;
 
         $workers[$k] = $v;
         $ffc = 0;
@@ -246,7 +261,12 @@ function Recommand($data){
   * remark    15
   * attr remark 5
   * fresh    60*10 / today - recent orders time
-  * work type: stu v2ex qq
+  * work type: 
+  *             stu  +3
+  *             v2ex +2
+  *             cs   +1
+  *             abroad +2
+  *             other  +0
   */
   $rate_ordercomplete = 10;
   $rate_remark = 15;
@@ -287,16 +307,23 @@ function Recommand($data){
     }
     $workerOld[$k]["mark_remark"] = $mark_remark;
     /*$attrsche = ["v2ex","student","cs","abroad","other"];*/
-    $attrsche = ["v2ex","student","cs","abroad","other"];
+    //$attrsche = ["v2ex","student","cs","abroad","other"];
     $attr_mark = 0;
-    foreach($attrsche as $v){
-        if(strstr($workerOld[$k]["attrs"], $v) != false){
-            $attr_mark = $attr_mark + 1;
-        }
+    if(strpos($workerOld[$k]["attrs"], "student") !== false){
+        $attr_mark = $attr_mark + 3;
+    }
+    if(strpos($workerOld[$k]["attrs"], "cs") !== false){
+        $attr_mark = $attr_mark + 1;
+    }
+    if(strpos($workerOld[$k]["attrs"], "v2ex") !== false){
+        $attr_mark = $attr_mark + 2;
+    }
+    if(strpos($workerOld[$k]["attrs"], "abroad") !== false){
+        $attr_mark = $attr_mark + 2;
     }
     $workerOld[$k]["mark_attrs"] = $attr_mark;
     /* total */
-    $workerOld[$k]["mark_sum"] = $workerOld[$k]["mark_ordercomplete"] + $workerOld[$k]["mark_orderongoing"] +$workerOld[$k]["mark_remark"] + $workerOld[$k]["attrs"];
+    $workerOld[$k]["mark_sum"] = $workerOld[$k]["mark_ordercomplete"] + $workerOld[$k]["mark_orderongoing"] +$workerOld[$k]["mark_remark"] + $workerOld[$k]["mark_attrs"];
 
     $workerOld[$k]["mark_ordercomplete"] = round($workerOld[$k]["mark_ordercomplete"],1);
     $workerOld[$k]["mark_orderongoing"] = round($workerOld[$k]["mark_orderongoing"],1);
@@ -307,9 +334,33 @@ function Recommand($data){
   }
 
   $workerOld = arraySequence($workerOld, "mark_sum", $sort = 'SORT_DESC');
-  $workerNew = arraySequence($workerNew, "addtime", $sort = 'SORT_DESC');
+  
   //print_r($workerOld);
-  /*  */
+  /*
+  New worker cal
+  */
+  foreach($workerNew as $k=>$v){
+    
+    /* cal worker type*/
+    $attr_mark = 0;
+    if(strpos($workerNew[$k]["attrs"], "student") !== false){
+        $attr_mark = $attr_mark + 3;
+    }
+    if(strpos($workerNew[$k]["attrs"], "cs") !== false){
+        $attr_mark = $attr_mark + 1;
+    }
+    if(strpos($workerNew[$k]["attrs"], "v2ex") !== false){
+        $attr_mark = $attr_mark + 2;
+    }
+    if(strpos($workerNew[$k]["attrs"], "abroad") !== false){
+        $attr_mark = $attr_mark + 2;
+    }
+    $workerNew[$k]["mark_attrs"] = $attr_mark; 
+    /* cal total score*/
+    $workerNew[$k]["mark_sum"] = $workerNew[$k]["mark_attrs"];
+  }
+  
+  $workerNew = arraySequence($workerNew, "mark_sum", $sort = 'SORT_DESC');
   return array($workerOld,$workerNew);
 
 

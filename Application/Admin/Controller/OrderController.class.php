@@ -291,6 +291,7 @@ class OrderController extends CommonController {
 		$this->assign('teches',$teches);
 		/* projectname*/
 		//print_r($orderinfo);
+		$resstr = array();
 		$resstr = explode('$', $orderinfo["projectname"]);
 		//echo $resstr[1];
 		$digitstr = "";

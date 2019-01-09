@@ -106,6 +106,7 @@ class DashboardController extends CommonController {
       	$this->error(C('LOGIN_ERROR'), U('Login/index'),3);
       }
     }
+	
     public function getDayData(){
       $ORDER = M('orders');
       $daydata = I('post.daytime','','htmlspecialchars');//

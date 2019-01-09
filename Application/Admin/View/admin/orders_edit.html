@@ -62,39 +62,144 @@
 			<span class="arrow "></span>
 			</a>
 			<ul class="sub-menu">
-				<li>
-					<a href="ecommerce_index.html">
-					<i class="icon-home"></i>
-					Dashboard</a>
-				</li>
-				<li class="active">
-					<a href="{:U('Order/orderlist?flag=2');}">
-					<i class="icon-bell"></i>
-					<span class="badge badge-danger">{$cin}</span>
-					Orders Ongoing</a>
-				</li>
-				<li>
-					<a href="{:U('Order/orderlist?flag=4');}">
-					<i class="fa fa-warning"></i>
-					<span class="badge badge-danger">{$cin1}</span>
-					<font color="red">Orders Warning</font></a>
-				</li>
-				<li>
-					<a href="{:U('Order/orderlist?flag=1');}">
-					<i class="fa fa-lock"></i>
-					Complete Orders</a>
-				</li>
-				<li>
-					<a href="{:U('Order/orderlist?flag=3');}">
-					<i class="icon-basket"></i>
-					Orders All</a>
-				</li>
-				<li>
-					<a href="#">
-						<i class="icon-bar-chart"></i>
-						Data Analysis
-					</a>
-				</li>
+				<if condition="$fflag eq 1">
+					<li>
+						<a href="ecommerce_index.html">
+						<i class="icon-home"></i>
+						Dashboard</a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=2');}">
+						<i class="icon-bell"></i>
+						<span class="badge badge-danger">{$cin}</span>
+						Orders Ongoing</a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=4');}">
+						<i class="fa fa-warning"></i>
+						<span class="badge badge-danger">{$cin1}</span>
+						<font color="red">Orders Warning</font></a>
+					</li>
+					<li class="active">
+						<a href="{:U('Order/orderlist?flag=1');}">
+						<i class="fa fa-lock"></i>
+						Complete Orders</a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=3');}">
+						<i class="icon-basket"></i>
+						Orders All</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="icon-bar-chart"></i>
+							Data Analysis
+						</a>
+					</li>
+				<elseif condition="$fflag eq 2"/>
+					<li>
+						<a href="ecommerce_index.html">
+						<i class="icon-home"></i>
+						Dashboard</a>
+					</li>
+					<li class="active">
+						<a href="{:U('Order/orderlist?flag=2');}">
+						<i class="icon-bell"></i>
+						<span class="badge badge-danger">{$cin}</span>
+						Orders Ongoing</a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=4');}">
+						<i class="fa fa-warning"></i>
+						<span class="badge badge-danger">{$cin1}</span>
+						<font color="red">Orders Warning</font></a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=1');}">
+						<i class="fa fa-lock"></i>
+						Complete Orders</a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=3');}">
+						<i class="icon-basket"></i>
+						Orders All</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="icon-bar-chart"></i>
+							Data Analysis
+						</a>
+					</li>
+				<elseif condition="$fflag eq 4"/>
+					<li>
+						<a href="ecommerce_index.html">
+						<i class="icon-home"></i>
+						Dashboard</a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=2');}">
+						<i class="icon-bell"></i>
+						<span class="badge badge-danger">{$cin}</span>
+						Orders Ongoing</a>
+					</li>
+					<li class="active">
+						<a href="{:U('Order/orderlist?flag=4');}">
+						<i class="fa fa-warning"></i>
+						<span class="badge badge-danger">{$cin1}</span>
+						<font color="red">Orders Warning</font></a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=1');}">
+						<i class="fa fa-lock"></i>
+						Complete Orders</a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=3');}">
+						<i class="icon-basket"></i>
+						Orders All</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="icon-bar-chart"></i>
+							Data Analysis
+						</a>
+					</li>
+				<else />
+					<li>
+						<a href="ecommerce_index.html">
+						<i class="icon-home"></i>
+						Dashboard</a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=2');}">
+						<i class="icon-bell"></i>
+						<span class="badge badge-danger">{$cin}</span>
+						Orders Ongoing</a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=4');}">
+						<i class="fa fa-warning"></i>
+						<span class="badge badge-danger">{$cin1}</span>
+						<font color="red">Orders Warning</font></a>
+					</li>
+					<li>
+						<a href="{:U('Order/orderlist?flag=1');}">
+						<i class="fa fa-lock"></i>
+						Complete Orders</a>
+					</li>
+					<li class="active">
+						<a href="{:U('Order/orderlist?flag=3');}">
+						<i class="icon-basket"></i>
+						Orders All</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="icon-bar-chart"></i>
+							Data Analysis
+						</a>
+					</li>
+				</if>
+
 			</ul>
 		</li>
 		<li>
@@ -198,8 +303,12 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<if condition="$go eq 1">
-							<a href="{:U('Order/orderlist_ongoing');}">Orders Ongoing</a>
+						<if condition="$fflag eq 1">
+							<a href="{:U('Order/orderlist?flag=1');}">Complete Orders</a>
+						<elseif condition="$fflag eq 2" />
+							<a href="{:U('Order/orderlist?flag=2');}">Ongoing Orders</a>
+						<elseif condition="$fflag eq 4" />
+							<a href="{:U('Order/orderlist?flag=4');}">Warning Orders</a>
 						<else />
 							<a href="{:U('Order/orderlist?flag=3');}">Orders All</a>
 						</if>
@@ -425,14 +534,15 @@
 									show recommand user list
 									-->
 									<div class="col-md-5">
-											<div class="portlet box red-pink" >
+											<div class="portlet box purple" >
 												<div class="portlet-title">
 													<div class="caption">
-														<i class="fa fa-gift"></i>Recomand Old workers
-														<span class="label label-sm label-success ">Complete</span>
-														<span class="label label-sm label-info ">Ongoing</span>
-														<span class="label label-sm label-default ">Attr</span>
-														<span class="label label-sm label-primary">Remark</span>
+														<i class="fa fa-gift"></i>Recomand Olders
+														<span class="label label-sm label-success">Complete</span>
+														<span class="label label-sm label-danger">Ongoing</span>
+														<span class="label label-sm label-warning">Unpaid</span>
+														<span class="label label-sm label-primary">Attr</span>
+														<span class="label label-sm label-info">Remark</span>
 													</div>
 													<div class="tools">
 														<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -457,10 +567,10 @@
 											</div>
 									</div>
 									<div class="col-md-3">
-											<div class="portlet box red-pink" >
+											<div class="portlet box blue" >
 												<div class="portlet-title">
 													<div class="caption">
-														<i class="fa fa-gift"></i>Recomand New workers
+														<i class="fa fa-gift"></i>Recomand Newers
 													</div>
 													<div class="tools">
 														<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -576,7 +686,7 @@
 						datatype: 'json',
 						success: function(data) {
 							//callback(data); // return data in callback
-							//console.log(data[1]);
+							//console.log(data[0]);
 							showOldWorkers(data[0],"#oldworkernum","#ShowOldWorkers");
 							showNewWorkers(data[1],"#newworkernum","#ShowNewWorkers");
 						},
@@ -642,6 +752,7 @@
 					success: function(data) {
 						//callback(data); // return data in callback
 						//console.log(data[1]);
+						console.log(data[0]);
 						showOldWorkers(data[0],"#oldworkernum","#ShowOldWorkers");
 						showNewWorkers(data[1],"#newworkernum","#ShowNewWorkers");
 					},
@@ -657,26 +768,26 @@
 				$(showtbody).html("");
 				for(var i=0;i<data.length;i++){
 						var trc = '\
-<td><i class="fa fa-paperclip"></i> '+ (i+1) +'\
-<br> 	<i class="fa fa-star"></i> '+ data[i].mark_sum +'\
+<td><small><i class="fa fa-paperclip"></i> '+ (i+1) +'\
+<br><i class="fa fa-star text-danger"></i> <font color="red">'+ data[i].mark_sum +'</font></small>\
 </td>\
 <td class="view-message">\
-<a href="javascript:;" class="name"><small>'+ data[i].wxname +'<br>'+ data[i].wxid +'</small></a>\
+<a href="javascript:;" class="name"><small><strong>'+ data[i].wxname +'</strong><br>'+ data[i].wxid +'</small></a>\
 </td>\
 <td class="view-message ">\
-<span class="label label-sm label-success">oc:'+ data[i].ordercomplete +'</span>\
-<span class="label label-sm label-info">og:'+ data[i].orderonging +'</span>\
-<br>\
-<span class="label label-sm label-warning">up:'+ data[i].orderunpaid +'</span>\
+<span class="label label-sm label-danger"><small><strong>'+ data[i].orderonging +'</strong></small></span>\
+<span class="label label-sm label-warning"><small><strong>'+ data[i].orderunpaid +'</strong></small></span>\
+<span class="label label-sm label-success"><small>'+ data[i].ordercomplete +'</small></span>\
+<span class="label label-sm bg-purple"><small>'+ data[i].attrsimple +'</small></span>\
 </td>\
 <td class="view-message text-right">\
-<span class="label label-sm label-success">'+ data[i].mark_ordercomplete +'</span>\
-<span class="label label-sm label-info">'+ data[i].mark_orderongoing +'</span>\
-<span class="label label-sm label-default">'+ data[i].mark_attrs +'</span>\
-<span class="label label-sm label-primary">'+ data[i].mark_remark +'</span>\
+<span class="label label-sm label-success"><small>'+ data[i].mark_ordercomplete +'</small></span>\
+<span class="label label-sm label-danger"><small>'+ data[i].mark_orderongoing +'</small></span>\
+<span class="label label-sm label-primary"><small>'+ data[i].mark_attrs +'</small></span>\
+<span class="label label-sm label-info"><small>'+ data[i].mark_remark +'</small></span>\
 </td>\
 <td class="view-message text-right">\
-<a type="button" class="btn red btn-sm" id="'+data[i].wxid +"|"+ data[i].wxname+'">Get</a>\
+<a type="button" class="btn btn-xs red" id="'+data[i].wxid +"|"+ data[i].wxname+'"><i class="fa fa-user-plus" aria-hidden="true"></i></a>\
 </td>\
 ';
 					$(showtbody).append($('<tr class="unread"></tr>').append(trc));
@@ -688,15 +799,18 @@
 			for(var i=0;i<data.length;i++){
 				var trc='\
 <td class="view-message" style="width:auto">\
-<a href="javascript:;" class="name"><small>'+ (i+1) +'  '+ data[i].wxname +'<br>'+ data[i].wxid +'</small></a>\
+<a href="javascript:;" class="name"><small><strong>'+ (i+1) +'.  '+ data[i].wxname +'</strong><br>'+ data[i].wxid +'</small></a>\
 </td>\
 <td class="view-message ">\
-<span class="label label-sm label-info">\
+<span class="label label-sm label-danger"><small>\
 '+ data[i].addtime.split(" ")[0] +'\
-</span>\
+</small></span>\
+<span class="label label-sm bg-purple"><small><strong>\
+'+ data[i].attrsimple +'\
+</small></strong></span>\
 </td>\
 <td class="view-message text-right">\
-<a class="btn red btn-sm" id="'+data[i].wxid +"|"+ data[i].wxname+'" >Get</a>\
+<a class="btn btn-xs purple" id="'+data[i].wxid +"|"+ data[i].wxname+'" ><i class="fa fa-user-plus" aria-hidden="true"></i></a>\
 </td>\
 			';
 			$(showtbody).append($('<tr class="unread"></tr>').append(trc));

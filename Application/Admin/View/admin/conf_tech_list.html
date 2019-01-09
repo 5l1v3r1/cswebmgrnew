@@ -276,6 +276,9 @@
 										<th >
 											 Technology content
 										</th>
+										<th >
+											 Worker numbers
+										</th>
 										<th>
 											 Description
 										</th>
@@ -291,7 +294,8 @@
 													{$vo.techid}
 												</td>
 												<td>{$vo.content}</td>
-                        <td>{$vo.description}</td>
+												<td>{$vo.workernum}</td>
+												<td>{$vo.description}</td>
 												<td>
 												<a class="btn  btn-xs red" href="{:U('Configure/edittechpage?techid='.$vo['techid'].'');}">
 													<i class="fa fa-edit"></i>
