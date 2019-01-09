@@ -154,6 +154,20 @@
 		</li>
 		<li>
 			<a href="javascript:;">
+			<i class="fa fa-wrench" aria-hidden="true"></i>
+			<span class="title">Tools</span>
+			<span class="arrow "></span>
+			</a>
+			<ul class="sub-menu">
+				<li>
+					<a href="{:U('Tool/exchangeToolPage');}">
+						<i class="fa fa-usd" aria-hidden="true"></i> Exchange Transfer Tool
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javascript:;">
 			<i class="icon-settings"></i>
 			<span class="title">Configuration</span>
 			<span class="arrow "></span>
@@ -177,6 +191,7 @@
 
 			</ul>
 		</li>
+
 	</ul>
 </block>
 <block name="container">
@@ -461,7 +476,7 @@
 								<div class="portlet-body">
 									<div class="row static-info">
 										<div class="col-md-12 name">
-											<a href="{:U('Api/tradeApi');}" target="_blank" class="btn btn-sm purple"> 1. Exchange Transfer Tools <i class="fa fa-link"></i></a>
+											<a href="{:U('Tool/exchangeToolPage');}" target="_blank" class="btn btn-sm purple"> 1. Exchange Transfer Tools <i class="fa fa-link"></i></a>
 											<a href="{:U('Api/tradeApi');}" target="_blank" class="btn btn-sm red"> 2. Trade information api <i class="fa fa-link"></i></a>
 										</div>
 									</div>
