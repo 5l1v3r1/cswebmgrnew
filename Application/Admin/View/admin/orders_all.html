@@ -583,15 +583,9 @@
 														</switch>
 													</td>
 													<td>
-														<if condition="$vo.description neq '' ">
+														<if condition="$fflag neq 2">
 															<a href="{:U('Order/orderdetailpage?flag='.$fflag.'&orderid='.$vo['orderid'].'');}" class="btn btn-xs yellow">
 																<i class="fa fa-list-ul">
-																</i>
-															</a>
-														<else />
-															<a href="{:U('Order/orderdetailpage?flag='.$fflag.'&orderid='.$vo['orderid'].'');}" class="btn btn-xs yellow">
-																<i class="fa fa-search">
-
 																</i>
 															</a>
 														</if>
