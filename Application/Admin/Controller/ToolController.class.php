@@ -12,19 +12,30 @@ class ToolController extends CommonController {
 		$this->display(T('admin/tools_exchange'));
 
 	}
-	public function techlist(){
-		$Model = M('technologies');
-		$teches = $Model->select();
-		$Model = M('worker_tech');
-		foreach($teches as $k=>$v){
-			$techcount = $Model->where('techid = '.$v['techid'])->count();
-			$v['workernum'] = $techcount;
-			$teches[$k] = $v;
-		}
-
-		$this->assign('teches',$teches);
+	public function timePie(){
+		//$timestr = I('get.currency');
+		$timestr = "2019-01-16 11:55:04";
+		$zf = I('post.zf');
+		$zf = "BJT";
+		$tf = I('post.tf');
+		$tf = "EST";
+		$tzf = CodeToTimeZone($zf);
+		$ttf = CodeToTimeZone($tf);
+		
+		
+		
+		
+		$date = new \DateTime($timestr, new \DateTimeZone($tzf));
+		//echo $date->format('Y-m-d H:i:s') . "<br>";
+		
+		$date->setTimezone(new \DateTimeZone($ttf));
+		$target =  $date->format('Y-m-d H:i:s');
+		//echo $target;
+		$this->ajaxReturn($target);
+		
+		//print($times);
 		//print_r($teches);
-		$this->display(T('admin/conf_tech_list'));
+		//$this->display(T('admin/conf_tech_list'));
 
 	}
 	public function editexchangepage(){

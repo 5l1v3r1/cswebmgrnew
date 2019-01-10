@@ -365,3 +365,60 @@ function Recommand($data){
 
 
 }
+/*
+* transfer code to timezone
+*/
+function CodeToTimeZone($code){
+    /*
+    <option value="BJT" selected>北京</option>
+    <option  value="EST">美东</option>
+    <option  value="PST">美西</option>
+    <option  value="CST">美中</option>
+    <option  value="MST">美山地</option>
+    <option  value="ENT">英国</option>
+    <option  value="AEST">澳东</option>
+    <option  value="ACST">澳中</option>
+    <option  value="AWST">澳西</option>
+    <option  value="NZLT">新西兰</option>
+    <option  value="GET">德国</option>
+    */
+    switch ($code)
+    {
+    case "BJT":
+      $tz = "Asia/Shanghai";
+      break;  
+    case "EST":
+      $tz = 'America/New_York';
+      break;
+    case "PST":
+      $tz = 'America/Los_Angeles';
+      break;
+    case "CST":
+      $tz = 'America/Chicago';
+      break;
+    case "MST":
+      $tz = 'America/Phoenix';
+      break;
+    case "ENT":
+      $tz = 'Europe/London';
+      break;
+    case "AENT":
+      $tz = 'Australia/Canberra';
+      break;
+    case "ACST":
+      $tz = 'Australia/Adelaide';
+      break;
+    case "AWST":
+      $tz = 'Australia/Perth';
+      break;
+    case "NZLT":
+      $tz = 'Pacific/Auckland';
+      break;
+    case "GET":
+      $tz = 'Europe/Berlin';
+      break;
+    default:
+      $tz = "Asia/Shanghai";
+    }
+    return $tz;
+}

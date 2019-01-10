@@ -301,84 +301,131 @@
 							<div class="form-body">
 								<div class="form-group ">
 									<div class="col-md-12">
-										<div class="input-group input-large">
+										<div class="note note-default">
+											<ul>
+												<li class="text-primary">北京时间＝美国东部时间＋13小时 (夏令时的时期，加12小时)</li>
+												<li class="text-primary">美国东部时间 = 北京时间 - 13小时</li>
+												<li class="text-danger">北京时间＝美国西部时间＋16小时 (夏令时的时期，加15小时)</li>
+												<li class="text-danger">美国西部时间 = 北京时间 - 16小时</li>
+
+												<li class="text-muted">北京时间＝美国中部时间＋14小时 (夏令时的时期，加13小时)</li>
+												<li class="text-muted">美国中部时间 = 北京时间 - 14小时</li>
+
+												<li class="text-primary">北京时间＝美国山地时间＋15小时 (夏令时的时期，加14小时)</li>
+												<li class="text-primary">美国山地时间 = 北京时间 - 15小时</li>
+
+												<li class="text-danger">北京时间＝澳洲东部时间＋3小时 </li>
+												<li class="text-danger">澳洲东部时间 = 北京时间 - 3小时</li>
+
+												<li class="text-muted">北京时间＝新西兰时间＋5小时 </li>
+												<li class="text-muted">新西兰时间 = 北京时间 - 6小时</li>
+											</ul>
+										</div>
+										<div class="input-group">
 											<!-- /btn-group -->
 											<div class="input-group date form_meridian_datetimenew" data-date="{$dateform}">
-												<input name="w_deadline" type="text" size="10" class="form-control input-inline " placeholder="Worker deadline" >
+												<input id="timeinput" type="text" size="10" class="form-control input-inline " placeholder="Your time ..." />
 												<span class="input-group-btn">
-												<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
 												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
 												</span>
 											</div>
 											<div class="input-group-btn">
-												<select class="form-control ">
-													<option>Option 1</option>
-													<option>Option 2</option>
-													<option>Option 3</option>
-													<option>Option 4</option>
-													<option>Option 5</option>
+												<select id="zoneselect" class="form-control" style="width:80px;">
+													<option value="BJT" selected>北京</option>
+													<option  value="EST">美东</option>
+													<option  value="PST">美西</option>
+													<option  value="CST">美中</option>
+													<option  value="MST">美山地</option>
+													<option  value="ENT">英国</option>
+													<option  value="AEST">澳东</option>
+													<option  value="ACST">澳中</option>
+													<option  value="AWST">澳西</option>
+													<option  value="NZLT">新西兰</option>
+													<option  value="GET">德国</option>
 												</select>
 											</div>
 											<!-- /btn-group -->
 										</div>
-										<hr>
+										<hr/>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group has-error">
 											<div class="col-md-12">
-												<h6>北京、香港、新加坡时间</h6>
+												<h6><img src="__PUBLIC__/flags/cn.gif" /> <img src="__PUBLIC__/flags/tw.gif" /> <img src="__PUBLIC__/flags/hk.gif" /> <img src="__PUBLIC__/flags/sg.gif" /> 北京、台北、香港、新加坡时间</h6>
 											</div>
 											<div class="col-md-12">
-												<a id="btn_rmb_to_usd" type="button" class="btn purple btn-block"> 转换为北京时间 </a>
+												<a id="toBJT" type="button" class="btn purple btn-block"> 转换为北京时间</a>
 											</div>
 											<div class="col-md-12">
-												<h6>美英时间</h6>
+												<h6><img src="__PUBLIC__/flags/us.gif" /> <img src="__PUBLIC__/flags/ca.gif" /> <img src="__PUBLIC__/flags/gb.gif" /> 美加英时间</h6>
 											</div>
 											<div class="col-md-12">
-												<a id="btn_rmb_to_usd" type="button" class="btn blue btn-block"> 转换为美东时间 </a>
+												<a id="toEST" type="button" class="btn blue btn-block"> 转换为美东时间(多伦多/蒙特利尔/渥太华/纽约)</a>
 											</div>
 											<div class="col-md-12">
-												<a id="btn_usd_to_rmb" type="button" class="btn green btn-block"> 转换为美西时间 </a>
+												<a id="toPST" type="button" class="btn green btn-block"> 转换为美西/太平洋时间(温哥华/西雅图/洛杉矶/旧金山)</a>
 											</div>
 											<div class="col-md-12">
-												<a id="btn_usd_to_rmb" type="button" class="btn purple btn-block"> 转换为美中时间 </a>
+												<a id="toCST" type="button" class="btn purple btn-block"> 转换为美中时间(芝加哥/休斯敦)</a>
 											</div>
 											<div class="col-md-12">
-												<a id="btn_usd_to_rmb" type="button" class="btn default btn-block"> 转换为美山地时间 </a>
+												<a id="toMST" type="button" class="btn default btn-block"> 转换为美山地时间(丹佛)</a>
 											</div>
 											<div class="col-md-12">
-												<a id="btn_usd_to_rmb" type="button" class="btn red btn-block"> 转换为英国时间 </a>
+												<a id="toENT" type="button" class="btn red btn-block"> 转换为英国时间 </a>
 											</div>
 											<div class="col-md-12">
-												<h6>澳洲时间</h6>
+												<h6><img src="__PUBLIC__/flags/au.gif" />  <img src="__PUBLIC__/flags/nz.gif" /> 澳洲新西兰时间</h6>
 											</div>
 
 											<div class="col-md-12">
-												<a id="btn_usd_to_rmb" type="button" class="btn green btn-block"> 转换为澳洲东部时间 </a>
+												<a id="toAEST" type="button" class="btn green btn-block"> 转换为澳洲东部时间 </a>
 											</div>
 											<div class="col-md-12">
-												<a id="btn_usd_to_rmb" type="button" class="btn purple btn-block"> 转换为澳洲中部时间 </a>
+												<a id="toACST" type="button" class="btn purple btn-block"> 转换为澳洲中部时间 </a>
 											</div>
 											<div class="col-md-12">
-												<a id="btn_usd_to_rmb" type="button" class="btn blue btn-block"> 转换为澳洲西部时间 </a>
+												<a id="toAWST" type="button" class="btn blue btn-block"> 转换为澳洲西部时间 </a>
 											</div>
 											<div class="col-md-12">
-												<a id="btn_usd_to_rmb" type="button" class="btn red btn-block"> 转换为新西兰时间 </a>
+												<a id="toNZLT" type="button" class="btn red btn-block"> 转换为新西兰时间 </a>
 											</div>
+											<div class="col-md-12">
+												<h6><img src="__PUBLIC__/flags/europeanunion.gif" /> 欧洲时区</h6>
+											</div>
+											<div class="col-md-12">
+												<a id="toGET" type="button" class="btn green btn-block"> 转换为德国时间 </a>
+											</div>
+
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group ">
 												<div class="col-md-12">
-													<h6>北京、香港、新加坡时间</h6>
+													<h4 class="caption-subject  bold uppercase ">
+													<i class="fa fa-calendar"> </i> Show Time Result
+													</h4>
+													<hr/>
 												</div>
-												<div class="well red">
-													<h5 class="text-danger"><strong><i class="fa fa-volume-up" aria-hidden="true"></i> USD/RMB EXTRANGE : {$rate}</strong></h5>
-													<h3 class="caption-subject font-red-sunglo bold uppercase">
-													<strong>
-													<i class="fa fa-line-chart fa-6" aria-hidden="true"></i>
-													<span id=""></span>
-													</strong>
+												<div >
+													
+													<h4 class="caption-subject bold uppercase text-center">
+													From: 美西/太平洋时间(温哥华/西雅图/洛杉矶/旧金山)
+													</h4>
+													<h3 class="caption-subject text-success bold uppercase text-center">
+													 <i class="fa fa-clock-o"></i> 2019-01-10 01:27:47
+													</h3>
+													<h4 class="caption-subject bold uppercase text-center">
+														<hr/>
+														to
+														<hr/>
+													
+													</h4>
+													<h4 class="caption-subject bold uppercase text-center">
+													To: 美西/太平洋时间(温哥华/西雅图/洛杉矶/旧金山)
+													</h4>
+													<h3 class="caption-subject text-danger  bold uppercase text-center">
+														<i class="fa fa-clock-o"></i> 2019-01-10 01:27:47
 													</h3>
 												</div>
 										</div>
@@ -426,7 +473,7 @@
 				ComponentsPickers.init();
 			});
 			var rate={$rate};
-			console.log(rate);
+			//console.log(rate);
 			$("#btn_usd_to_rmb").click(function(){
 				var usdval = 0;
 			  usdval = $("#usdinput").val();
@@ -458,5 +505,45 @@
 				}
 
 			});
+			/* time zone*/
+			$("#zoneselect").change(function(){
+				var checkValue=$("#zoneselect").val();
+				console.log("checkValue");
+			});  
+			var timeinput = $("#timeinput").val();
+			if(timeinput == ""){
+				timeinput = new Date().Format("yyyy-MM-dd HH:mm:ss");
+			}
+			$("a").click(function(){
+				var id = $(this).attr('id');
+				if(id.indexOf("to")==0){
+					var text = $(this).text();
+					var ftz=$("#zoneselect").val();
+					var ttz = id.replace("to","");
+					var data={"timestr":timeinput,"ttz":ttz,"ftz":ftz};
+					console.log(data);
+		            
+					/*$.ajax({
+						url: "{:U('Tool/timePie');}", // server url
+						type: 'POST', //POST or GET
+						data: {"data":datas}, // data to send in ajax format or querystring format
+						datatype: 'json',
+						success: function(data) {
+							//callback(data); // return data in callback
+							//console.log(data[1]);
+							showOldWorkers(data[0],"#oldworkernum","#ShowOldWorkers");
+							showNewWorkers(data[1],"#newworkernum","#ShowNewWorkers");
+						},
+						error: function(xhr, status, error) {
+								alert(xhr.responseText);
+						}
+					});
+					*/
+		
+		
+				}
+				
+			});
+			
 		</script>
 </block>
