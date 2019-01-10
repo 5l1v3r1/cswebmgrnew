@@ -261,7 +261,7 @@ function Recommand($data){
   * remark    15
   * attr remark 5
   * fresh    60*10 / today - recent orders time
-  * work type: 
+  * work type:
   *             stu  +3
   *             v2ex +2
   *             cs   +1
@@ -334,13 +334,13 @@ function Recommand($data){
   }
 
   $workerOld = arraySequence($workerOld, "mark_sum", $sort = 'SORT_DESC');
-  
+
   //print_r($workerOld);
   /*
   New worker cal
   */
   foreach($workerNew as $k=>$v){
-    
+
     /* cal worker type*/
     $attr_mark = 0;
     if(strpos($workerNew[$k]["attrs"], "student") !== false){
@@ -355,11 +355,11 @@ function Recommand($data){
     if(strpos($workerNew[$k]["attrs"], "abroad") !== false){
         $attr_mark = $attr_mark + 2;
     }
-    $workerNew[$k]["mark_attrs"] = $attr_mark; 
+    $workerNew[$k]["mark_attrs"] = $attr_mark;
     /* cal total score*/
     $workerNew[$k]["mark_sum"] = $workerNew[$k]["mark_attrs"];
   }
-  
+
   $workerNew = arraySequence($workerNew, "mark_sum", $sort = 'SORT_DESC');
   return array($workerOld,$workerNew);
 
@@ -386,7 +386,7 @@ function CodeToTimeZone($code){
     {
     case "BJT":
       $tz = "Asia/Shanghai";
-      break;  
+      break;
     case "EST":
       $tz = 'America/New_York';
       break;
@@ -402,7 +402,7 @@ function CodeToTimeZone($code){
     case "ENT":
       $tz = 'Europe/London';
       break;
-    case "AENT":
+    case "AEST":
       $tz = 'Australia/Canberra';
       break;
     case "ACST":

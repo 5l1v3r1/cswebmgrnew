@@ -14,25 +14,21 @@ class ToolController extends CommonController {
 	}
 	public function timePie(){
 		//$timestr = I('get.currency');
-		$timestr = "2019-01-16 11:55:04";
-		$zf = I('post.zf');
-		$zf = "BJT";
-		$tf = I('post.tf');
-		$tf = "EST";
-		$tzf = CodeToTimeZone($zf);
-		$ttf = CodeToTimeZone($tf);
-		
-		
-		
-		
-		$date = new \DateTime($timestr, new \DateTimeZone($tzf));
+		$data = I('post.data');
+		$tzf = CodeToTimeZone($data["ftz"]);
+		$ttf = CodeToTimeZone($data["ttz"]);
+
+
+
+
+		$date = new \DateTime($data["timestr"], new \DateTimeZone($tzf));
 		//echo $date->format('Y-m-d H:i:s') . "<br>";
-		
+
 		$date->setTimezone(new \DateTimeZone($ttf));
 		$target =  $date->format('Y-m-d H:i:s');
 		//echo $target;
 		$this->ajaxReturn($target);
-		
+
 		//print($times);
 		//print_r($teches);
 		//$this->display(T('admin/conf_tech_list'));
