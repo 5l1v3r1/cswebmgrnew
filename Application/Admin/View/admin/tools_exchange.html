@@ -6,6 +6,12 @@
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-datepicker/css/datepicker.css"/>
 	<!-- END PAGE LEVEL STYLES -->
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/admin/pages/css/pagecode.css"/>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/clockface/css/clockface.css"/>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-datepicker/css/datepicker3.css"/>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-colorpicker/css/colorpicker.css"/>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
 </block>
 <block name="siderbarmenu">
   <ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
@@ -278,7 +284,7 @@
 							</form>
 						<!-- body -->
 						</div>
-					
+
 					</div>
 					<!-- End: life time stats -->
 				</div>
@@ -295,21 +301,7 @@
 							<div class="form-body">
 								<div class="form-group ">
 									<div class="col-md-12">
-										<div class="well red">
-											<h5 class="text-danger"><strong><i class="fa fa-volume-up" aria-hidden="true"></i> USD/RMB EXTRANGE : {$rate}</strong></h5>
-											<h3 class="caption-subject font-red-sunglo bold uppercase">
-											<strong>
-											<i class="fa fa-line-chart fa-6" aria-hidden="true"></i>
-											<span id=""></span>
-											</strong>
-											</h3>
-										</div>
-
-									</div>
-								</div>
-								<div class="form-group ">
-									<div class="col-md-8">
-										<div class="input-group input-xlarge">
+										<div class="input-group input-large">
 											<!-- /btn-group -->
 											<div class="input-group date form_meridian_datetimenew" data-date="{$dateform}">
 												<input name="w_deadline" type="text" size="10" class="form-control input-inline " placeholder="Worker deadline" >
@@ -319,37 +311,88 @@
 												</span>
 											</div>
 											<div class="input-group-btn">
-												<button type="button" class="btn green dropdown-toggle btn-xlarge" data-toggle="dropdown">Beijin<i class="fa fa-angle-down"></i></button>
-												<ul class="dropdown-menu pull-right">
-													<li>
-														<a href="javascript:;">
-														EST </a>
-													</li>
-													
-												</ul>
+												<select class="form-control ">
+													<option>Option 1</option>
+													<option>Option 2</option>
+													<option>Option 3</option>
+													<option>Option 4</option>
+													<option>Option 5</option>
+												</select>
 											</div>
 											<!-- /btn-group -->
 										</div>
+										<hr>
 									</div>
-								</div>
-								<div class="form-group has-error">
-										<a href="javascript:;" class="btn red btn-block">
-														Left </a>
-														<a href="javascript:;" class="btn blue btn-block">
-														Middle </a>
-														<a href="javascript:;" class="btn green btn-block">
-														Right </a>
-									
+									<div class="col-md-6">
+										<div class="form-group has-error">
+											<div class="col-md-12">
+												<h6>北京、香港、新加坡时间</h6>
+											</div>
+											<div class="col-md-12">
+												<a id="btn_rmb_to_usd" type="button" class="btn purple btn-block"> 转换为北京时间 </a>
+											</div>
+											<div class="col-md-12">
+												<h6>美英时间</h6>
+											</div>
+											<div class="col-md-12">
+												<a id="btn_rmb_to_usd" type="button" class="btn blue btn-block"> 转换为美东时间 </a>
+											</div>
+											<div class="col-md-12">
+												<a id="btn_usd_to_rmb" type="button" class="btn green btn-block"> 转换为美西时间 </a>
+											</div>
+											<div class="col-md-12">
+												<a id="btn_usd_to_rmb" type="button" class="btn purple btn-block"> 转换为美中时间 </a>
+											</div>
+											<div class="col-md-12">
+												<a id="btn_usd_to_rmb" type="button" class="btn default btn-block"> 转换为美山地时间 </a>
+											</div>
+											<div class="col-md-12">
+												<a id="btn_usd_to_rmb" type="button" class="btn red btn-block"> 转换为英国时间 </a>
+											</div>
+											<div class="col-md-12">
+												<h6>澳洲时间</h6>
+											</div>
+
+											<div class="col-md-12">
+												<a id="btn_usd_to_rmb" type="button" class="btn green btn-block"> 转换为澳洲东部时间 </a>
+											</div>
+											<div class="col-md-12">
+												<a id="btn_usd_to_rmb" type="button" class="btn purple btn-block"> 转换为澳洲中部时间 </a>
+											</div>
+											<div class="col-md-12">
+												<a id="btn_usd_to_rmb" type="button" class="btn blue btn-block"> 转换为澳洲西部时间 </a>
+											</div>
+											<div class="col-md-12">
+												<a id="btn_usd_to_rmb" type="button" class="btn red btn-block"> 转换为新西兰时间 </a>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group ">
+												<div class="col-md-12">
+													<h6>北京、香港、新加坡时间</h6>
+												</div>
+												<div class="well red">
+													<h5 class="text-danger"><strong><i class="fa fa-volume-up" aria-hidden="true"></i> USD/RMB EXTRANGE : {$rate}</strong></h5>
+													<h3 class="caption-subject font-red-sunglo bold uppercase">
+													<strong>
+													<i class="fa fa-line-chart fa-6" aria-hidden="true"></i>
+													<span id=""></span>
+													</strong>
+													</h3>
+												</div>
+										</div>
+									</div>
 								</div>
 							</div>
 							</form>
 						<!-- body -->
 						</div>
-					
+
 					</div>
 					<!-- End: life time stats -->
 				</div>
-				
+
 			</div>
 			<!-- END PAGE CONTENT-->
 	</div>
