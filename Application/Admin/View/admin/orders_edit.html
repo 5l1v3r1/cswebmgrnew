@@ -458,7 +458,7 @@
 											<div class="form-group has-error">
 												<label class="col-md-4 control-label">Guest state</label>
 												<div class="col-md-8">
-													<select name="g_state" class="form-control input-inline input-medium">
+													<select name="g_state" class="form-control input-inline input-large">
 														<if condition="$orderinfo.g_state eq 0 ">
 									            <option value="0" selected>Guest have no paid gurrentee</option>
 									            <option value="1">Guest have only paid gurrentee</option>
@@ -504,28 +504,28 @@
 											<div class="form-group">
 												<label class="col-md-4 control-label">Worker state</label>
 												<div class="col-md-8">
-													<select name="w_state" class="form-control input-inline input-medium">
+													<select name="w_state" class="form-control input-inline input-large">
 														<if condition="$orderinfo.w_state eq 0 ">
-									            <option value="0" selected>null</option>
-				                      <option value="1">worker is doing</option>
-				                      <option value="2">worker has completed and no pay</option>
-				                      <option value="3">worker has completed and paid</option>
-									          <elseif condition="$orderinfo.w_state eq 1"/>
-									            <option value="0">null</option>
-									            <option value="1" selected>worker is doing</option>
-									            <option value="2">worker has completed and no pay</option>
-									            <option value="3">worker has completed and paid</option>
-									          <elseif condition="$orderinfo.w_state eq 2"/>
-									            <option value="0">null</option>
-									            <option value="1">worker is doing</option>
-									            <option value="2" selected>worker has completed and no pay</option>
-									            <option value="3">worker has completed and paid</option>
-									          <else />
-									            <option value="0">null</option>
-									            <option value="1">worker is doing</option>
-									            <option value="2">worker has completed and no pay</option>
-									            <option value="3" selected>worker has completed and paid</option>
-									          </if>
+															<option value="0" selected>null</option>
+															<option value="1">worker is doing</option>
+															<option value="2">worker has completed and no pay</option>
+															<option value="3">worker has completed and paid</option>
+														<elseif condition="$orderinfo.w_state eq 1"/>
+															<option value="0">null</option>
+															<option value="1" selected>worker is doing</option>
+															<option value="2">worker has completed and no pay</option>
+															<option value="3">worker has completed and paid</option>
+														<elseif condition="$orderinfo.w_state eq 2"/>
+															<option value="0">null</option>
+															<option value="1">worker is doing</option>
+															<option value="2" selected>worker has completed and no pay</option>
+															<option value="3">worker has completed and paid</option>
+														<else />
+															<option value="0">null</option>
+															<option value="1">worker is doing</option>
+															<option value="2">worker has completed and no pay</option>
+															<option value="3" selected>worker has completed and paid</option>
+														</if>
 													</select>
 												</div>
 											</div>

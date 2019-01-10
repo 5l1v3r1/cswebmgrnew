@@ -26,7 +26,7 @@
 				<i class="icon-close"></i>
 				</a>
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search...">
+					<input type="text" class="form-control" placeholder="Search..." />
 					<span class="input-group-btn">
 					<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
 					</span>
@@ -213,7 +213,7 @@
 			<!-- END PAGE HEADER-->
 			<!-- BEGIN PAGE CONTENT-->
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-7">
 					<!-- Begin: life time stats -->
 					<div class="portlet box purple">
 						<div class="portlet-title">
@@ -278,11 +278,81 @@
 							</form>
 						<!-- body -->
 						</div>
+					
+					</div>
 					<!-- End: life time stats -->
 				</div>
+				<div class="col-md-7">
+					<!-- Begin: life time stats -->
+					<div class="portlet box green">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="fa fa-shopping-cart"></i>Timepie tools
+							</div>
+						</div>
+						<div class="portlet-body form">
+							<form class="form-horizontal" action="{:U('Order/ordernew?flag='.$fflag.'');}" method="post"  role="form">
+							<div class="form-body">
+								<div class="form-group ">
+									<div class="col-md-12">
+										<div class="well red">
+											<h5 class="text-danger"><strong><i class="fa fa-volume-up" aria-hidden="true"></i> USD/RMB EXTRANGE : {$rate}</strong></h5>
+											<h3 class="caption-subject font-red-sunglo bold uppercase">
+											<strong>
+											<i class="fa fa-line-chart fa-6" aria-hidden="true"></i>
+											<span id=""></span>
+											</strong>
+											</h3>
+										</div>
+
+									</div>
+								</div>
+								<div class="form-group ">
+									<div class="col-md-8">
+										<div class="input-group input-xlarge">
+											<!-- /btn-group -->
+											<div class="input-group date form_meridian_datetimenew" data-date="{$dateform}">
+												<input name="w_deadline" type="text" size="10" class="form-control input-inline " placeholder="Worker deadline" >
+												<span class="input-group-btn">
+												<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
+												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
+												</span>
+											</div>
+											<div class="input-group-btn">
+												<button type="button" class="btn green dropdown-toggle btn-xlarge" data-toggle="dropdown">Beijin<i class="fa fa-angle-down"></i></button>
+												<ul class="dropdown-menu pull-right">
+													<li>
+														<a href="javascript:;">
+														EST </a>
+													</li>
+													
+												</ul>
+											</div>
+											<!-- /btn-group -->
+										</div>
+									</div>
+								</div>
+								<div class="form-group has-error">
+										<a href="javascript:;" class="btn red btn-block">
+														Left </a>
+														<a href="javascript:;" class="btn blue btn-block">
+														Middle </a>
+														<a href="javascript:;" class="btn green btn-block">
+														Right </a>
+									
+								</div>
+							</div>
+							</form>
+						<!-- body -->
+						</div>
+					
+					</div>
+					<!-- End: life time stats -->
+				</div>
+				
 			</div>
 			<!-- END PAGE CONTENT-->
-		</div>
+	</div>
 </block>
 <block name="footscript">
 	<!-- BEGIN PAGE LEVEL PLUGINS -->
@@ -292,14 +362,25 @@
 	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 	<!-- END PAGE LEVEL PLUGINS -->
 	<!-- BEGIN PAGE LEVEL SCRIPTS -->
+	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/clockface/js/clockface.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+	<!-- END PAGE LEVEL PLUGINS -->
+	<!-- BEGIN PAGE LEVEL SCRIPTS -->
 	<script src="__PUBLIC__/metronic3_7/assets/global/scripts/metronic.js" type="text/javascript"></script>
 	<script src="__PUBLIC__/metronic3_7/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+	<script src="__PUBLIC__/metronic3_7/assets/admin/pages/scripts/components-pickers.js"></script>
 
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<script>
 			jQuery(document).ready(function() {
-           Metronic.init(); // init metronic core components
-Layout.init(); // init current layout
+				Metronic.init(); // init metronic core components
+				Layout.init(); // init current layout
+				ComponentsPickers.init();
 			});
 			var rate={$rate};
 			console.log(rate);
