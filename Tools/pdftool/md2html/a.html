@@ -1,0 +1,683 @@
+<ul>
+<li>1/14/2019</li>
+</ul>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><p>2.1 Introduction to Object-Oriented</p></li>
+<li><p>Programming</p></li>
+<li><p>We have seen that every object in a Python program has a type, and that an object’s type governs</p></li>
+<li><p>both its possible values and the operations that can be performed on it. As the data we want to</p></li>
+<li><p>store and manipulate gets more complex, Python’s built-in types begin to feel inadequate.</p></li>
+<li><p>Fortunately, we can create our own custom types.</p></li>
+<li><p>Consider Twitter</p></li>
+<li><p>Twitter is a pretty successful application that allows users to broadcast short messages, called</p></li>
+<li><p>tweets. If we wanted to write a program like Twitter, we would certainly need to be able to</p></li>
+<li><p>represent a tweet in our program, including the contents of the tweet, the user who wrote the</p></li>
+<li><p>tweet, when the tweet was created, and how many “likes” the tweet has. How would we do so?</p></li>
+<li><p>We could store the data associated with a single tweet in a list,</p></li>
+<li><p>['David', 'Hello, I am so cool', '2017-09-19', 0]</p></li>
+<li><p>or a dictionary,</p></li>
+<li><p>{</p></li>
+<li><p>'userid': 'David',</p></li>
+<li><p>'content': 'Hello, I am so cool',</p></li>
+<li><p>'created_at': '2017-09-19',</p></li>
+<li><p>'likes': 0</p></li>
+<li><p>}</p></li>
+<li><p>and then pass such objects around from function to function as needed.</p></li>
+<li><p>You might ﬁnd it interesting to compare the relative merits of the list vs. dictionary approach. But</p></li>
+<li><p>there is a serious problem with using either of them: nothing would prevent us from creating a</p></li>
+<li><p>malformed tweet object. For example, if we used a list, we could:</p></li>
+<li><p>Create a malformed tweet, for instance with the values in the wrong order, such as</p></li>
+<li><p>['Diane', 'Older and even cooler', '2017-09-19', 55, 9.0002].</p></li>
+<li><p>Ruin a well-formed tweet by calling  pop, which would remove the record of the number of</p></li>
+<li><p>people who liked the tweet.</p></li>
+<li><p>If we used a dictionary, we could:</p></li>
+<li><p>Create a malformed tweet, for instance one that is missing the date:</p></li>
+<li><p>{</p></li>
+<li><p>'userid': 'Jacqueline',</p></li>
+<li><p>'content': 'Has the most dignified cat',</p></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>1/13- 1/14/2019</p>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><p>'likes': 12</p></li>
+<li><p>}</p></li>
+<li><p>Ruin a well-formed tweet by adding a new key-value pair that has nothing to do with tweets,</p></li>
+<li><p>for example by doing  t['units'] = 'centimeters'.</p></li>
+<li><p>Furthermore, with either a list or a dictionary, nothing would enforce the 280-character limit that</p></li>
+<li><p>Twitter imposes on tweets.</p></li>
+<li><p>Notice that this objection is one of protecting against errors, and not one of absolute correctness.</p></li>
+<li><p>That is, it is certainly possible to write a perfectly correct program that represents tweets using lists</p></li>
+<li><p>or dictionaries—you’ll just probably make lots of mistakes along the way. A better solution is to</p></li>
+<li><p>create an entirely new data type for tweets. We do this by deﬁning a class. This will allow us to</p></li>
+<li><p>specify the structure of the data precisely, and to control the operations that are performed on the</p></li>
+<li><p>data so that the data always remains well-formed.</p></li>
+<li><p>Deﬁning a class: attributes</p></li>
+<li><p>A class is a block of code that deﬁnes a type of data. The built-in Python types that you’re familiar</p></li>
+<li><p>with like  int,  str, and  list are all deﬁned by classes. Suppose we have a class called  X. An</p></li>
+<li><p>object whose type is  X is called an instance of class  X; for example, the object  3 is an instance of</p></li>
+<li><p>class  int.</p></li>
+<li><p>An instance of a class does not have to contain just a single piece of data as an  int does; it can</p></li>
+<li><p>hold a collection of data bundled together. Each individual piece of data in an instance is called an</p></li>
+</ul>
+
+<h3>instance attribute of the object.1 For example, a tweet could possess an instance attribute for the</h3>
+
+<ul>
+<li><p>content of the tweet, and another for the user ID of the person who wrote the tweet. Classes can</p></li>
+<li><p>have an arbitrary number of attributes, and they can all be of different types: integers, ﬂoats,</p></li>
+<li><p>strings, lists, dictionaries, and even other classes.</p></li>
+<li><p>Let’s now see how to actually do this in Python. First, we pick the name of the class, which is</p></li>
+<li><p>usually a capitalized noun. In this case, we’ll pick  Tweet. We then write a docstring for the class,</p></li>
+<li><p>which gives a description of both the class and all the instance attributes of that class.</p></li>
+<li><p>class Tweet:</p></li>
+<li><p>"""A tweet, like in Twitter.</p></li>
+<li><p>=== Attributes ===</p></li>
+<li><p>content: the contents of the tweet.</p></li>
+<li><p>userid: the id of the user who wrote the tweet.</p></li>
+<li><p>created_at: the date the tweet was written.</p></li>
+<li><p>likes: the number of likes this tweet has received.</p></li>
+<li><p>"""</p></li>
+<li><p>Documenting attribute types in PyCharm</p></li>
+<li><p>Below the docstring, we declare the type of every instance attribute; the syntax for doing so is</p></li>
+<li><p><attribute_name>: <attribute_type>. For example, the ﬁrst few lines in the  Tweet class would</p></li>
+<li><p>be:</p></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>2/13- 1/14/2019</p>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><p>from datetime import date # We are using a library to represent dates</p></li>
+<li><p>class Tweet:</p></li>
+<li><p>"""A tweet, like in Twitter.</p></li>
+<li><p>=== Attributes ===</p></li>
+<li><p>content: the contents of the tweet.</p></li>
+<li><p>userid: the id of the user who wrote the tweet.</p></li>
+<li><p>created_at: the date the tweet was written.</p></li>
+<li><p>likes: the number of likes this tweet has received.</p></li>
+<li><p>"""</p></li>
+<li><h3>Attribute types</h3></li>
+<li><p>userid: str</p></li>
+<li><p>created_at: date</p></li>
+<li><p>content: str</p></li>
+<li><p>likes: int</p></li>
+<li><p>As we discussed in 1.4 Type Annotations, this Python syntax enables programming tools, including</p></li>
+<li><p>PyCharm, to check the types of attributes as we give them values and modify their values</p></li>
+<li><p>throughout our code. Don’t be fooled by the similarity to other programming languages, though!</p></li>
+<li><p>These type annotations do not create the instance variables. In fact, they have no effect when the</p></li>
+<li><p>program runs, and could actually be removed without changing the behaviour of our code.</p></li>
+<li><p>However, it is good practice to include these because, as we said, they can be understood by</p></li>
+<li><p>automated tools.</p></li>
+<li><p>Notice that we have to document the instance attributes in two places: in the docstring (to specify</p></li>
+<li><p>their meaning) and below it (to specify their types). While this is a little awkward, keep in mind that</p></li>
+<li><p>each form of documentation serves an important purpose. Users must know the meaning of the</p></li>
+<li><p>instance attributes of a class in order to use the class, and the information needs to be in the</p></li>
+<li><p>docstring so that  help can ﬁnd it. Automated tools read the attribute types to help us write our</p></li>
+<li><p>code and detect bugs, and they require that the information be in the class body rather than the</p></li>
+<li><p>docstring.</p></li>
+<li><p>Creating an instance of a class</p></li>
+<li><p>After writing only this much in the class body, we have deﬁned a new type! We can import this</p></li>
+<li><p>class and then create an instance of it like this:</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>tweet = Tweet()</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>This creates a new  Tweet object and stores a reference to it in the variable  tweet.</p></li>
+<li><p>Deﬁning an initializer</p></li>
+<li><p>At this point, the new object doesn’t contain any data.</p></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>3/13- 1/14/2019</p>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>tweet = Tweet()</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>tweet.userid</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>AttributeError: 'Tweet' object has no attribute 'userid'</p></li>
+<li><p>The error makes sense. Remember that a type annotation does not create a variable, so all we</p></li>
+<li><p>have in memory is this:</p></li>
+<li><p>In order to create and initialize instance attributes for an instance of a class, we deﬁne a special</p></li>
+<li><p>method inside the class called  <strong>init</strong>, or in English the initializer.2 Here is the header for an</p></li>
+<li><p>initializer method for our  Tweet class:</p></li>
+<li><p>class Tweet:</p></li>
+<li><h3>previous content omitted for brevity</h3></li>
+<li><p>def <strong>init</strong>(self, who: str, when: date, what: str) -> None:</p></li>
+<li><p>"""Initialize a new Tweet.</p></li>
+<li><p>"""</p></li>
+<li><p>You are likely wondering what the parameter  self is for. Every initializer has a ﬁrst parameter that</p></li>
+<li><p>refers to the instance that has just been created and is to be initialized. By convention, we always</p></li>
+<li><p>call it  self. This is such a strong Python convention that most code checkers will complain if you</p></li>
+<li><p>don’t follow it.</p></li>
+<li><p>To understand how  self works, let’s examine how we use the initializer:</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>from datetime import date</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t1 = Tweet('Giovanna', date(2018, 9, 18), 'Hello')</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>4/13<img src="images/X0" alt="X0" /></p>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><p>1/14/2019</p></li>
+<li><p>Notice that we never mention the initializer  <strong>init</strong> by name; it is called automatically, and the</p></li>
+<li><p>values in parentheses are passed to it. Also notice that we pass three values to the initializer, even</p></li>
+<li><p>though it has four parameters. We never have to pass a value for  self; it automatically receives</p></li>
+<li><p>the id of the instance that is to be initialized. So this is what is happening in memory at the</p></li>
+<li><p>beginning of the initializer:</p></li>
+<li><p>The initializer’s job is to create and initialize the instance attributes. Let’s write the code to do this</p></li>
+<li><p>for the attribute  userid. In the case of our example, we want to add to the new  Tweet object as</p></li>
+<li><p>follows:</p></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>5/13<img src="images/X0" alt="X0" /></p>
+
+<ul>
+<li>1/14/2019</li>
+</ul>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><p>This will require an assignment statement. What will go on the left side? We need to create a new</p></li>
+<li><p>variable called  userid, but if we write  userid = ... (we will ﬁgure out the right side in a moment),</p></li>
+<li><p>this will create a new variable called  userid in the stack frame. We need to put it in the new object</p></li>
+<li><p>instead. Fortunately,  self refers to the new object, and we can “go into” the object by writing  self</p></li>
+<li><p>followed by a dot ‘ .’.3</p></li>
+<li><p>So our assignment statement will be  self.userid = .... What goes on the right side? We need</p></li>
+<li><p>to get  id1 into the new attribute. Our parameter  who stores that, and we have access to it because</p></li>
+<li><p>it is in our stack frame. So the assignment statement will be  self.userid = who. We have just</p></li>
+<li><p>created an instance attribute!</p></li>
+<li><p>Here is the full initializer method:</p></li>
+<li><p>class Tweet:</p></li>
+<li><h3>previous content omitted for brevity...</h3></li>
+<li><p>def <strong>init</strong>(self, who: str, when: date, what: str) -> None:</p></li>
+<li><p>"""Initialize a new Tweet.</p></li>
+<li><p>"""</p></li>
+<li><p>self.userid = who</p></li>
+<li><p>self.content = what</p></li>
+<li><p>self.created_at = when</p></li>
+<li><p>self.likes = 0</p></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>6/13<img src="images/X0" alt="X0" /></p>
+
+<ul>
+<li><p>1/14/2019</p></li>
+<li><p>By the time the initializer is about to return, we have created four instance attributes in total and</p></li>
+<li><p>this is the state of memory:</p></li>
+</ul>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><p>and after we return, we assign the id of the new object to  t1:</p></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>7/13<img src="images/X0" alt="X0" /></p>
+
+<ul>
+<li>1/14/2019</li>
+</ul>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><p>With the new object properly set up and a reference to it stored, we can access each of its</p></li>
+<li><p>attributes by using dot notation.</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>from datetime import date</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t1 = Tweet('Giovanna', date(2017, 9, 18), 'Hello')</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t.userid</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>'Giovanna'</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t.created_at</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>datetime.date(2017, 9, 18)</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t.content</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>'Hello'</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t.likes</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>Notice that we let the client code choose initial values for attributes  who,  when, and  what, through</p></li>
+<li><p>passing arguments to the initializer. We do not give the client code control over the initial value for</p></li>
+<li><p>likes; instead, every  Tweet object begins with zero likes. This was simply a design decision. For</p></li>
+<li><p>any initializer you write, you will have to decide which attributes will have an initial value that the</p></li>
+<li><p>client code gets control over.</p></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>8/13<img src="images/X0" alt="X0" /></p>
+
+<ul>
+<li><p>1/14/2019</p></li>
+<li><p>What really happens when we create a new object</p></li>
+<li><p>Our initializer differs from the functions you are familiar with in important ways, and this is true of all</p></li>
+<li><p>methods:</p></li>
+</ul>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><p>As noted above, an initializer always has a ﬁrst parameter called  self, and we never have to</p></li>
+<li><p>pass a value for  self.</p></li>
+<li><p>By convention, we omit a type annotation for  self. This is because its should always be the</p></li>
+<li><p>class that this method belongs to (in our example, this is  Tweet).</p></li>
+<li><p>You may also notice that the return type is  None, and yet a call to the initializer seems to return the</p></li>
+<li><p>new instance. This makes sense once we know that creating a  Tweet doesn’t just cause  <strong>init</strong></p></li>
+</ul>
+
+<h3>to be called. It actually does three things:4</h3>
+
+<ul>
+<li><ol>
+<li>Create a new  Tweet object behind the scenes.</li>
+</ol></li>
+<li><ol>
+<li>Call  <strong>init</strong> with the new object passed to the parameter  self, along with the other three</li>
+</ol></li>
+<li><p>arguments (for  who,  when, and  what).</p></li>
+<li><ol>
+<li>Return the new object. This step is where the object is returned, not directly from the call to</li>
+</ol></li>
+<li><p><strong>init</strong> in Step 2.</p></li>
+<li><p>Revisiting the terminology</p></li>
+<li><p>Once we deﬁne the  Tweet class, how many  Tweet objects can we construct? There is no limit.</p></li>
+<li><p>Each one is an object that is an instance of class  Tweet. Suppose we create 25  Tweet objects.</p></li>
+<li><p>How many  content variables have we created? 25. There is one for each instance of  Tweet. This</p></li>
+<li><p>is why we call it an instance attribute.</p></li>
+<li><p>A class acts as a blueprint or template: when we deﬁne the class, we specify what attributes every</p></li>
+<li><p>single instance of that class will have. This allows us to enforce a common structure on all data of</p></li>
+<li><p>the given type, which is one of the main purposes of having a type!</p></li>
+<li><p>Deﬁning a class: methods</p></li>
+<li><p>Now that we have our new data type, we can write functions that take in tweets as arguments, or</p></li>
+<li><p>even create and return a new tweet! Here are two simple examples:</p></li>
+<li><p>def like(tweet: Tweet, n: int) -> None:</p></li>
+<li><p>"""Record the fact that <tweet> received <n> likes.</p></li>
+<li><p>Precondition: n &gt;= 0</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t = Tweet('Rukhsana', date(2017, 9, 16), 'Hey!')</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>like(t, 3)</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t.likes</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>"""</p></li>
+<li><p>tweet.likes += n</p></li>
+<li><p>def retweet(new<em>user: str, tweet: Tweet, new</em>date: date) -> Tweet:</p></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>9/13- 1/14/2019</p>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><p>"""Create a copy of the given tweet with the new user and date.</p></li>
+<li><p>The new tweet has 0 likes, regardless of the number of likes of the</p></li>
+<li><p>original tweet.</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t1 = Tweet('Rukhsana', date(2017, 9, 16), 'Hey!')</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t2 = retweet('Calliope', t1, date(2017, 9, 18))</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t2.userid</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>'Calliope'</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t2.created_at</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>datetime.date(2017, 9, 18)</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t2.content</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>'Hey!'</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>t2.likes</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>"""</p></li>
+<li><p>return Tweet(new<em>user, new</em>date, tweet.content)</p></li>
+<li><p>While it is certainly possible to accomplish everything that we would ever want to do with our</p></li>
+<li><p>Tweet class by writing functions, there are downsides of doing so: these functions are separate</p></li>
+<li><p>entities from the class itself, and must be imported by any program that wants to make use of</p></li>
+<li><p>them.</p></li>
+<li><p>Deﬁning methods instead</p></li>
+<li><p>Think back to how you used Python strings before you knew anything about writing your own</p></li>
+<li><p>classes. You were used to doing things like this:</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>word = 'supercalifragilisticexpealidocious'</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>word.count('i')</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>It would be nice to be able to use a Tweet in this way, but we can’t; our current class provides no</p></li>
+<li><p>services other than storage of instance attributes. We can change that by moving the functions</p></li>
+<li><p>inside the class, to make them methods, which is simply the term for functions that are deﬁned</p></li>
+<li><p>within a class.</p></li>
+<li><p>We have seen one example of a method already: the initializer,  <strong>init</strong>, is a special method that</p></li>
+<li><p>performs the crucial operation of initializing the instance attributes of a newly-created instance of a</p></li>
+<li><p>class. But any function that operates on an instance of a class can be converted into a method by</p></li>
+<li><p>doing the following:</p></li>
+<li><p>Indent the function so that it is part of the class body (i.e., underneath  class Tweet:).</p></li>
+<li><p>Ensure that the ﬁrst parameter of the function is an instance of the class, and name this</p></li>
+<li><p>parameter  self.</p></li>
+<li><p>For example, we could make  like a method of  Tweet with the following code:</p></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>10/13- 1/14/2019</p>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><p>class Tweet:</p></li>
+<li><p>...</p></li>
+<li><p>def like(self, n: int) -> None:</p></li>
+<li><p>"""Record the fact that <self> received <n> likes.</p></li>
+<li><p>Precondition: n &gt;= 0</p></li>
+<li><p>"""</p></li>
+<li><p>self.likes += n</p></li>
+<li><p>Notice that we now use parameter  self to access instance attributes, just as we did in the</p></li>
+<li><p>initializer.</p></li>
+<li><p>Calling methods</p></li>
+<li><p>Now that  like is a method of the  Tweet class, we do not need to import it separately; importing</p></li>
+<li><p>just the class  Tweet is enough. We call it using the same dot notation that we use to access an</p></li>
+<li><p>object’s attributes:</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>from datetime import date</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>tweet = Tweet('Rukhsana', date(2017, 9, 16), 'Hey!')</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>tweet.like(10)  # dot notation!</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>tweet.likes</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>Notice that when we call  tweet.like(10) we pass one argument, yet the method has two</p></li>
+<li><p>parameters,  self and  n. What dot notation does for a method call is automatically pass the value</p></li>
+<li><p>to the left of the dot (in this case,  tweet) as the method’s ﬁrst parameter  self.</p></li>
+<li><p>Again, think back to how you used Python strings before you knew anything about writing your own</p></li>
+<li><p>classes. When you wrote code like  word.count('i'), you passed only the string to be searched</p></li>
+<li><p>for, in this case  'i'. How does Python know in what string to search for it? To the left of the dot we</p></li>
+<li><p>said  word, so that is the string to search in. If we had written  name.count('i') then  name would be</p></li>
+<li><p>the string to search in. The string method  count is just like the methods that we write: it has a ﬁrst</p></li>
+<li><p>parameter called  self that refers to the object to operate on.</p></li>
+<li><p>Referring to methods by their class</p></li>
+<li><p>A method really is just a function associated with a class, and can be referred to from the class</p></li>
+<li><p>directly, without using an instance. For example, the method  count is part of the  str class, and its</p></li>
+<li><p>full name is  str.count. Using this, we can call it directly, just as we would any other function. The</p></li>
+<li><p>following calls are equivalent:</p></li>
+<li><h3>Use dot notation to send word to self.</h3></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>word.count('i')</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>11/13- 1/14/2019</p>
+
+<p>CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><h3>Send word as a parameter.</h3></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>str.count(word, 'i')</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>Similarly, now that  like is a method of the  Tweet class, these are equivalent:</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>intro = Tweet('Diane', date(2018, 9, 11), 'Welcome to CSC148!')</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>intro.like(10)</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>Tweet.like(intro, 10)</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>Though we have these two alternatives, we almost always call methods on an instance directly,</p></li>
+<li><p>without referring to the class. This is because in object-oriented programming, we elevate the</p></li>
+<li><p>object as the entity of central importance. Every time we use dot notation, we are reminded that it</p></li>
+<li><p>is an object we are working with, whether we are accessing a piece of data bundled with that</p></li>
+<li><p>object or performing an operation on that object.</p></li>
+<li><p>There is another important technical reason we use dot notation with the object, but we’ll defer that</p></li>
+<li><p>discussion until we discuss inheritance.</p></li>
+<li><p>Methods vs. functions</p></li>
+<li><p>We just saw that methods in Python are just a special kind of function (ones that are deﬁned within</p></li>
+<li><p>a class). Everything you already know about designing and writing functions applies equally to all</p></li>
+<li><p>methods you’ll write.</p></li>
+<li><p>But how do we decide when to make something a function and when to make it a method? Here is</p></li>
+<li><p>the main design difference between functions and methods. Methods are part of the very deﬁnition</p></li>
+<li><p>of the class, and form the basis of how others can use the class. They are bundled together with</p></li>
+<li><p>the class, and are automatically available to every instance of the class. In contrast, functions that</p></li>
+<li><p>operate on a class instance must be imported separately before they are used. So it sounds like</p></li>
+<li><p>functions are “less useful” than methods because you need to do a bit of extra work to use them.</p></li>
+<li><p>Why not make everything a method?</p></li>
+<li><p>When we design a class, we aren’t just designing it for ourselves, but for anyone else who might</p></li>
+<li><p>want to use that class in the future. It is impossible to predict every single thing a person will want</p></li>
+<li><p>to use a class for, and so it is impossible to write every method that could possibly ever be useful.</p></li>
+<li><p>And even if we spent a whole lot of time and energy trying to be comprehensive in deﬁning many</p></li>
+<li><p>methods, this creates the additional problem that anyone who wants to use the class must weed</p></li>
+<li><p>through pages and pages of documentation to ﬁnd the methods that are actually useful for their</p></li>
+<li><p>purpose.</p></li>
+<li><p>Here is the rule of thumb we will use. When we write a class, we write methods for behaviours that</p></li>
+<li><p>we think will be useful for “most” users of the class, and functions for the operations that users of</p></li>
+<li><p>the class must implement themselves for their speciﬁc needs. This is a design choice, and it is not</p></li>
+<li><p>a black and white choice; judgment is required!</p></li>
+<li><p>Special methods</p></li>
+<li><p>We said that the initializer was a special method. This is actually a technical term in Python, and</p></li>
+<li><p>is used to describe a method that we don’t have to call using the regular method call syntax. For</p></li>
+<li><p>example, we do not explicitly call  <strong>init</strong>, it happens automatically as part of the three steps for</p></li>
+<li><p>creating a new instance of a class.</p></li>
+<li><p>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</p></li>
+</ul>
+
+<p>12/13CSC148: 2.1 Introduction to Object-Oriented Programming</p>
+
+<ul>
+<li><p>1/14/2019</p></li>
+<li><p>Double underscores are used around a method name to indicate that it is a special method.</p></li>
+<li><p>As we’ll soon learn, there are other special methods. For instance, if we deﬁne a method called</p></li>
+<li><p><strong>str</strong>, it will be called automatically any time we print an instance of a class, allowing us to</p></li>
+<li><p>specify how the tweet is reported. For example, this would allow us to write:</p></li>
+<li><blockquote>
+  <blockquote>
+    <blockquote>
+      <p>print(t1)</p>
+    </blockquote>
+  </blockquote>
+</blockquote></li>
+<li><p>Giovanna said "Hello" on 2017-09-18 (0 likes)</p></li>
+<li><ol>
+<li>In this course we’ll often shorten “instance attribute” to just “attribute”, but in future study you’ll</li>
+</ol></li>
+<li><p>encounter other kinds of attributes as well.</p></li>
+<li><ol>
+<li>As we’ll discuss later, we use the term “method” for any function that is deﬁned inside a</li>
+</ol></li>
+<li><p>class.</p></li>
+<li><ol>
+<li>This is known as dot notation, and is common to many programming languages.</li>
+</ol></li>
+<li><ol>
+<li>Of course, this is true not just for our  Tweet class, but in fact every class in Python.</li>
+</ol></li>
+</ul>
+
+<p>For general course-related questions, please use the discussion board.</p>
+
+<ul>
+<li>For individual questions, accommodations, doctor's notes, etc., please contact</li>
+</ul>
+
+<p>csc148h5-2019-instructors at cs.toronto.edu.</p>
+
+<ul>
+<li>https://mcs.utm.utoronto.ca/~148/notes/object-oriented-programming/oop_intro.html</li>
+</ul>
+
+<p>13/13↩</p>
+
+<ul>
+<li>↩</li>
+</ul>
+
+<p>↩</p>
+
+<p>↩<img src="images/X0" alt="X0" /></p>
