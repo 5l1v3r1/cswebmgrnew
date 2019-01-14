@@ -1,8 +1,8 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # Copyright (c) 2012 Trent Mick.
 # Copyright (c) 2007-2008 ActiveState Corp.
 # License: MIT (http://www.opensource.org/licenses/mit-license.php)
-
 r"""A fast and complete Python implementation of Markdown.
 
 [from http://daringfireball.net/projects/markdown/]
@@ -1401,6 +1401,7 @@ class Markdown(object):
                         if "smarty-pants" in self.extras:
                             result = result.replace('"', self._escape_table['"'])
                         curr_pos = start_idx + len(result)
+                        result = "";
                         text = text[:start_idx] + result + text[url_end_idx:]
                     elif start_idx >= anchor_allowed_pos:
                         safe_link = self._safe_protocols.match(url) or url.startswith('#')
@@ -1559,9 +1560,9 @@ class Markdown(object):
             self._toc_add_entry(n, header_id, html)
         # add n handle:
         # n =1 -> 3
-        # 
+        #
         if n <= 4:
-            n = n + 2 
+            n = n + 2
         return "<h%d%s>%s</h%d>\n\n" % (n, header_id_attr, html, n)
 
     def _do_headers(self, text):
@@ -1777,7 +1778,7 @@ class Markdown(object):
                 lexer_name = lexer_name[3:].strip()
                 codeblock = rest.lstrip("\n")   # Remove lexer declaration line.
                 formatter_opts = self.extras['code-color'] or {}
-        
+
         # Use pygments only if not using the highlightjs-lang extra
         if lexer_name and "highlightjs-lang" not in self.extras:
             def unhash_code(codeblock):
@@ -2151,7 +2152,7 @@ class Markdown(object):
     def _encode_incomplete_tags(self, text):
         if self.safe_mode not in ("replace", "escape"):
             return text
-            
+
         return self._incomplete_tags_re.sub("&lt;\\1", text)
 
     def _encode_backslash_escapes(self, text):
@@ -2576,18 +2577,31 @@ def _test():
     doctest.testmod()
 
 def addtage(html):
-	tags = {"java":"/category/java/","c++":"/category/czuoyedaixie/"}
+	tags = {
+    "java":["/category/java/","java代写"],
+    "c++":["/category/czuoyedaixie/","c++代写 代写c++"],
+    "python":["/category/python/","python代写 代写python"]
+    }
 	for key in tags:
-		
-		
-	
-def write_html(html,mdfile):
+		reg = re.compile(re.escape(key), re.IGNORECASE)
+		tmp = '<a href=\"'+ tags[key][0]+'\" title=\"'+ tags[key][1]+'\">'+ key+'</a>'	#'<a href=\"'+ tags[key][0]+'\" title=\"'+ tags[key][1]+'\">'+ key+'</a>'
+		html = reg.sub(tmp,html,1)
+	return html
+
+
+
+def write_html(html,mdfile,flag):
 	filename = 'output/' + mdfile + '.html'
 	with open(filename, 'w') as fwrite:
-		addtage(html)
+		if(flag == 1):
+			html = addtage(html)
+		html = re.sub(r'((<p>)|(<h\d>))[ ]*((</p>)|(</h\d>))', "", html)
+		html = re.sub(r"\n[\s| ]*\n", '', html)
+		html = re.sub(r"[ ]+", ' ', html)
+		fwrite.write('<blockquote><p><i class="fa fa-tags" aria-hidden="true"></i>  </p>\n</blockquote>\n')
 		fwrite.write(html)
-			
-def mdtohtml(mdfile):
+
+def mdtohtml(mdfile,flag):
 	fp = codecs.open(mdfile, 'r', "utf-8")
 	text = fp.read()
 	fp.close()
@@ -2598,7 +2612,7 @@ def mdtohtml(mdfile):
             use_file_vars=False,
             cli=True)
 	#sys.stdout.write(html.encode(sys.stdout.encoding or "utf-8", 'xmlcharrefreplace'))
-	write_html(html.encode(sys.stdout.encoding or "utf-8", 'xmlcharrefreplace'),mdfile)
+	write_html(html.encode(sys.stdout.encoding or "utf-8", 'xmlcharrefreplace'),mdfile,flag)
 def main(argv=None):
     if argv is None:
         argv = sys.argv
