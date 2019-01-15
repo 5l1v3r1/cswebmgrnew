@@ -41,4 +41,4 @@ def main(input,flag):
 	#toMd("ss.pdf",1)
 
 if __name__ == '__main__':
-	main("input",0)
+	main("input",1)

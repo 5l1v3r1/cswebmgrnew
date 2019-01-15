@@ -2578,14 +2578,21 @@ def _test():
 
 def addtage(html):
 	tags = {
-    "java":["/category/java/","java代写"],
-    "c++":["/category/czuoyedaixie/","c++代写 代写c++"],
-    "python":["/category/python/","python代写 代写python"]
+    "java":["/category/java/","java代写 代写java "],
+    "c++":["/category/czuoyedaixie/","C语言代写 C++代写 代写C++ 代做C"],
+    "import pudb; pudb.set_trace()ython":["/category/python/","python代写 代写python "]
     }
+	keys=[]
 	for key in tags:
 		reg = re.compile(re.escape(key), re.IGNORECASE)
-		tmp = '<a href=\"'+ tags[key][0]+'\" title=\"'+ tags[key][1]+'\">'+ key+'</a>'	#'<a href=\"'+ tags[key][0]+'\" title=\"'+ tags[key][1]+'\">'+ key+'</a>'
-		html = reg.sub(tmp,html,1)
+        if reg.search(html) != None:
+            tmp = '<a href=\"'+ tags[key][0]+'\" title=\"'+ tags[key][1]+'\">'+ key+'</a>'	#'<a href=\"'+ tags[key][0]+'\" title=\"'+ tags[key][1]+'\">'+ key+'</a>'
+            html = reg.sub(tmp,html,1)
+            keys.append(key)
+            #if html != html1:
+            #    keys.append(key)
+            #html = html1
+	print(keys)
 	return html
 
 
