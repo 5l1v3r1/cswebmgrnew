@@ -112,8 +112,8 @@ try:
     from urllib import quote_plus
 except ImportError:
     from urllib.parse import quote_plus
-
-
+import string
+import random
 # ---- Python version compat
 
 # Use `bytes` for byte strings and `unicode` for unicode strings (str in Py3).
@@ -2578,22 +2578,23 @@ def _test():
 
 def addtage(html):
 	tags = {
-    "java":["/category/java/","java代写 代写java "],
-    "c++":["/category/czuoyedaixie/","C语言代写 C++代写 代写C++ 代做C"],
-    "import pudb; pudb.set_trace()ython":["/category/python/","python代写 代写python "]
+    "java":["/","xxx"],
+    "c++":["/","xxx"],
+    "Example":["/","xxx"]
     }
+	somestrs = ["","代写","代做","作业","代写","代做",""]
 	keys=[]
 	for key in tags:
-		reg = re.compile(re.escape(key), re.IGNORECASE)
-        if reg.search(html) != None:
-            tmp = '<a href=\"'+ tags[key][0]+'\" title=\"'+ tags[key][1]+'\">'+ key+'</a>'	#'<a href=\"'+ tags[key][0]+'\" title=\"'+ tags[key][1]+'\">'+ key+'</a>'
-            html = reg.sub(tmp,html,1)
-            keys.append(key)
-            #if html != html1:
-            #    keys.append(key)
-            #html = html1
-	print(keys)
-	return html
+		if re.search(re.escape(key+" "),html,re.IGNORECASE):
+			reg = re.compile(re.escape(key+" "), re.IGNORECASE)
+			tmp = '<a href=\"'+ tags[key][0]+'\" title=\"'+ tags[key][1]+'\">'+ key+'</a>'	#'<a href=\"'+ tags[key][0]+'\" title=\"'+ tags[key][1]+'\">'+ key+'</a>'
+			html = reg.sub(tmp,html,1)
+			if random.randint(0,1) == 0: 
+				keys.append(string.capwords(key)+str(somestrs[random.randint(0,len(somestrs)-1)]))
+			else:
+				keys.append(str(somestrs[random.randint(0,len(somestrs)-1)]) + string.capwords(key))
+	print("|".join(keys))
+	return html,("|".join(keys))
 
 
 
@@ -2601,11 +2602,11 @@ def write_html(html,mdfile,flag):
 	filename = 'output/' + mdfile + '.html'
 	with open(filename, 'w') as fwrite:
 		if(flag == 1):
-			html = addtage(html)
+			html,strs = addtage(html)
 		html = re.sub(r'((<p>)|(<h\d>))[ ]*((</p>)|(</h\d>))', "", html)
 		html = re.sub(r"\n[\s| ]*\n", '', html)
 		html = re.sub(r"[ ]+", ' ', html)
-		fwrite.write('<blockquote><p><i class="fa fa-tags" aria-hidden="true"></i>  </p>\n</blockquote>\n')
+		fwrite.write('<blockquote><p><i class="fa fa-tags" aria-hidden="true"></i>'+ strs +'</p>\n</blockquote>\n')
 		fwrite.write(html)
 
 def mdtohtml(mdfile,flag):
