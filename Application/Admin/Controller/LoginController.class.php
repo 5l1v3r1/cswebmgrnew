@@ -31,10 +31,10 @@ class LoginController extends Controller {
 		}
 	}
 	public function logout()
-  {
+	{
 		cookie('admin_uid',null);
 		//$this->show('login');
-    	//$this->display(T('homepage/index'));
+		//$this->display(T('homepage/index'));
 		R('Login/index');
-  }
+	}
 }
