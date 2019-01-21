@@ -8,13 +8,13 @@ class WorkerController extends CommonController {
     		$Model = M('workers');
         $techstr = "";
         $pp = 0;
-    		if(isset($_GET["p"])){
-    			$pp = $_GET["p"];
-    		}
+		if(isset($_GET["p"])){
+			$pp = $_GET["p"];
+		}
         $type = I('get.type');// 0  all worker 1 Income = 0 worker 2 old worker 3 dead worker  4 free user order by income 4  category (C++ ...)
         if(!isset($type)){
-    			$type = 0;
-    		}
+			$type = 0;
+		}
         //echo $type;
         $workersres = array();
         /*
@@ -27,8 +27,8 @@ class WorkerController extends CommonController {
         <option value="50">projects desc</option>
         <option value="51">projects asc</option>
         */
-        $sortword = 'income';
-        $sortlist = 'SORT_DESC';
+        $sortword = 'addtime';
+        $sortlist = 'SORT_ASC';
         $sortby =I('post.sortby');
         switch($sortby){
           case 10:
@@ -64,8 +64,8 @@ class WorkerController extends CommonController {
             $sortlist = 'SORT_ASC';
           break;
           default:
-            $sortword = 'income';
-            $sortlist = 'SORT_DESC';
+            $sortword = 'addtime';
+            $sortlist = 'SORT_ASC';
 
         }
         if(!empty($search))
@@ -89,60 +89,60 @@ class WorkerController extends CommonController {
             		array_push($worklist ,$techeslist[0]['wxid']);
             	}
             }
-      			//dump($worklist);
-      			//$workliststr = rtrim($workliststr,",");
-      			//dump($workliststr);
-      			$workeroutput = [];
-      			foreach($workers as $k=>$v){
-      				$MM = M('worker_tech');
-      				if(in_array($v['wxid'],$worklist)){
-      					$teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
-      					$v['techarr'] = $teches;
-                $workitem = getWorkerInfo($v['wxid']);
+			//dump($worklist);
+			//$workliststr = rtrim($workliststr,",");
+			//dump($workliststr);
+			$workeroutput = [];
+			foreach($workers as $k=>$v){
+				$MM = M('worker_tech');
+				if(in_array($v['wxid'],$worklist)){
+					$teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
+					$v['techarr'] = $teches;
+					$workitem = getWorkerInfo($v['wxid']);
 
 
-                $v['ordercomplete'] = $workitem[0];//$ordercomplete;
-                $v['orderonging'] = $workitem[3] ;//$orderonging;
-                $v['orderunpaid'] = $workitem[4] ;//$order unpaid;
-                $v['orderall'] = $workitem[5];//$orderonging + $ordercomplete;
-                $v['income'] = $workitem[2];
-                $v['remark'] = round($workitem[1],2);
+					$v['ordercomplete'] = $workitem[0];//$ordercomplete;
+					$v['orderonging'] = $workitem[3] ;//$orderonging;
+					$v['orderunpaid'] = $workitem[4] ;//$order unpaid;
+					$v['orderall'] = $workitem[5];//$orderonging + $ordercomplete;
+					$v['income'] = $workitem[2];
+					$v['remark'] = round($workitem[1],2);
 
-      					$workers[$k] = $v;
-      					//array_push($workeroutput ,$workers[$k]);
-                switch($type){
-                  case 1:
-                    if($v['income'] == 0.00 && $workers[$k]["status"] == 0){
-                      array_push($workersres,$workers[$k]);
-                    }
-                    break;
-                  case 2:
-                    if($v['income'] > 0.00 && $workers[$k]["status"] == 0){
-                      array_push($workersres,$workers[$k]);
-                    }
-                    break;
-                  case 3:
-                    if($workers[$k]["status"] == 1){
-                      array_push($workersres,$workers[$k]);
-                    }
-                    break;
-                  case 4:
-                    if($workers[$k]["orderonging"] == 0 && $workers[$k]["status"] == 0){
-                      array_push($workersres,$workers[$k]);
-                    }
-                    break;
-                  case 5:
-                    if($workers[$k]["orderonging"] > 0 && $workers[$k]["status"] == 0){
-                      array_push($workersres,$workers[$k]);
-                    }
-                    break;
-                  default:
-                    if($workers[$k]["status"] == 0){
-                      array_push($workersres,$workers[$k]);
-                    }
-                }
-      				}
-      			}
+					$workers[$k] = $v;
+					//array_push($workeroutput ,$workers[$k]);
+					switch($type){
+						case 1:
+							if($v['income'] == 0.00 && $workers[$k]["status"] == 0){
+							array_push($workersres,$workers[$k]);
+							}
+							break;
+						case 2:
+							if($v['income'] > 0.00 && $workers[$k]["status"] == 0){
+							array_push($workersres,$workers[$k]);
+							}
+							break;
+						case 3:
+							if($workers[$k]["status"] == 1){
+							array_push($workersres,$workers[$k]);
+							}
+							break;
+						case 4:
+							if($workers[$k]["orderonging"] == 0 && $workers[$k]["status"] == 0){
+							array_push($workersres,$workers[$k]);
+							}
+							break;
+						case 5:
+							if($workers[$k]["orderonging"] > 0 && $workers[$k]["status"] == 0){
+							array_push($workersres,$workers[$k]);
+							}
+							break;
+						default:
+							if($workers[$k]["status"] == 0){
+							array_push($workersres,$workers[$k]);
+							}
+					}
+				}
+      		}
 
             //dump($workeroutput);
             /*
@@ -157,60 +157,60 @@ class WorkerController extends CommonController {
             */
           }else
           {
-            $workers = $Model->order('addtime asc')->select();
-            $count = $Model->order('addtime asc')->count();
-            //dump($workers);
+			$workers = $Model->order('addtime asc')->select();
+			$count = $Model->order('addtime asc')->count();
+			//dump($workers);
 
-            foreach($workers as $k=>$v){
-              $MM = M('worker_tech');
-              $map['wxid'] = $v['wxid'];
-              $teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
-              $v['techarr'] = $teches;
-              /*order info*/
-              $ORDER = M('orders');
-              $workitem = getWorkerInfo($v['wxid']);
+			foreach($workers as $k=>$v){
+				$MM = M('worker_tech');
+				$map['wxid'] = $v['wxid'];
+				$teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
+				$v['techarr'] = $teches;
+				/*order info*/
+				$ORDER = M('orders');
+				$workitem = getWorkerInfo($v['wxid']);
 
-              $v['ordercomplete'] = $workitem[0];//$ordercomplete;
-              $v['orderonging'] = $workitem[3] ;//$orderonging;
-              $v['orderunpaid'] = $workitem[4] ;//$order unpaid;
-              $v['orderall'] = $workitem[5];//$orderonging + $ordercomplete;
-              $v['income'] = $workitem[2];
-              $v['remark'] = round($workitem[1],2);
+				$v['ordercomplete'] = $workitem[0];//$ordercomplete;
+				$v['orderonging'] = $workitem[3] ;//$orderonging;
+				$v['orderunpaid'] = $workitem[4] ;//$order unpaid;
+				$v['orderall'] = $workitem[5];//$orderonging + $ordercomplete;
+				$v['income'] = $workitem[2];
+				$v['remark'] = round($workitem[1],2);
 
-              $workers[$k] = $v;
-              //dump($workers[$k]);
-              //echo $k;
-              switch($type){
-                case 1:
-                  if($v['income'] == 0.00 && $workers[$k]["status"] == 0){
-                    array_push($workersres,$workers[$k]);
-                  }
-                  break;
-                case 2:
-                  if($v['income'] > 0.00 && $workers[$k]["status"] == 0){
-                    array_push($workersres,$workers[$k]);
-                  }
-                  break;
-                case 3:
-                  if($workers[$k]["status"] == 1){
-                    array_push($workersres,$workers[$k]);
-                  }
-                  break;
-                case 4:
-                  if($workers[$k]["orderonging"] == 0 && $workers[$k]["status"] == 0){
-                    array_push($workersres,$workers[$k]);
-                  }
-                  break;
-                case 5:
-                  if($workers[$k]["orderonging"] > 0 && $workers[$k]["status"] == 0){
-                    array_push($workersres,$workers[$k]);
-                  }
-                  break;
-                default:
-                  if($workers[$k]["status"] == 0){
-                    array_push($workersres,$workers[$k]);
-                  }
-              }
+				$workers[$k] = $v;
+				//dump($workers[$k]);
+				//echo $k;
+				switch($type){
+					case 1:
+					  if($v['income'] == 0.00 && $workers[$k]["status"] == 0){
+						array_push($workersres,$workers[$k]);
+					  }
+					  break;
+					case 2:
+					  if($v['income'] > 0.00 && $workers[$k]["status"] == 0){
+						array_push($workersres,$workers[$k]);
+					  }
+					  break;
+					case 3:
+					  if($workers[$k]["status"] == 1){
+						array_push($workersres,$workers[$k]);
+					  }
+					  break;
+					case 4:
+					  if($workers[$k]["orderonging"] == 0 && $workers[$k]["status"] == 0){
+						array_push($workersres,$workers[$k]);
+					  }
+					  break;
+					case 5:
+					  if($workers[$k]["orderonging"] > 0 && $workers[$k]["status"] == 0){
+						array_push($workersres,$workers[$k]);
+					  }
+					  break;
+					default:
+					  if($workers[$k]["status"] == 0){
+						array_push($workersres,$workers[$k]);
+					  }
+				}
 
             }
 
@@ -227,7 +227,6 @@ class WorkerController extends CommonController {
           $this->assign('page',$show);// 赋值分页输出*/
           $workersres = arraySequence($workersres, $sortword, $sortlist);
           $workersres = array_slice($workersres, $Page->firstRow,$Page->listRows);
-
           //dump($workers);
           $Mtech = M('technologies');
           $teches = $Mtech->select();
@@ -236,22 +235,6 @@ class WorkerController extends CommonController {
           $this->assign('techstr',$techstr);
           $this->assign('type',$type);
           $this->display(T('admin/workers_list'));
-		/**
-		* pages
-		**/
-
-		/*$Page = new \Think\Page($count,42);// page object
-		$Page->setConfig('prev','prev');
-		$Page->setConfig('next','next');
-		$Page->setConfig('first','first page');
-		$Page->setConfig('last','last page');
-		$Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER% ');
-		$show = $Page->show();// page output
-		$this->assign('page',$show);//
-		$this->assign('list',$list);
-		*/
-        //$this->display(T('mgr/workers_list'));
-		//print("list");
 
 
     }

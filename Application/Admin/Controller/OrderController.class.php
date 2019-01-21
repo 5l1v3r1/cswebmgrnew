@@ -41,38 +41,6 @@ class OrderController extends CommonController {
 			//print($se_condition);
 
 		}
-		//$search =I('post.search');
-		/*$search =I('post.search');
-        $Model = M('order');
-        if(!empty($search))
-        {
-            $condition['orderID'] = array('like','%'.$search.'%');
-            $condition['username'] = array('like','%'.$search.'%');
-            $condition['transactionID'] = array('like','%'.$search.'%');
-            $condition['status'] = array('like','%'.$search.'%');
-            $condition['_logic'] = 'OR';
-            $list = $Model->where($condition)->order('issuedate desc')->page(I('get.p').',42')->select();
-		    $count = $Model->where($condition)->count();// get count of records
-        }else
-        {
-            $list = $Model->where("id>=0")->order('issuedate desc')->page(I('get.p').',42')->select();
-		    $count = $Model->where("id>=0")->count();// get count of records
-        }
-		$condition['orderID'] = array('like','%'.$search.'%');
-
-		//print_r($list);
-
-		$Page = new \Think\Page($count,42);// page object
-		$Page->setConfig('prev','prev');
-		$Page->setConfig('next','next');
-		$Page->setConfig('first','first page');
-		$Page->setConfig('last','last page');
-		$Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER% ');
-		$show = $Page->show();// page output
-		$this->assign('page',$show);//
-		$this->assign('list',$list);
-        $this->display(T('mgr/orders_list'));
-		*/
 		$Model = M('orders');
 		$orderinfolist = [];
 		$count = 0;
@@ -183,17 +151,17 @@ class OrderController extends CommonController {
 				}
 			}
 
-			#print($digitstr);
+			//print($digitstr);
 			if(strlen($digitstr) >0){
 				//print_r($digitstr);
 				$Model = M('technologies');
 				$m['techid'] = array('in',$digitstr);
 				//print_r($m);
 				$techinfos = $Model->field("techid,content")->where($m)->select();
-				#print_r($techinfos);
+				//print_r($techinfos);
 				$keywordsid = "";
 				foreach($techinfos as $k=>$v){
-						#echo $v[content];
+						//echo $v[content];
 						$keywordsid = $keywordsid."#".$v["techid"];
 						if($projectname == ""){
 							$projectname = $v[content];
@@ -205,7 +173,7 @@ class OrderController extends CommonController {
 			}
 
 		}
-		#print($projectname);
+		//print($projectname);
 		$orderid = uniqid('cs_');
 		$data['orderid'] = $orderid;
 		$data['createtime'] = date('Y-m-d H:i:s',time());//
@@ -226,11 +194,11 @@ class OrderController extends CommonController {
 		$guestinfo = $Model->where($cond)->find();
 		//dump($guestinfo);
 		if(!empty($guestinfo)){
-			echo "nonull";
+			//echo "nonull";
 			$Model->where($cond)->save($cell);
 		}else
 		{
-			echo "null";
+			//echo "null";
 			$cell['wxid'] = $guest_wxid;
 			$Model->data($cell)->add();
 		}
@@ -261,9 +229,6 @@ class OrderController extends CommonController {
 		if(isset($_GET["flag"])){
 			$flag =I('get.flag');
 		}
-
-
-
 		$this->assign('fflag',$flag);// 赋值分页输出
 		$this->success('Add a new order successfully!',U('Order/orderlist?flag='.$flag),1);
 	}
@@ -347,13 +312,6 @@ class OrderController extends CommonController {
 						//echo $v;
 
 						if($k["name"] == $v && $v !=""){
-							//echo ",,,<br>";
-							//echo $v;
-							//echo "<br>";
-
-							//print_r($techtmp);
-							//echo $k["name"];
-							//echo ",,,<br>";
 							$cff = 1;
 							break;
 						}
@@ -370,10 +328,9 @@ class OrderController extends CommonController {
 					//echo $v;
 					if($v !=""){
 						$item = array("email" => $v,"name" =>$v);
-						print($techtmp);
-
+						//print($techtmp);
 						array_push($techtmp,$item);
-						print_r($techtmp);
+						//print_r($techtmp);
 
 					}
 				}
@@ -423,17 +380,17 @@ class OrderController extends CommonController {
 				}
 			}
 
-			#print($digitstr);
+			//print($digitstr);
 			if(strlen($digitstr) >0){
 				//print_r($digitstr);
 				$Model = M('technologies');
 				$m['techid'] = array('in',$digitstr);
 				//print_r($m);
 				$techinfos = $Model->field("techid,content")->where($m)->select();
-				#print_r($techinfos);
+				//print_r($techinfos);
 				$keywordsid = "";
 				foreach($techinfos as $k=>$v){
-						#echo $v[content];
+						//echo $v[content];
 						$keywordsid = $keywordsid."#".$v["techid"];
 						if($projectname == ""){
 							$projectname = $v[content];

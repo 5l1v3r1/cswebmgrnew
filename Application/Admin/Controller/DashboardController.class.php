@@ -237,16 +237,16 @@ class DashboardController extends CommonController {
       $salarysum = 0;
       $revenuesum = 0;
   	  foreach($year_salaryarr as $k=>$v){
-        $room['profit'] = $year_profitarray[$v['createday']];
-  		  $room['salary'] = $v['salary'];
-        $salarysum = $salarysum + $v['salary'];
-  		  $room['revenuearray'] = $year_revenuearray[$v['createday']];
-  		  $room['createday'] = $v['createday'];
-  		  $room['datas'] = $day_all[$v['createday']];
-        $revenuesum = $revenuesum  + $year_revenuearray[$v['createday']];
-  		  array_push($datas ,$room);
+		$room['profit'] = $year_profitarray[$v['createday']];
+		$room['salary'] = $v['salary'];
+		$salarysum = $salarysum + $v['salary'];
+		$room['revenuearray'] = $year_revenuearray[$v['createday']];
+		$room['createday'] = $v['createday'];
+		$room['datas'] = $day_all[$v['createday']];
+		$revenuesum = $revenuesum  + $year_revenuearray[$v['createday']];
+		array_push($datas ,$room);
       }
-	    $res["createyear"] = $year;
+	  $res["createyear"] = $year;
       $res["salarysum"] = $salarysum;
       $res["revenuesum"]=$revenuesum;
       $res["profitsum"]=($revenuesum - $salarysum);
