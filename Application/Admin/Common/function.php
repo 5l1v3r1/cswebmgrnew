@@ -16,6 +16,7 @@ function arraySequence($array, $field, $sort = 'SORT_DESC')
     array_multisort($arrSort[$field], constant($sort), $array);
     return $array;
 }
+/*get order infomation */
 /*
 
   0. guest have no paid gurrentee
