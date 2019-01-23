@@ -226,10 +226,10 @@
 						</div>
 						<div class="details">
 							<div class="number">
-								 {$revenues} <i class="fa fa-cny"></i>
+								 {$cydata.revenuesum} <i class="fa fa-cny"></i>
 							</div>
 							<div class="desc">
-								 Revenues
+								 Revenues/{$todayyear}
 							</div>
 						</div>
 						<a class="more" href="javascript:;">
@@ -247,7 +247,7 @@
 								 {$profit}<i class="fa fa-cny"></i>
 							</div>
 							<div class="desc">
-								 Profit
+								 Profit/{$todayyear}
 							</div>
 						</div>
 						<a class="more" href="javascript:;">
@@ -397,36 +397,99 @@
 				<!-- END PORTLET-->
 			</div>
 				<div class="col-md-6 col-sm-6">
+				<!-- BEGIN PORTLET-->
+					<div class="portlet light ">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="icon-bar-chart font-green-sharp hide"></i>
+								<span class="caption-subject font-green-sharp bold uppercase"> {$todayyear} (current year) statistic</span>
+								<span class="caption-helper">current year statistic...</span>
+							</div>
+						</div>
+						<div class="portlet-body">
+							<div class="portlet-body">
+								<div class="row static-info">
+									<div class="col-md-5 name">
+										 Revenues :
+									</div>
+									<div class="col-md-7 value">
+										<i class="fa fa-paper-plane"></i> {$cydata.revenuesum} RMB
+									</div>
+								</div>
+								<foreach name="cydata.datas" item="vo">
+									<div class="row static-info">
+										<div class="col-md-5 name">
+										</div>
+										<div class="col-md-7 value">
+											 <small><i class="fa fa-check-square-o"></i> {$key} {$vo['moneytype']} </small><span class="label label-sm label-info"> {$vo['rating']} </span>
+										</div>
+									</div>
+								</foreach>
+								<div class="row static-info">
+									<div class="col-md-5 name">
+										 Profit :
+									</div>
+									<div class="col-md-7 value">
+										 <i class="fa fa-paper-plane"></i> {$cydata.profitsum} RMB
+									</div>
+								</div>
+								<div class="row static-info">
+									<div class="col-md-5 name">
+										 Worker Salary :
+									</div>
+									<div class="col-md-7 value">
+										 <i class="fa fa-paper-plane"></i> {$cydata.salarysum} RMB
+									</div>
+								</div>
+								<div class="row static-info">
+									<div class="col-md-5 name">
+										 No. Orders :
+									</div>
+									<div class="col-md-7 value">
+										 <i class="fa fa-paper-plane"></i> {$cydata.ordernum}
+									</div>
+								</div>
+								<div class="row static-info">
+									<div class="col-md-5 name">
+										 Average profit per day :
+									</div>
+									<div class="col-md-7 value">
+										 <i class="fa fa-paper-plane"></i> {$cydata.profitavg}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				<!-- END PORTLET-->
+				</div>
+				<div class="col-md-3 col-sm-3">
 					<!-- BEGIN PORTLET-->
 					<div class="portlet light ">
 						<div class="portlet-title">
 							<div class="caption">
 								<i class="icon-share font-red-sunglo hide"></i>
-								<span class="caption-subject font-red-sunglo bold uppercase">Day Analysis</span>
-								<span class="caption-helper">Day Section Analysis...</span>
+								<span class="caption-subject font-red-sunglo bold uppercase">Day statistic</span>
+								<span class="caption-helper">Day Section statistic...</span>
 							</div>
 						</div>
 						<div class="portlet-body">
 							<div class="row">
 								<div class="col-md-12 col-sm-12">
-									<div class="form-group">
-										<div class="col-md-4 col-sm-12">
+									<div class="input-group ">
 											<div class="input-group date form_meridian_date" data-date="2012-12-21T15:25:00Z">
-												<input name="daysearchinput" type="text" size="10" class="form-control input-inline" placeholder="Day" value="{$today}" readonly>
+												<input name="daysearchinput" type="text" size="10" class="form-control input-inline input-medium" placeholder="Day" value="{$today}" readonly>
 												<span class="input-group-btn">
-												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
+												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>											
 												</span>
 											</div>
+											<div class="input-group-btn input-large">
+												<button class="btn yellow table-group-action-submit" id="daysearchbtn"><i class="fa fa-search"></i></button>
+											</div>
+											
 											<!-- /input-group -->
-										</div>
-										<div class="col-md-4 col-sm-12">
-											<button class="btn yellow table-group-action-submit" id="daysearchbtn"><i class="fa fa-search"></i></button>
-										</div>
 									</div>
 								</div>
-							</div>
-							<div class="portlet-body">
-								<div class="portlet-body">
+								<div class="col-md-12 col-sm-12 ">
 									<div class="row static-info">
 										<div class="col-md-5 name">
 											 Revenues:
@@ -453,7 +516,14 @@
 											 <i class="fa fa-paper-plane"></i> <span id="daysalary"></span>
 										</div>
 									</div>
-									<hr>
+									<div class="row static-info">
+										<div class="col-md-5 name">
+											 No. Order :
+										</div>
+										<div class="col-md-7 value">
+											 <i class="fa fa-paper-plane"></i> <span id="dayordernum"></span>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -461,7 +531,7 @@
 					</div>
 				</div>
 				<!-- END PORTLET-->
-				<div class="col-md-6 col-sm-6">
+				<div class="col-md-3 col-sm-3">
 					<!-- BEGIN PORTLET-->
 					<div class="portlet light ">
 						<div class="portlet-title">
@@ -476,8 +546,10 @@
 								<div class="portlet-body">
 									<div class="row static-info">
 										<div class="col-md-12 name">
-											<a href="{:U('Tool/exchangeToolPage');}" target="_blank" class="btn btn-sm purple"> 1. Exchange Transfer Tools <i class="fa fa-link"></i></a>
-											<a href="{:U('Api/tradeApi');}" target="_blank" class="btn btn-sm red"> 2. Trade information api <i class="fa fa-link"></i></a>
+											<a href="{:U('Tool/exchangeToolPage');}" target="_blank" class="btn btn-block purple"> 1. Exchange Transfer Tools <i class="fa fa-link"></i></a>
+										</div>
+										<div class="col-md-12 name">
+											<a href="{:U('Api/tradeApi');}" target="_blank" class="btn btn-block red"> 2. Trade information api <i class="fa fa-link"></i></a>
 										</div>
 									</div>
 									<hr>
@@ -511,7 +583,7 @@
 										<div class="form-group">
 											<div class="col-md-3 col-sm-12">
 												<div class="input-group input-medium date date-picker" data-date="{$todaymonth}" data-date-format="yyyy-mm" data-date-viewmode="years" data-date-minviewmode="months">
-													<input type="text" class="form-control" name="monthsearchinput" width="80%" value="{$todaymonth}" readonly="">
+													<input type="text" class="form-control" name="monthsearchinput" width="80%" value="{$todaymonth}" readonly />
 													<span class="input-group-btn">
 													<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
 													</span>
@@ -672,7 +744,11 @@
 			if(data.today_salary == null){
 				data.today_salary = 0;
 			}
+			if(data.today_ordernum == null){
+				data.today_ordernum = 0;
+			}
 			$("#daysalary").text("  " + data.today_salary + " RMB");
+			$("#dayordernum").text("  " + data.today_ordernum);
 		}
 		var day  = $("input[name='daysearchinput']").val();
 
