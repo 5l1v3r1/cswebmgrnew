@@ -114,22 +114,3 @@ svg {
     .x.axis path {
         display: none;
     }
-.linechart > svg {
-    font-family: Sans-Serif, Arial;
-}
-.multiline {
-  stroke-width: 2;
-  fill: none;
-}
-
-.linechart > .axis path {
-  stroke: black;
-}
-
-.linechart >.linechart >.text {
-  font-size: 12px;
-}
-
-.linechart >.title-text {
-  font-size: 12px;
-}

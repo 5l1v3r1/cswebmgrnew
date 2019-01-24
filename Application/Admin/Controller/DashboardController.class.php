@@ -112,6 +112,12 @@ class DashboardController extends CommonController {
         $this->assign('todaymonth',date("Y-m"));
         $this->assign('todayyear',$year);
        $this->display(T('admin/dashbord_data_analysis'));
-        
+
+    }
+    public function getDayToDay(){
+      $fromdate = "2018-01-01";
+      $todate = "2019-01-10";
+      $res = getDayToDay($fromdate,$todate);
+      print_r($res);
     }
 }

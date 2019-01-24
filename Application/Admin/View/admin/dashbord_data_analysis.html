@@ -30,6 +30,18 @@ svg {
 .title-text {
   font-size: 12px;
 }
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 150px;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
 </style>
 </block>
 <block name="siderbarmenu">
@@ -468,48 +480,14 @@ svg {
 							</div>
 							<div class="portlet-body form">
 								<div class="row">
-									<div class="col-md-12 col-sm-12">
-										<div class="form-group">
-											<div class="col-md-3 col-sm-12">
-												<div class="input-group ">
-													<div class="input-group input-medium date date-picker" data-date="{$todaymonth}" data-date-format="yyyy-mm" data-date-viewmode="years" data-date-minviewmode="months">
-														<input type="text" class="form-control" name="monthsearchinput" width="80%" value="{$todaymonth}" readonly />
-														<span class="input-group-btn">
-														<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-														</span>
-													</div>
-													<div class="input-group-btn input-large">
-														<button class="btn yellow table-group-action-submit" id="monthsearchbtn"><i class="fa fa-search"></i></button>
-													</div>
-												</div>
 
-												<!-- /input-group -->
-											</div>
-											<div class="col-md-4 col-sm-12">
-												<h3 class="text-right"><i class="fa fa-calendar"></i> <span id="monthspan"></span></h3>
-											</div>
-											<div class="col-md-4 col-sm-12">
-												<div class="tile bg-red-sunglo">
-													<div class="tile-body" style="padding-left:2%;padding-top:2%;padding-bottom:2%">
-															<h4>Salary/mon: <span id="monthsalarysum"></span></h4>
-															<h4>Profit/mon: <span id="monthprofitsum"></span></h4>
-															<h4>Revenues/mon: <span id="monthrevenuessum"></span></h4>
-															<h4>Profit/day: <span id="monthprofitavg"></span></h4>
-
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div id="ccchart" class="linechart" style="padding: 0px; position: relative;width:100%;height: 400px;">
-									</div>
-									<div id="chart"></div>
+									<div id="chart" style="padding: 0px; position: relative;width:100%;height: 500px;"></div>
 								</div>
 
 							</div>
 						</div>
 				</div>
-				
+
 			</div>
 			<div class="clearfix">
 			</div>
@@ -602,11 +580,17 @@ var data = [
     ]
   }
 ];
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
-var width = 500;
-var height = 500;
-var margin = 150;
-var duration = 250;
+var wd = $("#chart").width();
+var wh = $("#chart").height();
+var margin = {top:20, left:60, bottom:10, right:20};
+var height = wh - margin.top - margin.bottom,
+		width = wd - margin.left - margin.right;
+console.log(width);
+var duration = 50;
 
 var lineOpacity = "0.25";
 var lineOpacityHover = "0.85";
@@ -622,10 +606,10 @@ var circleRadiusHover = 6;
 
 /* Format Data */
 var parseDate = d3.timeParse("%Y");
-data.forEach(function(d) { 
+data.forEach(function(d) {
   d.values.forEach(function(d) {
     d.date = parseDate(d.date);
-    d.price = +d.price;    
+    d.price = +d.price;
   });
 });
 
@@ -633,20 +617,20 @@ data.forEach(function(d) {
 /* Scale */
 var xScale = d3.scaleTime()
   .domain(d3.extent(data[0].values, d => d.date))
-  .range([0, width-margin]);
+  .range([0, width-margin.left-margin.right]);
 
 var yScale = d3.scaleLinear()
   .domain([0, d3.max(data[0].values, d => d.price)])
-  .range([height-margin, 0]);
+  .range([height-margin.top - margin.bottom, 0]);
 
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 /* Add SVG */
 var svg = d3.select("#chart").append("svg")
-  .attr("width", (width+margin)+"px")
-  .attr("height", (height+margin)+"px")
+  .attr("width", (width + margin.left + margin.right)+"px")
+  .attr("height", (height+margin.top + margin.bottom)+"px")
   .append('g')
-  .attr("transform", `translate(${margin}, ${margin})`);
+  .attr("transform", `translate(${margin.left}, ${margin.right})`);
 
 
 /* Add line into SVG */
@@ -660,43 +644,14 @@ let lines = svg.append('g')
 lines.selectAll('.line-group')
   .data(data).enter()
   .append('g')
-  .attr('class', 'line-group')  
-  .on("mouseover", function(d, i) {
-      svg.append("text")
-        .attr("class", "title-text")
-        .style("fill", color(i))        
-        .text(d.name)
-        .attr("text-anchor", "middle")
-        .attr("x", (width-margin)/2)
-        .attr("y", 5);
-    })
-  .on("mouseout", function(d) {
-      svg.select(".title-text").remove();
-    })
+  .attr('class', 'line-group')
+
   .append('path')
-  .attr('class', 'line')  
+  .attr('class', 'line')
   .attr('d', d => line(d.values))
   .style('stroke', (d, i) => color(i))
   .style('opacity', lineOpacity)
-  .on("mouseover", function(d) {
-      d3.selectAll('.line')
-					.style('opacity', otherLinesOpacityHover);
-      d3.selectAll('.circle')
-					.style('opacity', circleOpacityOnLineHover);
-      d3.select(this)
-        .style('opacity', lineOpacityHover)
-        .style("stroke-width", lineStrokeHover)
-        .style("cursor", "pointer");
-    })
-  .on("mouseout", function(d) {
-      d3.selectAll(".line")
-					.style('opacity', lineOpacity);
-      d3.selectAll('.circle')
-					.style('opacity', circleOpacity);
-      d3.select(this)
-        .style("stroke-width", lineStroke)
-        .style("cursor", "none");
-    });
+  ;
 
 
 /* Add circles in the line */
@@ -707,40 +662,26 @@ lines.selectAll("circle-group")
   .selectAll("circle")
   .data(d => d.values).enter()
   .append("g")
-  .attr("class", "circle")  
-  .on("mouseover", function(d) {
-      d3.select(this)     
-        .style("cursor", "pointer")
-        .append("text")
-        .attr("class", "text")
-        .text(`${d.price}`)
-        .attr("x", d => xScale(d.date) + 5)
-        .attr("y", d => yScale(d.price) - 10);
-    })
-  .on("mouseout", function(d) {
-      d3.select(this)
-        .style("cursor", "none")  
-        .transition()
-        .duration(duration)
-        .selectAll(".text").remove();
-    })
+  .attr("class", "circle")
+	.on("mouseover", function(d) {
+       div.transition()
+         .duration(200)
+         .style("opacity", .9);
+       div.html(d.date+ "<br/>" + d.price)
+         .style("left", (d3.event.pageX) + "px")
+         .style("top", (d3.event.pageY - 28) + "px");
+       })
+     .on("mouseout", function(d) {
+       div.transition()
+         .duration(500)
+         .style("opacity", 0);
+       })
   .append("circle")
   .attr("cx", d => xScale(d.date))
   .attr("cy", d => yScale(d.price))
   .attr("r", circleRadius)
   .style('opacity', circleOpacity)
-  .on("mouseover", function(d) {
-        d3.select(this)
-          .transition()
-          .duration(duration)
-          .attr("r", circleRadiusHover);
-      })
-    .on("mouseout", function(d) {
-        d3.select(this) 
-          .transition()
-          .duration(duration)
-          .attr("r", circleRadius);  
-      });
+  ;
 
 
 /* Add Axis into SVG */
@@ -749,7 +690,7 @@ var yAxis = d3.axisLeft(yScale).ticks(5);
 
 svg.append("g")
   .attr("class", "x axis")
-  .attr("transform", `translate(0, ${height-margin})`)
+  .attr("transform", `translate(0, ${height-margin.top-margin.bottom})`)
   .call(xAxis);
 
 svg.append("g")
