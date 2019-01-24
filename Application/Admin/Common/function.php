@@ -33,6 +33,7 @@ function getAllData(){
 	/* cal total incomplete income  */
 	$ongoingsalary = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->where('db_guest_order.g_state != 2 OR db_worker_order.w_state != 3')->sum('db_worker_order.w_payment');
 	$ongoingrevenuesarr  = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.moneytype,SUM(db_orders.totalprice) as revenues')->where('db_guest_order.g_state != 2 OR db_worker_order.w_state != 3')->group('db_orders.moneytype')->select();
+  $ordermindate = $ORDER->min('createtime');
 	if($salary == ''){
 	$salary = 0;
 	}
@@ -65,10 +66,14 @@ function getAllData(){
 	  $ongoingrevenues = $ongoingrevenues + $v['revenues']*$item['rating'];
 	  //echo $v['revenues']*$item['rating'];
 	}
-    $ongoingprofit = $ongoingrevenues - $ongoingsalary;
-	return array($revenues, $salary, $profit, $revenuesarrnew,$ordernum,$ongoingrevenues,$ongoingsalary,$ongoingprofit,$ongoingrevenuesarrnew);
-	
-	
+  $ongoingprofit = $ongoingrevenues - $ongoingsalary;
+  $datetime_start = new \DateTime();
+  $datetime_end = new \DateTime($ordermindate);
+  $daystep = $datetime_start->diff($datetime_end)->days;
+  $profitavg = round($profit/$daystep);
+	return array($revenues, $salary, $profit, $revenuesarrnew,$ordernum,$ongoingrevenues,$ongoingsalary,$ongoingprofit,$ongoingrevenuesarrnew,$profitavg);
+
+
 }
 /*get year data*/
 function getYearData($year){
@@ -76,18 +81,19 @@ function getYearData($year){
 	$ORDER = M('orders');
 	$fromdate = date('Y-m-d', strtotime($year."-01-01")); //start of year
 	$todate = date('Y-m-d', strtotime($year."-12-31"));//end of year
-    
+
     $datetime_start = new \DateTime();
     $datetime_end = new \DateTime($fromdate);
-    
+
     $daystep = $datetime_start->diff($datetime_end)->days;
     //var_dump($datetime_start->diff($datetime_end));
-    
+
     $year_ordernum = $ORDER->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->count();
-    
+    $year_revenuescc  = $ORDER->field('db_orders.moneytype,SUM(db_orders.totalprice) as revenues')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('db_orders.moneytype')->select();
+
 	$year_revenuesarr  = $ORDER->field('DATE_FORMAT(db_orders.createtime,"%Y-%m") as createday,db_orders.moneytype,SUM(db_orders.totalprice) as revenues')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%Y-%m"),db_orders.moneytype')->select();
-	//print_r($year_revenuesarr);
-    
+	//print_r($year_revenuescc);
+
 
 
 	$year_revenuearray = [];
@@ -127,6 +133,7 @@ function getYearData($year){
 	$res["createyear"] = $year;
 	$res["salarysum"] = $salarysum;
 	$res["revenuesum"]=$revenuesum;
+  $res["moneyinfo"] = $year_revenuescc;
 	$res["profitsum"]=($revenuesum - $salarysum);
     $res["ordernum"] = $year_ordernum;
     $res["profitavg"] = round($res["profitsum"]/$daystep, 3);

@@ -31,15 +31,16 @@ class DashboardController extends CommonController {
         $this->assign('profit',$res[2]);
         $this->assign('revenuesarr',$res[3]);
         $this->assign('ordernum',$res[4]);
-        
+
 
         $this->assign('ongoingrevenues',$res[5]);
         $this->assign('ongoingsalary',$res[6]);
         $this->assign('ongoingprofit',$res[7]);
         $this->assign('ongoingrevenuesarr',$res[8]);
+        $this->assign('profitavg',$res[9]);
 
         $this->assign('cydata',$cydata);//current day data info
-        $this->assign('cydatamoney',$cydata['datas']);
+
         //print_r($cydata);
 
         $fromdate = date("Y-m-d");
@@ -60,7 +61,7 @@ class DashboardController extends CommonController {
       	$this->error(C('LOGIN_ERROR'), U('Login/index'),3);
       }
     }
-	
+
     public function getDayData(){
       $daydata = I('post.daytime','','htmlspecialchars');//
       $datas = getDayData($daydata);

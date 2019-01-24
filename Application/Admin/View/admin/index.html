@@ -244,7 +244,7 @@
 						</div>
 						<div class="details">
 							<div class="number">
-								 {$profit}<i class="fa fa-cny"></i>
+								 {$cydata.profitsum} <i class="fa fa-cny"></i>
 							</div>
 							<div class="desc">
 								 Profit/{$todayyear}
@@ -308,44 +308,52 @@
 						<div class="portlet-body">
 							<div class="portlet-body">
 								<div class="row static-info">
-									<div class="col-md-5 name">
+									<div class="col-md-6 name">
 										 Revenues (all completed):
 									</div>
-									<div class="col-md-7 value">
+									<div class="col-md-6 value">
 										 <i class="fa fa-paper-plane"></i> {$revenues} RMB
 									</div>
 								</div>
 								<foreach name="revenuesarr" item="vo">
 									<div class="row static-info">
-										<div class="col-md-5 name">
+										<div class="col-md-6 name">
 										</div>
-										<div class="col-md-7 value">
+										<div class="col-md-6 value">
 											 <small><i class="fa fa-check-square-o"></i> {$vo['revenues']} {$vo['moneytype']} </small><span class="label label-sm label-info"> {$vo['rating']} </span>
 										</div>
 									</div>
 								</foreach>
 								<div class="row static-info">
-									<div class="col-md-5 name">
+									<div class="col-md-6 name">
 										 Profit (all completed):
 									</div>
-									<div class="col-md-7 value">
+									<div class="col-md-6 value">
 										 <i class="fa fa-paper-plane"></i> {$profit} RMB
 									</div>
 								</div>
 								<div class="row static-info">
-									<div class="col-md-5 name">
+									<div class="col-md-6 name">
 										 Worker Salary (all completed):
 									</div>
-									<div class="col-md-7 value">
+									<div class="col-md-6 value">
 										 <i class="fa fa-paper-plane"></i> {$salary} RMB
 									</div>
 								</div>
 								<div class="row static-info">
-									<div class="col-md-5 name">
+									<div class="col-md-6 name">
 										 No. completed Orders
 									</div>
-									<div class="col-md-7 value">
+									<div class="col-md-6 value">
 										 <i class="fa fa-paper-plane"></i> {$ordernum}
+									</div>
+								</div>
+								<div class="row static-info">
+									<div class="col-md-6 name">
+										 Average Profig/day (all completed):
+									</div>
+									<div class="col-md-6 value">
+										 <i class="fa fa-paper-plane"></i> {$profitavg} RMB
 									</div>
 								</div>
 								<hr>
@@ -357,15 +365,17 @@
 										 <i class="fa fa-paper-plane"></i> {$ongoingrevenues} RMB
 									</div>
 								</div>
-								<foreach name="ongoingrevenuesarr" item="vo">
+
 									<div class="row static-info">
 										<div class="col-md-5 name">
 										</div>
 										<div class="col-md-7 value">
-											 <small><i class="fa fa-check-square-o"></i> {$vo['revenues']} {$vo['moneytype']} </small><span class="label label-sm label-info"> {$vo['rating']} </span>
+											<foreach name="ongoingrevenuesarr" item="vo">
+											 <small><i class="fa fa-check-square-o"></i> {$vo['revenues']} {$vo['moneytype']} </small>
+											</foreach>
 										</div>
 									</div>
-								</foreach>
+
 								<div class="row static-info">
 									<div class="col-md-5 name">
 										 Profit (ongoing):
@@ -409,51 +419,45 @@
 						<div class="portlet-body">
 							<div class="portlet-body">
 								<div class="row static-info">
-									<div class="col-md-5 name">
+									<div class="col-md-4 name">
 										 Revenues :
 									</div>
-									<div class="col-md-7 value">
+									<div class="col-md-8 value">
 										<i class="fa fa-paper-plane"></i> {$cydata.revenuesum} RMB
+										<foreach name="cydata.moneyinfo" item="vo">
+											<small><i class="fa fa-check-square-o"></i> {$vo['moneytype']} {$vo['revenues']} </small>
+										</foreach>
 									</div>
 								</div>
-								<foreach name="cydata.datas" item="vo">
-									<div class="row static-info">
-										<div class="col-md-5 name">
-										</div>
-										<div class="col-md-7 value">
-											 <small><i class="fa fa-check-square-o"></i> {$key} {$vo['moneytype']} </small><span class="label label-sm label-info"> {$vo['rating']} </span>
-										</div>
-									</div>
-								</foreach>
 								<div class="row static-info">
-									<div class="col-md-5 name">
+									<div class="col-md-4 name">
 										 Profit :
 									</div>
-									<div class="col-md-7 value">
+									<div class="col-md-8 value">
 										 <i class="fa fa-paper-plane"></i> {$cydata.profitsum} RMB
 									</div>
 								</div>
 								<div class="row static-info">
-									<div class="col-md-5 name">
+									<div class="col-md-4 name">
 										 Worker Salary :
 									</div>
-									<div class="col-md-7 value">
+									<div class="col-md-8 value">
 										 <i class="fa fa-paper-plane"></i> {$cydata.salarysum} RMB
 									</div>
 								</div>
 								<div class="row static-info">
-									<div class="col-md-5 name">
+									<div class="col-md-4 name">
 										 No. Orders :
 									</div>
-									<div class="col-md-7 value">
+									<div class="col-md-8 value">
 										 <i class="fa fa-paper-plane"></i> {$cydata.ordernum}
 									</div>
 								</div>
 								<div class="row static-info">
-									<div class="col-md-5 name">
-										 Average profit per day :
+									<div class="col-md-4 name">
+										 Average profit/day :
 									</div>
-									<div class="col-md-7 value">
+									<div class="col-md-8 value">
 										 <i class="fa fa-paper-plane"></i> {$cydata.profitavg}
 									</div>
 								</div>
@@ -469,58 +473,57 @@
 							<div class="caption">
 								<i class="icon-share font-red-sunglo hide"></i>
 								<span class="caption-subject font-red-sunglo bold uppercase">Day statistic</span>
-								<span class="caption-helper">Day Section statistic...</span>
 							</div>
 						</div>
 						<div class="portlet-body">
 							<div class="row">
 								<div class="col-md-12 col-sm-12">
 									<div class="input-group ">
-											<div class="input-group date form_meridian_date" data-date="2012-12-21T15:25:00Z">
-												<input name="daysearchinput" type="text" size="10" class="form-control input-inline input-medium" placeholder="Day" value="{$today}" readonly>
+											<div class="input-group date form_meridian_date input-small" data-date="2012-12-21T15:25:00Z">
+												<input name="daysearchinput" type="text" size="10" class="form-control input-inline" placeholder="Day" value="{$today}" readonly>
 												<span class="input-group-btn">
-												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>											
+												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
 												</span>
 											</div>
 											<div class="input-group-btn input-large">
 												<button class="btn yellow table-group-action-submit" id="daysearchbtn"><i class="fa fa-search"></i></button>
 											</div>
-											
+
 											<!-- /input-group -->
 									</div>
 								</div>
 								<div class="col-md-12 col-sm-12 ">
 									<div class="row static-info">
-										<div class="col-md-5 name">
+										<div class="col-md-6 name">
 											 Revenues:
 										</div>
-										<div class="col-md-7 value">
+										<div class="col-md-6 value">
 											 <i class="fa fa-paper-plane" ></i><span id="dayrevenues"></span>
 										</div>
 									</div>
 									<div id="daydatalist">
 									</div>
 									<div class="row static-info">
-										<div class="col-md-5 name">
+										<div class="col-md-6 name">
 											 Profit :
 										</div>
-										<div class="col-md-7 value">
+										<div class="col-md-6 value">
 											 <i class="fa fa-paper-plane"></i>  <span id="dayprofit"></span>
 										</div>
 									</div>
 									<div class="row static-info">
-										<div class="col-md-5 name">
+										<div class="col-md-6 name">
 											 Worker Salary :
 										</div>
-										<div class="col-md-7 value">
+										<div class="col-md-6 value">
 											 <i class="fa fa-paper-plane"></i> <span id="daysalary"></span>
 										</div>
 									</div>
 									<div class="row static-info">
-										<div class="col-md-5 name">
+										<div class="col-md-6 name">
 											 No. Order :
 										</div>
-										<div class="col-md-7 value">
+										<div class="col-md-6 value">
 											 <i class="fa fa-paper-plane"></i> <span id="dayordernum"></span>
 										</div>
 									</div>
@@ -538,7 +541,6 @@
 							<div class="caption">
 								<i class="icon-share font-blue-steel hide"></i>
 								<span class="caption-subject font-blue-steel bold uppercase">Tools Quick link</span>
-								<span class="caption-helper"> Tools Quick link...</span>
 							</div>
 						</div>
 						<div class="portlet-body">
@@ -582,16 +584,19 @@
 									<div class="col-md-12 col-sm-12">
 										<div class="form-group">
 											<div class="col-md-3 col-sm-12">
-												<div class="input-group input-medium date date-picker" data-date="{$todaymonth}" data-date-format="yyyy-mm" data-date-viewmode="years" data-date-minviewmode="months">
-													<input type="text" class="form-control" name="monthsearchinput" width="80%" value="{$todaymonth}" readonly />
-													<span class="input-group-btn">
-													<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-													</span>
+												<div class="input-group ">
+													<div class="input-group input-medium date date-picker" data-date="{$todaymonth}" data-date-format="yyyy-mm" data-date-viewmode="years" data-date-minviewmode="months">
+														<input type="text" class="form-control" name="monthsearchinput" width="80%" value="{$todaymonth}" readonly />
+														<span class="input-group-btn">
+														<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+														</span>
+													</div>
+													<div class="input-group-btn input-large">
+														<button class="btn yellow table-group-action-submit" id="monthsearchbtn"><i class="fa fa-search"></i></button>
+													</div>
 												</div>
+
 												<!-- /input-group -->
-											</div>
-											<div class="col-md-1 col-sm-12">
-												<button class="btn yellow table-group-action-submit" id="monthsearchbtn"><i class="fa fa-search"></i></button>
 											</div>
 											<div class="col-md-4 col-sm-12">
 												<h3 class="text-right"><i class="fa fa-calendar"></i> <span id="monthspan"></span></h3>
@@ -636,8 +641,8 @@
 									<div class="col-md-12 col-sm-12">
 										<div class="form-group">
 											<div class="col-md-3 col-sm-12 text-right">
-												<div class="dataTables_paginate paging_bootstrap_extended" id="datatable_orders_paginate">
-													<select class="table-group-action-input form-control input-inline input-small input-sm" name="yearinput">
+												<div class="input-group ">
+													<select class="form-control input-inline input-medium" name="yearinput">
 														<option value="2018">2018</option>
 														<option value="2019" selected>2019</option>
 														<option value="2020">2020</option>
@@ -735,7 +740,7 @@
 			$("#dayrevenues").text("  " + data.today_revenues + " RMB");
 			if(data.today_alldata != null){
 				for(var i=0;i< data.today_alldata.length;i++){
-					var cell='<div class="row static-info"><div class="col-md-5 name"></div><div class="col-md-7 value"><small><i class="fa fa-check-square-o"></i> ' + data['today_alldata'][i].revenues + " " + data['today_alldata'][i].moneytype +  '</small></div></div>';
+					var cell='<small><i class="fa fa-check-square-o"> </i> ' + data['today_alldata'][i].revenues + " " + data['today_alldata'][i].moneytype +  ' </small> ';
 					$("#daydatalist").append(cell);
 				}
 			}
