@@ -10,7 +10,27 @@
 	<!-- END PAGE STYLES -->
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 	<script src="__PUBLIC__/metronic3_7/assets/admin/layout/scripts/tooltip.js"></script>
-	<link href="__PUBLIC__/metronic3_7/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+	<!-- <link href="__PUBLIC__/metronic3_7/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/> -->
+	<style type="text/css">
+svg {
+    font-family: Sans-Serif, Arial;
+}
+.line {
+  stroke-width: 2;
+  fill: none;
+}
+
+.axis path {
+  stroke: black;
+}
+.text {
+  font-size: 12px;
+}
+
+.title-text {
+  font-size: 12px;
+}
+</style>
 </block>
 <block name="siderbarmenu">
 	<ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
@@ -47,12 +67,12 @@
 			<span class="arrow open"></span>
 			</a>
 			<ul class="sub-menu">
-				<li class="active">
+				<li>
 					<a href="{:U('Dashboard/index');}">
 					<i class="icon-bar-chart"></i>
 					Default Dashboard</a>
 				</li>
-				<li>
+				<li class="active">
 					<a href="{:U('Dashboard/showDataAnalysis');}">
 					<i class="icon-bar-chart"></i>
 					Data Analysis</a>
@@ -231,10 +251,10 @@
 						</div>
 						<div class="details">
 							<div class="number">
-								 {$cydata.revenuesum} <i class="fa fa-cny"></i>
+								 {$revenues} <i class="fa fa-cny"></i>
 							</div>
 							<div class="desc">
-								 Revenues/{$todayyear}
+								 Revenues/total
 							</div>
 						</div>
 						<a class="more" href="javascript:;">
@@ -249,10 +269,10 @@
 						</div>
 						<div class="details">
 							<div class="number">
-								 {$cydata.profitsum} <i class="fa fa-cny"></i>
+								 {$profit} <i class="fa fa-cny"></i>
 							</div>
 							<div class="desc">
-								 Profit/{$todayyear}
+								 Profit/total
 							</div>
 						</div>
 						<a class="more" href="javascript:;">
@@ -429,163 +449,7 @@
 					</div>
 				<!-- END PORTLET-->
 			</div>
-				<div class="col-md-6 col-sm-6">
-				<!-- BEGIN PORTLET-->
-					<div class="portlet light ">
-						<div class="portlet-title">
-							<div class="caption">
-								<i class="icon-bar-chart font-green-sharp hide"></i>
-								<span class="caption-subject font-green-sharp bold uppercase"> {$todayyear} (current year) statistic</span>
-								<span class="caption-helper">current year statistic...</span>
-							</div>
-						</div>
-						<div class="portlet-body">
-							<div class="portlet-body">
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Revenues :
-									</div>
-									<div class="col-md-8 value">
-										<i class="fa fa-paper-plane"></i> {$cydata.revenuesum} RMB
-										<foreach name="cydata.moneyinfo" item="vo">
-											<small><i class="fa fa-check-square-o"></i> {$vo['moneytype']} {$vo['revenues']} </small>
-										</foreach>
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Profit :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.profitsum} RMB
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Worker Salary :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.salarysum} RMB
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 No. Orders :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.ordernum}
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Average profit/day :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.profitavg}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				<!-- END PORTLET-->
-				</div>
-				<div class="col-md-3 col-sm-3">
-					<!-- BEGIN PORTLET-->
-					<div class="portlet light ">
-						<div class="portlet-title">
-							<div class="caption">
-								<i class="icon-share font-red-sunglo hide"></i>
-								<span class="caption-subject font-red-sunglo bold uppercase">Day statistic</span>
-							</div>
-						</div>
-						<div class="portlet-body">
-							<div class="row">
-								<div class="col-md-12 col-sm-12">
-									<div class="input-group ">
-											<div class="input-group date form_meridian_date input-small" data-date="2012-12-21T15:25:00Z">
-												<input name="daysearchinput" type="text" size="10" class="form-control input-inline" placeholder="Day" value="{$today}" readonly>
-												<span class="input-group-btn">
-												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
-											</div>
-											<div class="input-group-btn input-large">
-												<button class="btn yellow table-group-action-submit" id="daysearchbtn"><i class="fa fa-search"></i></button>
-											</div>
-
-											<!-- /input-group -->
-									</div>
-								</div>
-								<div class="col-md-12 col-sm-12 ">
-									<div class="row static-info">
-										<div class="col-md-6 name">
-											 Revenues:
-										</div>
-										<div class="col-md-6 value">
-											 <i class="fa fa-paper-plane" ></i><span id="dayrevenues"></span>
-										</div>
-									</div>
-									<div id="daydatalist">
-									</div>
-									<div class="row static-info">
-										<div class="col-md-6 name">
-											 Profit :
-										</div>
-										<div class="col-md-6 value">
-											 <i class="fa fa-paper-plane"></i>  <span id="dayprofit"></span>
-										</div>
-									</div>
-									<div class="row static-info">
-										<div class="col-md-6 name">
-											 Worker Salary :
-										</div>
-										<div class="col-md-6 value">
-											 <i class="fa fa-paper-plane"></i> <span id="daysalary"></span>
-										</div>
-									</div>
-									<div class="row static-info">
-										<div class="col-md-6 name">
-											 No. Order :
-										</div>
-										<div class="col-md-6 value">
-											 <i class="fa fa-paper-plane"></i> <span id="dayordernum"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</div>
-				<!-- END PORTLET-->
-				<div class="col-md-3 col-sm-3">
-					<!-- BEGIN PORTLET-->
-					<div class="portlet light ">
-						<div class="portlet-title">
-							<div class="caption">
-								<i class="icon-share font-blue-steel hide"></i>
-								<span class="caption-subject font-blue-steel bold uppercase">Tools Quick link</span>
-							</div>
-						</div>
-						<div class="portlet-body">
-							<div class="portlet-body">
-								<div class="portlet-body">
-									<div class="row static-info">
-										<div class="col-md-12 name">
-											<a href="{:U('Tool/exchangeToolPage');}" target="_blank" class="btn btn-block purple"> 1. Exchange Transfer Tools <i class="fa fa-link"></i></a>
-										</div>
-										<div class="col-md-12 name">
-											<a href="{:U('Api/tradeApi');}" target="_blank" class="btn btn-block red"> 2. Trade information api <i class="fa fa-link"></i></a>
-										</div>
-									</div>
-									<hr/>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</div>
-				<!-- END PORTLET-->
-				<div class="col-md-12 col-sm-12">
+				<div class="col-md-6 col-sm-12">
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
@@ -637,70 +501,15 @@
 											</div>
 										</div>
 									</div>
-									<div id="chart_month" class="chart" style="padding: 0px; position: relative;width:100%;height: 400px;"></div>
+									<div id="ccchart" class="linechart" style="padding: 0px; position: relative;width:100%;height: 400px;">
+									</div>
+									<div id="chart"></div>
 								</div>
 
 							</div>
 						</div>
 				</div>
-				<div class="col-md-12 col-sm-12">
-						<div class="portlet box green">
-							<div class="portlet-title">
-								<div class="caption">
-									<i class="fa fa-gift"></i> One Year statistic <small>12 monthes of one year</small>
-								</div>
-								<div class="tools">
-									<a href="javascript:;" class="collapse" data-original-title="" title="">
-									</a>
-									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
-									</a>
-									<a href="javascript:;" class="reload" data-original-title="" title="">
-									</a>
-									<a href="javascript:;" class="remove" data-original-title="" title="">
-									</a>
-								</div>
-							</div>
-							<div class="portlet-body form">
-								<div class="row">
-									<div class="col-md-12 col-sm-12">
-										<div class="form-group">
-											<div class="col-md-3 col-sm-12 text-right">
-												<div class="input-group ">
-													<select class="form-control input-inline input-medium" name="yearinput">
-														<option value="2018">2018</option>
-														<option value="2019" selected>2019</option>
-														<option value="2020">2020</option>
-														<option value="2021">2021</option>
-														<option value="2022">2022</option>
-													</select>
-												</div>
-												<!-- /input-group -->
-											</div>
-											<div class="col-md-1 col-sm-12">
-												<button class="btn yellow table-group-action-submit" id="yearsearchbtn"><i class="fa fa-search"></i></button>
-											</div>
-											<div class="col-md-4 col-sm-12">
-												<h3 class="text-right"><i class="fa fa-calendar"></i> <span id="yearspan"></span></h3>
-											</div>
-											<div class="col-md-4 col-sm-12">
-												<div class="tile bg-red-sunglo">
-													<div class="tile-body" style="padding-left:2%;padding-top:2%;padding-bottom:2%">
-														<h4>Salary/mon: <span id="yearsalarysum"></span></h4>
-															<h4>Profit/mon: <span id="yearprofitsum"></span></h4>
-															<h4>Revenues/mon: <span id="yearrevenuessum"></span></h4>
-
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div id="chart_year" class="chart" style="padding: 0px; position: relative;width:100%;height: 400px;">
-									</div>
-								</div>
-
-							</div>
-						</div>
-				</div>
+				
 			</div>
 			<div class="clearfix">
 			</div>
@@ -741,189 +550,216 @@
 			Demo.init(); // init demo features
 			ComponentsPickers.init();
         });
-		/* date data */
-		function get_datedata_query(day){
-			var data = {};
-			data.daytime = day;
-			var url='__URL__/getDayData';
-			$.ajax({
-				type:"post",
-				url:url,
-				data:data,
-				dataType:"json",
-				success: function aa(data) {
-					  //showstorelist(data.stores);
-						//console.log(data);
-						showDayData(data);
-				}
-			});
-		}
-		function showDayData(data){
-			$("#dayrevenues").html("");
-			$("#daydatalist").html("");
-			$("#dayrevenues").text("  " + data.today_revenues + " RMB");
-			if(data.today_alldata != null){
-				for(var i=0;i< data.today_alldata.length;i++){
-					var cell='<small><i class="fa fa-check-square-o"> </i> ' + data['today_alldata'][i].revenues + " " + data['today_alldata'][i].moneytype +  ' </small> ';
-					$("#daydatalist").append(cell);
-				}
-			}
 
-			$("#dayprofit").text("  " + data.today_profit + " RMB");
-			if(data.today_salary == null){
-				data.today_salary = 0;
-			}
-			if(data.today_ordernum == null){
-				data.today_ordernum = 0;
-			}
-			$("#daysalary").text("  " + data.today_salary + " RMB");
-			$("#dayordernum").text("  " + data.today_ordernum);
-		}
-		var day  = $("input[name='daysearchinput']").val();
-
-		get_datedata_query(day);
-		$("#daysearchbtn").click(function(){
-			var data = {};
-			var day = $("input[name='daysearchinput']").val();
-			get_datedata_query(day);
-			//console.log(day);
-
-		});
-		/* month data  */
-		function get_monthdata_query(day){
-			var data = {};
-			data.daytime = day;
-			var url='__URL__/getMonthData';
-			$.ajax({
-				type:"post",
-				url:url,
-				data:data,
-				dataType:"json",
-				success: function aa(data) {
-					  //showstorelist(data.stores);
-						console.log(data);
-						drawProfitBar(data.datas,"#chart_month");
-						$("#monthsalarysum").text("  " + data.salarysum + " RMB");
-						$("#monthprofitsum").text("  " + data.profitsum + " RMB");
-						$("#monthrevenuessum").text("  " + data.revenuesum + " RMB");
-						$("#monthprofitavg").text("  " + data.profitavg + " RMB");
-						$("#monthspan").text(data.createdate);
-						//showDayData(data);
-				}
-			});
-		}
-		var month = $("input[name='monthsearchinput']").val();
-		get_monthdata_query(month);
-		$("#monthsearchbtn").click(function(){
-			var data = {};
-			var month = $("input[name='monthsearchinput']").val();
-			get_monthdata_query(month);
-			//console.log(day);
-		});
-		/* get year */
-		function get_yeardata_query(day){
-			var data = {};
-			data.daytime = day;
-			var url='__URL__/getYearData';
-			$.ajax({
-				type:"post",
-				url:url,
-				data:data,
-				dataType:"json",
-				success: function aa(data) {
-					  //showstorelist(data.stores);
-						console.log(data);
-						drawProfitBar(data.datas,"#chart_year");
-						//drawProfitBar(data.datas);
-						$("#yearsalarysum").text("  " + data.salarysum + " RMB");
-						$("#yearprofitsum").text("  " + data.profitsum + " RMB");
-						$("#yearrevenuessum").text("  " + data.revenuesum + " RMB");
-						$("#yearspan").text(data.createyear);
-						//showDayData(data);
-				}
-			});
-		}
-		get_yeardata_query('2019');
-		$("#yearsearchbtn").click(function(){
-			var data = {};
-			var year = $("select[name='yearinput']").val();
-			get_yeardata_query(year)
-			console.log(year);
-		});
-		</script>
-		<script>
-			/*
-			var data = [
-    {name:'A',count:64,description:"This is column A!"},
-    {name:'B',count:32,description:"This is column B!"},
-    {name:'C',count:16,description:"This is column C!"},
-    {name:'D',count:8,description:"This is column D!"},
-    {name:'E',count:4,description:"This is column E!"},
-    {name:'F',count:2,description:"This is column F!"},
-];*/
-function drawProfitBar(data,chartname){
-
-	// Draw a basic bar chart
-	var wd = $(chartname).width();
-	var wh = $(chartname).height();
-	var margin = {top:20, left:60, bottom:70, right:20};
-	var height = wh - margin.top - margin.bottom,
-	    width = wd - margin.left - margin.right;
-  $(chartname).html("");
-	var svg = d3.select(chartname)
-	        .append("svg")
-	        .attr("height", height + margin.top + margin.bottom)
-	        .attr("width", width + margin.left + margin.right)
-	        .style("cursor","default")
-	        .append("g")
-	        .attr("transform","translate(" + margin.left + "," + margin.top + ")");
-
-	var x = d3.scaleBand()
-	    .domain(data.map(function(d) { return d.createday;}))
-	    .range([0,width])
-	    .padding(.1);
-	var flagv = Math.max.apply(Math,data.map(function(o){return o.profit;}))
-	var y = d3.scaleLinear()
-	    .domain([0,flagv])
-	    .range([height,0]);
-
-	var color = d3.scaleOrdinal(d3.schemeCategory10)
-	    .domain(x.domain())
+var data = [
+  {
+    name: "USA",
+    values: [
+      {date: "2000", price: "100"},
+      {date: "2001", price: "110"},
+      {date: "2002", price: "145"},
+      {date: "2003", price: "241"},
+      {date: "2004", price: "101"},
+      {date: "2005", price: "90"},
+      {date: "2006", price: "10"},
+      {date: "2007", price: "35"},
+      {date: "2008", price: "21"},
+      {date: "2009", price: "201"},
+      {date: "2010", price: "100"},
+      {date: "2011", price: "110"},
+      {date: "2012", price: "145"},
+      {date: "2013", price: "241"},
+      {date: "2014", price: "101"},
+      {date: "2015", price: "90"},
+      {date: "2016", price: "10"},
+      {date: "2017", price: "35"},
+      {date: "2018", price: "21"},
+      {date: "2019", price: "201"}
+    ]
+  },
+  {
+    name: "Canada",
+    values: [
+      {date: "2000", price: "200"},
+      {date: "2001", price: "120"},
+      {date: "2002", price: "33"},
+      {date: "2003", price: "21"},
+      {date: "2004", price: "51"},
+      {date: "2005", price: "190"},
+      {date: "2006", price: "120"},
+      {date: "2007", price: "85"},
+      {date: "2008", price: "221"},
+      {date: "2009", price: "101"}
+    ]
+  },
+  {
+    name: "Maxico",
+    values: [
+      {date: "2000", price: "50"},
+      {date: "2001", price: "10"},
 
 
-	var tooltip = d3.tooltip() // returns the tooltip function
-	    .extent([[0,0],[width,height]]) // tells the tooltip how much area it has to work with
-	    .tips(["createday","profit","salary","revenuearray"],["CreateDate: ","Profit: ","Salary: ","Revenue: "]) // tells the tooltip which properties to display in the tip and what to label thme
-	    .fontSize(12) // sets the font size for the tooltip
-	    .padding([8,4]) // sets the amount of padding in the tooltip rectangle
-	    .margin([10,10]); // set the distance H and V to keep the tooltip from the mouse pointer
+    ]
+  }
+];
 
-	svg.selectAll(".bar")
-	    .data(data)
-	    .enter()
-	    .append("rect")
-	    .attr("x", function(d) { return x(d.createday)})
-	    .attr("y", function(d) { return y(d.profit)})
-	    .attr("width", x.bandwidth())
-	    .attr("height", function(d) { return height - y(d.profit)})
-	    .attr("fill", function(d) { return color(d.createday)})
-	    .each(tooltip.events); // attaches the tooltips mouseenter/leave/move events but does not overwrite previously attached events
+var width = 500;
+var height = 500;
+var margin = 150;
+var duration = 250;
 
-	svg.append("g")
-	    .attr("transform", "translate(0," + height + ")")
-	    .call(d3.axisBottom(x))
-			.selectAll("text")
-        .style("text-anchor", "end")
-        .attr("dx", "-.8em")
-        .attr("dy", ".15em")
-        .attr("transform", "rotate(-65)");
+var lineOpacity = "0.25";
+var lineOpacityHover = "0.85";
+var otherLinesOpacityHover = "0.1";
+var lineStroke = "1.5px";
+var lineStrokeHover = "2.5px";
 
-	svg.append("g")
-	    .call(d3.axisLeft(y));
+var circleOpacity = '0.85';
+var circleOpacityOnLineHover = "0.25"
+var circleRadius = 3;
+var circleRadiusHover = 6;
 
-	svg.call(tooltip) // draws the tooltip;
-}
 
+/* Format Data */
+var parseDate = d3.timeParse("%Y");
+data.forEach(function(d) { 
+  d.values.forEach(function(d) {
+    d.date = parseDate(d.date);
+    d.price = +d.price;    
+  });
+});
+
+
+/* Scale */
+var xScale = d3.scaleTime()
+  .domain(d3.extent(data[0].values, d => d.date))
+  .range([0, width-margin]);
+
+var yScale = d3.scaleLinear()
+  .domain([0, d3.max(data[0].values, d => d.price)])
+  .range([height-margin, 0]);
+
+var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+/* Add SVG */
+var svg = d3.select("#chart").append("svg")
+  .attr("width", (width+margin)+"px")
+  .attr("height", (height+margin)+"px")
+  .append('g')
+  .attr("transform", `translate(${margin}, ${margin})`);
+
+
+/* Add line into SVG */
+var line = d3.line()
+  .x(d => xScale(d.date))
+  .y(d => yScale(d.price));
+
+let lines = svg.append('g')
+  .attr('class', 'lines');
+
+lines.selectAll('.line-group')
+  .data(data).enter()
+  .append('g')
+  .attr('class', 'line-group')  
+  .on("mouseover", function(d, i) {
+      svg.append("text")
+        .attr("class", "title-text")
+        .style("fill", color(i))        
+        .text(d.name)
+        .attr("text-anchor", "middle")
+        .attr("x", (width-margin)/2)
+        .attr("y", 5);
+    })
+  .on("mouseout", function(d) {
+      svg.select(".title-text").remove();
+    })
+  .append('path')
+  .attr('class', 'line')  
+  .attr('d', d => line(d.values))
+  .style('stroke', (d, i) => color(i))
+  .style('opacity', lineOpacity)
+  .on("mouseover", function(d) {
+      d3.selectAll('.line')
+					.style('opacity', otherLinesOpacityHover);
+      d3.selectAll('.circle')
+					.style('opacity', circleOpacityOnLineHover);
+      d3.select(this)
+        .style('opacity', lineOpacityHover)
+        .style("stroke-width", lineStrokeHover)
+        .style("cursor", "pointer");
+    })
+  .on("mouseout", function(d) {
+      d3.selectAll(".line")
+					.style('opacity', lineOpacity);
+      d3.selectAll('.circle')
+					.style('opacity', circleOpacity);
+      d3.select(this)
+        .style("stroke-width", lineStroke)
+        .style("cursor", "none");
+    });
+
+
+/* Add circles in the line */
+lines.selectAll("circle-group")
+  .data(data).enter()
+  .append("g")
+  .style("fill", (d, i) => color(i))
+  .selectAll("circle")
+  .data(d => d.values).enter()
+  .append("g")
+  .attr("class", "circle")  
+  .on("mouseover", function(d) {
+      d3.select(this)     
+        .style("cursor", "pointer")
+        .append("text")
+        .attr("class", "text")
+        .text(`${d.price}`)
+        .attr("x", d => xScale(d.date) + 5)
+        .attr("y", d => yScale(d.price) - 10);
+    })
+  .on("mouseout", function(d) {
+      d3.select(this)
+        .style("cursor", "none")  
+        .transition()
+        .duration(duration)
+        .selectAll(".text").remove();
+    })
+  .append("circle")
+  .attr("cx", d => xScale(d.date))
+  .attr("cy", d => yScale(d.price))
+  .attr("r", circleRadius)
+  .style('opacity', circleOpacity)
+  .on("mouseover", function(d) {
+        d3.select(this)
+          .transition()
+          .duration(duration)
+          .attr("r", circleRadiusHover);
+      })
+    .on("mouseout", function(d) {
+        d3.select(this) 
+          .transition()
+          .duration(duration)
+          .attr("r", circleRadius);  
+      });
+
+
+/* Add Axis into SVG */
+var xAxis = d3.axisBottom(xScale).ticks(5);
+var yAxis = d3.axisLeft(yScale).ticks(5);
+
+svg.append("g")
+  .attr("class", "x axis")
+  .attr("transform", `translate(0, ${height-margin})`)
+  .call(xAxis);
+
+svg.append("g")
+  .attr("class", "y axis")
+  .call(yAxis)
+  .append('text')
+  .attr("y", 15)
+  .attr("transform", "rotate(-90)")
+  .attr("fill", "#000")
+  .text("Total values");
 
 
 
