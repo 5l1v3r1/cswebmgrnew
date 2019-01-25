@@ -465,7 +465,59 @@ div.tooltip {
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Single Month statistic
+									<i class="fa fa-gift"></i> Days of every Month statistic
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="reload" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								<div class="row">
+
+									<div id="daychart" style="padding: 0px; position: relative;width:100%;height: 550px;"></div>
+								</div>
+
+							</div>
+						</div>
+				</div>
+				<div class="col-md-6 col-sm-12">
+						<div class="portlet box green">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-gift"></i> Months of every Year statistic
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="reload" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								<div class="row">
+
+									<div id="monthchart" style="padding: 0px; position: relative;width:100%;height: 550px;"></div>
+								</div>
+
+							</div>
+						</div>
+				</div>
+				<div class="col-md-12 col-sm-12">
+						<div class="portlet box green">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-gift"></i> Years statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -518,6 +570,8 @@ div.tooltip {
 	<script src="__PUBLIC__/metronic3_7/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 	<script src="__PUBLIC__/metronic3_7/assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
 	<script src="__PUBLIC__/metronic3_7/assets/admin/pages/scripts/components-pickers.js"></script>
+	<script src="__PUBLIC__/data.formate.js"></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js'></script>
 
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<script>
@@ -528,179 +582,332 @@ div.tooltip {
 			Demo.init(); // init demo features
 			ComponentsPickers.init();
         });
+		get_daytoday_query("0","0");
+		function get_daytoday_query(fromdate,todate){
+			var data = {};
+			data.fromdate = fromdate;
+			data.todate = todate;
+			var url='__URL__/getDayToDay';
+			$.ajax({
+				type:"post",
+				url:url,
+				data:data,
+				dataType:"json",
+				success: function aa(data) {
+					  //showstorelist(data.stores);
+						var para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-12-31'),xtformate:"%m"};
+						drawLineChart(data,"#chart","profit",para);
+						
+				}
+			});
+		}
+		get_each_query("0","0");
+		function get_each_query(fromdate,todate){
+			var data = {};
+			data.fromdate = fromdate;
+			data.todate = todate;
+			var url='__URL__/getEachMonth';
+			$.ajax({
+				type:"post",
+				url:url,
+				data:data,
+				dataType:"json",
+				success: function aa(data) {
+		
+						para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-01-31'),xtformate:"%d"};
+						drawLineChart(data,"#daychart","profit",para)	;
+						
+				}
+			});
+		}
+	//drawLineChart(data,"#chart","price");
+		function drawLineChart(data,chartid,attrname,para){
+			var div = d3.select("body").append("div")
+				.attr("class", "tooltip")
+				.style("opacity", 0);
 
-var data = [
+			var wd = $(chartid).width();
+			var wh = $(chartid).height();
+			var margin = {top:20, left:60, bottom:10, right:20};
+			var height = wh - margin.top - margin.bottom,
+					width = wd - margin.left - margin.right;
+			console.log(width);
+			var duration = 50;
+
+			var lineOpacity = "0.25";
+			var lineOpacityHover = "0.85";
+			var otherLinesOpacityHover = "0.1";
+			var lineStroke = "1.5px";
+			var lineStrokeHover = "2.5px";
+
+			var circleOpacity = '0.85';
+			var circleOpacityOnLineHover = "0.25"
+			var circleRadius = 2;
+			var circleRadiusHover = 6;
+
+
+			/* Format Data */
+			var parseDate = d3.timeParse("%m-%d");
+			data.forEach(function(d) {
+			  d.values.forEach(function(d) {
+				d.createday = parseDate(d.createday);
+				d[attrname] = +d[attrname];
+			  });
+			});
+
+
+			/* Scale */
+		    var mindate = para.mindate;
+		    var maxdate = para.maxdate;
+			var xScale = d3.scaleTime()
+			  .domain([mindate,maxdate])
+			  .range([0, width-margin.left-margin.right]);
+			//console.log(d3.extent(data[0].values, d => d.createday));
+			var yScale = d3.scaleLinear()
+			  .domain([0, d3.max(data[0].values, d => d[attrname])])
+			  .range([height-margin.top - margin.bottom, 0]);
+
+			var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+			/* Add SVG */
+			var svg = d3.select(chartid).append("svg")
+			  .attr("width", (width + margin.left + margin.right)+"px")
+			  .attr("height", (height+margin.top + margin.bottom)+"px")
+			  .append('g')
+			  .attr("transform", `translate(${margin.left}, ${margin.right})`);
+
+
+			/* Add line into SVG */
+			var line = d3.line()
+			  .x(d => xScale(d.createday))
+			  .y(d => yScale(d[attrname]))
+              .curve(d3.curveCardinal);
+
+			let lines = svg.append('g')
+			  .attr('class', 'lines');
+
+			lines.selectAll('.line-group')
+			  .data(data).enter()
+			  .append('g')
+			  .attr('class', 'line-group')
+
+			  .append('path')
+			  .attr('class', 'line')
+			  .attr('d', d => line(d.values))
+			  .style('stroke', (d, i) => color(i))
+			  .style('opacity', lineOpacity)
+			  ;
+
+
+			/* Add circles in the line */
+			lines.selectAll("circle-group")
+			  .data(data).enter()
+			  .append("g")
+			  .style("fill", (d, i) => color(i))
+			  .selectAll("circle")
+			  .data(d => d.values).enter()
+			  .append("g")
+			  .attr("class", "circle")
+				.on("mouseover", function(d) {
+				   div.transition()
+					 .duration(200)
+					 .style("opacity", .9);
+				   	  div.html(d.fullcreateday+ "<br/>" +attrname + ":" +  d[attrname])
+					 .style("left", (d3.event.pageX) + "px")
+					 .style("top", (d3.event.pageY - 28) + "px");
+				   })
+				 .on("mouseout", function(d) {
+				   div.transition()
+					 .duration(500)
+					 .style("opacity", 0);
+				   })
+			  .append("circle")
+			  .attr("cx", d => xScale(d.createday))
+			  .attr("cy", d => yScale(d[attrname]))
+			  .attr("r", circleRadius)
+			  .style('opacity', circleOpacity)
+			  ;
+
+
+			/* Add Axis into SVG */
+			var xAxis = d3.axisBottom(xScale).tickFormat(d3.timeFormat(para.xtformate));
+		
+			var yAxis = d3.axisLeft(yScale).ticks(5);
+
+			svg.append("g")
+			  .attr("class", "x axis")
+			  .attr("transform", `translate(0, ${height-margin.top-margin.bottom})`)
+			  .call(xAxis);
+
+			svg.append("g")
+			  .attr("class", "y axis")
+			  .call(yAxis)
+			  .append('text')
+			  .attr("y", 15)
+			  .attr("transform", "rotate(-90)")
+			  .attr("fill", "#000")
+			  .text("Total values");
+		
+		}
+		drawMultiBarChart("#monthchart");
+		function drawMultiBarChart(chartname){
+		const data = [
   {
-    name: "USA",
-    values: [
-      {date: "2000", price: "100"},
-      {date: "2001", price: "110"},
-      {date: "2002", price: "145"},
-      {date: "2003", price: "241"},
-      {date: "2004", price: "101"},
-      {date: "2005", price: "90"},
-      {date: "2006", price: "10"},
-      {date: "2007", price: "35"},
-      {date: "2008", price: "21"},
-      {date: "2009", price: "201"},
-      {date: "2010", price: "100"},
-      {date: "2011", price: "110"},
-      {date: "2012", price: "145"},
-      {date: "2013", price: "241"},
-      {date: "2014", price: "101"},
-      {date: "2015", price: "90"},
-      {date: "2016", price: "10"},
-      {date: "2017", price: "35"},
-      {date: "2018", price: "21"},
-      {date: "2019", price: "201"}
-    ]
+    'State': 'CA',
+    'Under 5 Years': 2704659,
+    '5 to 13 Years': 4499890,
+    '14 to 17 Years': 2159981,
+    '18 to 24 Years': 3853788,
+    '25 to 44 Years': 10604510,
+    '45 to 64 Years': 8819342,
+    '65 Years and Over': 4114496
   },
   {
-    name: "Canada",
-    values: [
-      {date: "2000", price: "200"},
-      {date: "2001", price: "120"},
-      {date: "2002", price: "33"},
-      {date: "2003", price: "21"},
-      {date: "2004", price: "51"},
-      {date: "2005", price: "190"},
-      {date: "2006", price: "120"},
-      {date: "2007", price: "85"},
-      {date: "2008", price: "221"},
-      {date: "2009", price: "101"}
-    ]
+    'State': 'TX',
+    'Under 5 Years': 2027307,
+    '5 to 13 Years': 3277946,
+    '14 to 17 Years': 1420518,
+    '18 to 24 Years': 2454721,
+    '25 to 44 Years': 7017731,
+    '45 to 64 Years': 5656528,
+    '65 Years and Over': 2472223
   },
   {
-    name: "Maxico",
-    values: [
-      {date: "2000", price: "50"},
-      {date: "2001", price: "10"},
-
-
-    ]
+    'State': 'NY',
+    'Under 5 Years': 1208495,
+    '5 to 13 Years': 2141490,
+    '14 to 17 Years': 1058031,
+    '18 to 24 Years': 1999120,
+    '25 to 44 Years': 5355235,
+    '45 to 64 Years': 5120254,
+    '65 Years and Over': 2607672
+  },
+  {
+    'State': 'FL',
+    'Under 5 Years': 1140516,
+    '5 to 13 Years': 1938695,
+    '14 to 17 Years': 925060,
+    '18 to 24 Years': 1607297,
+    '25 to 44 Years': 4782119,
+    '45 to 64 Years': 4746856,
+    '65 Years and Over': 3187797
+  },
+  {
+    'State': 'IL',
+    'Under 5 Years': 894368,
+    '5 to 13 Years': 1558919,
+    '14 to 17 Years': 725973,
+    '18 to 24 Years': 1311479,
+    '25 to 44 Years': 3596343,
+    '45 to 64 Years': 3239173,
+    '65 Years and Over': 1575308
+  },
+  {
+    'State': 'PA',
+    'Under 5 Years': 737462,
+    '5 to 13 Years': 1345341,
+    '14 to 17 Years': 679201,
+    '18 to 24 Years': 1203944,
+    '25 to 44 Years': 3157759,
+    '45 to 64 Years': 3414001,
+    '65 Years and Over': 1910571
   }
 ];
-var div = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
 
-var wd = $("#chart").width();
-var wh = $("#chart").height();
-var margin = {top:20, left:60, bottom:10, right:20};
-var height = wh - margin.top - margin.bottom,
-		width = wd - margin.left - margin.right;
-console.log(width);
-var duration = 50;
+const keys = Object.keys(data[0]).slice(1);
+    
+const tip = d3.tip().html(d=> d.value);
 
-var lineOpacity = "0.25";
-var lineOpacityHover = "0.85";
-var otherLinesOpacityHover = "0.1";
-var lineStroke = "1.5px";
-var lineStrokeHover = "2.5px";
+var wd = $(chartname).width();
+	var wh = $(chartname).height();
+	var margin = {top:20, left:60, bottom:70, right:20};
+	var height = wh - margin.top - margin.bottom,
+	    width = wd - margin.left - margin.right;
+  $(chartname).html("");
+	var svg = d3.select(chartname)
+	        .append("svg")
+	        .attr("height", height + margin.top + margin.bottom)
+	        .attr("width", width + margin.left + margin.right)
+	        .style("cursor","default");
+	 var g = svg.append("g")
+	        .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+    
+svg.call(tip)
 
-var circleOpacity = '0.85';
-var circleOpacityOnLineHover = "0.25"
-var circleRadius = 3;
-var circleRadiusHover = 6;
+const x0 = d3.scaleBand()
+  .rangeRound([0, width])
+  .paddingInner(.1);
 
+const x1 = d3.scaleBand()
+  .padding(.05);
 
-/* Format Data */
-var parseDate = d3.timeParse("%Y");
-data.forEach(function(d) {
-  d.values.forEach(function(d) {
-    d.date = parseDate(d.date);
-    d.price = +d.price;
-  });
-});
+const y = d3.scaleLinear()
+  .rangeRound([height, 0]);
 
+const z = d3.scaleOrdinal()
+  .range(['#AA8139', '#AA9439', '#3C3176', '#2C4770', '#96A537', '#68266F', '#492E74']);
+    
+  x0.domain(data.map(d => d.State));
+  x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+  y.domain([0, d3.max(data, d => d3.max(keys, key=> d[key]))]).nice();
 
-/* Scale */
-var xScale = d3.scaleTime()
-  .domain(d3.extent(data[0].values, d => d.date))
-  .range([0, width-margin.left-margin.right]);
-
-var yScale = d3.scaleLinear()
-  .domain([0, d3.max(data[0].values, d => d.price)])
-  .range([height-margin.top - margin.bottom, 0]);
-
-var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-/* Add SVG */
-var svg = d3.select("#chart").append("svg")
-  .attr("width", (width + margin.left + margin.right)+"px")
-  .attr("height", (height+margin.top + margin.bottom)+"px")
+g.append('g')
+  .selectAll('g')
+  .data(data)
+  .enter()
   .append('g')
-  .attr("transform", `translate(${margin.left}, ${margin.right})`);
+  .attr('transform', d => 'translate(' + x0(d.State) + ',0)')
+  .selectAll('rect')
+  .data(d => keys.map(key => {return {key: key, value: d[key]}}))
+  .enter().append('rect')
+  .attr('x', d => x1(d.key))
+  .attr('y', d => y(d.value))
+  .attr('width', x1.bandwidth())
+  .attr('height', d => height - y(d.value))
+  .attr('fill', d =>  z(d.key))
+  .on('mouseover', tip.show)
+  .on('mouseout', tip.hide)
 
+g.append('g')
+  .attr('class', 'axis-bottom')
+  .attr('transform', 'translate(0,' + height + ')')
+  .call(d3.axisBottom(x0));
 
-/* Add line into SVG */
-var line = d3.line()
-  .x(d => xScale(d.date))
-  .y(d => yScale(d.price));
-
-let lines = svg.append('g')
-  .attr('class', 'lines');
-
-lines.selectAll('.line-group')
-  .data(data).enter()
-  .append('g')
-  .attr('class', 'line-group')
-
-  .append('path')
-  .attr('class', 'line')
-  .attr('d', d => line(d.values))
-  .style('stroke', (d, i) => color(i))
-  .style('opacity', lineOpacity)
-  ;
-
-
-/* Add circles in the line */
-lines.selectAll("circle-group")
-  .data(data).enter()
-  .append("g")
-  .style("fill", (d, i) => color(i))
-  .selectAll("circle")
-  .data(d => d.values).enter()
-  .append("g")
-  .attr("class", "circle")
-	.on("mouseover", function(d) {
-       div.transition()
-         .duration(200)
-         .style("opacity", .9);
-       div.html(d.date+ "<br/>" + d.price)
-         .style("left", (d3.event.pageX) + "px")
-         .style("top", (d3.event.pageY - 28) + "px");
-       })
-     .on("mouseout", function(d) {
-       div.transition()
-         .duration(500)
-         .style("opacity", 0);
-       })
-  .append("circle")
-  .attr("cx", d => xScale(d.date))
-  .attr("cy", d => yScale(d.price))
-  .attr("r", circleRadius)
-  .style('opacity', circleOpacity)
-  ;
-
-
-/* Add Axis into SVG */
-var xAxis = d3.axisBottom(xScale).ticks(5);
-var yAxis = d3.axisLeft(yScale).ticks(5);
-
-svg.append("g")
-  .attr("class", "x axis")
-  .attr("transform", `translate(0, ${height-margin.top-margin.bottom})`)
-  .call(xAxis);
-
-svg.append("g")
-  .attr("class", "y axis")
-  .call(yAxis)
+g.append('g')
+  .attr('class', 'axis-left')
+  .call(d3.axisLeft(y).ticks(null, 's'))
   .append('text')
-  .attr("y", 15)
-  .attr("transform", "rotate(-90)")
-  .attr("fill", "#000")
-  .text("Total values");
+  .attr('x', 10)
+  .attr('y', y(y.ticks().pop()) + 10)
+  .attr('dy', '0.32em')
+  .attr('fill', '#000')
+  .style('transform', 'rotate(-90deg)')
+  .attr('font-weight', 'bold')
+  .attr('text-anchor', 'end')
+  .text('Population');
+
+const legend = g.append('g')
+   .attr('font-family', 'sans-serif')
+   .attr('font-size', 10)
+   .attr('text-anchor', 'end')
+   .selectAll('g')
+   .data(keys.slice().reverse())
+   .enter().append('g')
+   .attr('transform', (d, i) => 'translate(0,' + i * 20 + ')');
+
+legend.append('rect')
+  .attr('x', width - 19)
+  .attr('width', 10)
+  .attr('height', 10)
+  .attr('fill', z);
+
+legend.append('text')
+  .attr('x', width - 32)
+  .attr('y', 6)
+  .attr('dy', '0.32em')
+  .text(d => d);
+		}
+
 
 
 

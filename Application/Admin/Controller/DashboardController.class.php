@@ -115,9 +115,30 @@ class DashboardController extends CommonController {
 
     }
     public function getDayToDay(){
+      $fromdate = I('post.fromdate','','htmlspecialchars');//
+      $todate = I('post.todate','','htmlspecialchars');//
       $fromdate = "2018-01-01";
-      $todate = "2019-01-10";
+      $todate = "2019-01-20";
       $res = getDayToDay($fromdate,$todate);
-      print_r($res);
+      
+      $this->ajaxReturn($res);
+    }
+    public function getEachMonth(){
+      $fromdate = I('post.fromdate','','htmlspecialchars');//
+      $todate = I('post.todate','','htmlspecialchars');//
+      $fromdate = "2018-01-01";
+      $todate = "2018-01-30";
+      $res = getDayToDay($fromdate,$todate);
+      $fromdate = "2019-01-01";
+      $todate = "2019-01-30";
+      $res1 = getDayToDay($fromdate,$todate);
+      
+      $this->ajaxReturn(array_merge($res,$res1));
+    }
+    public function getMonths(){
+        $fy = "2018";
+        $ty = "2019";
+        $res = getMonthsData($fy,$ty);
+        $this->ajaxReturn($res);
     }
 }
