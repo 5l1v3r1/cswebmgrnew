@@ -120,7 +120,7 @@ class DashboardController extends CommonController {
       $fromdate = "2018-01-01";
       $todate = "2019-01-20";
       $res = getDayToDay($fromdate,$todate);
-      
+
       $this->ajaxReturn($res);
     }
     public function getEachMonth(){
@@ -132,13 +132,13 @@ class DashboardController extends CommonController {
       $fromdate = "2019-01-01";
       $todate = "2019-01-30";
       $res1 = getDayToDay($fromdate,$todate);
-      
+
       $this->ajaxReturn(array_merge($res,$res1));
     }
     public function getMonths(){
         $fy = "2018";
         $ty = "2019";
         $res = getMonthsData($fy,$ty);
-        $this->ajaxReturn($res);
+        //$this->ajaxReturn($res);
     }
 }

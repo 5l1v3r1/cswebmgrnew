@@ -320,7 +320,7 @@ function getDayData($daydata){
 }
 function getMonthsData($fy,$ty){
     /*year show*/
-    
+
 	$ORDER = M('orders');
 	$fromdate = date('Y-m-d', strtotime($fy."-01-01")); //start of year
 	$todate = date('Y-m-d', strtotime($ty."-12-31"));//end of year
@@ -357,16 +357,28 @@ function getMonthsData($fy,$ty){
 	$datas = [];
 	$salarysum = 0;
 	$revenuesum = 0;
+  $datacell = [];
 	foreach($year_salaryarr as $k=>$v){
-        $room['profit'] = $year_profitarray[$v['createday']];
-        $room['salary'] = $v['salary'];
-        $salarysum = $salarysum + $v['salary'];
-        $room['revenuearray'] = $year_revenuearray[$v['createday']];
+        $room['profit'] = round($year_profitarray[$v['createday']],2);
+        $room['salary'] = round($v['salary'],2);
+        $room['revenuearray'] = round($year_revenuearray[$v['createday']],2);
         $room['createday'] = $v['createday'];
-        $room['datas'] = $day_all[$v['createday']];
-        $revenuesum = $revenuesum  + $year_revenuearray[$v['createday']];
-        array_push($datas ,$room);
+        //$room['datas'] = $day_all[$v['createday']];
+        $mm = date('M', strtotime($v['createday']));
+        $room['month'] = date('m', strtotime($v['createday']));
+        $room['year'] = date('Y', strtotime($v['createday']));
+        //$datacell[$room['month']];
+        if (key_exists($mm,$datacell))
+        {
+          array_push($datacell[$mm] ,$room);
+        }
+        else
+        {
+          $datacell[$mm] = [];
+          array_push($datacell[$mm] ,$room);
+        }
 	}
+  //print_r($datacell);
     /*
     [{
     'month': 'Jan',
@@ -374,14 +386,26 @@ function getMonthsData($fy,$ty){
     '2019': 4499890
     }]
     */
-	$res["createyear"] = $year;
-	$res["salarysum"] = $salarysum;
-	$res["revenuesum"]=$revenuesum;
-  $res["moneyinfo"] = $year_revenuescc;
-	$res["profitsum"]=($revenuesum - $salarysum);
-    $res["ordernum"] = $year_ordernum;
-    $res["profitavg"] = round($res["profitsum"]/$daystep, 3);
-	$res["datas"] = $datas;
+    $dateii = [];
+    $dataend = [];
+    foreach($datacell as $k=>$v){
+      //print_r($k);
+      $dataii["month"] = $k;
+      foreach($datacell[$k] as $c){
+        print_r($c);
+
+        $dataii[$c["year"]] = $c;
+
+      }
+      //echo "######";
+      //print_r($dataii);
+      array_push($dataend,$dataii);
+      unset($dataii);
+      echo "<br>";
+    }
+    //print_r($dataend);
+    //print_r($datacell);
+	  $res= $dataend;
     //print_r($res);
     return $res;
 }
