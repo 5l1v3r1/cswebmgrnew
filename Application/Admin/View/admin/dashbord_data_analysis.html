@@ -332,7 +332,7 @@ div.tooltip {
 			<!-- END DASHBOARD STATS -->
 			<div class="clearfix"></div>
 			<div class="row">
-				<div class="col-md-6 col-sm-6">
+				<div class="col-md-6 col-sm-6" style="height: 570px;">
 				<!-- BEGIN PORTLET-->
 					<div class="portlet light ">
 						<div class="portlet-title">
@@ -342,7 +342,7 @@ div.tooltip {
 								<span class="caption-helper">global statistic...</span>
 							</div>
 						</div>
-						<div class="portlet-body">
+						<div class="portlet-body" >
 							<div class="portlet-body">
 								<div class="row static-info">
 									<div class="col-md-6 name">
@@ -482,6 +482,32 @@ div.tooltip {
 								<div class="row">
 
 									<div id="daychart" style="padding: 0px; position: relative;width:100%;height: 550px;"></div>
+								</div>
+
+							</div>
+						</div>
+				</div>
+				<div class="col-md-6 col-sm-12">
+						<div class="portlet box green">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-gift"></i> Months of every Year statistic
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="reload" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								<div class="row">
+
+									<div id="monthchart" style="padding: 0px; position: relative;width:100%;height: 550px;"></div>
 								</div>
 
 							</div>
@@ -765,35 +791,21 @@ div.tooltip {
 						//para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-01-31'),xtformate:"%d"};
 						//drawLineChart(data,"#daychart","profit",para)	;
 						var para = {data}
-						drawMultiBarChart("#monthchart",para);
+						drawMultiBarChart("#monthchart",para,"month");
 
 				}
 			});
 		}
 		//drawMultiBarChart("#monthchart",para);
-		function drawMultiBarChart(chartname,para){
+		function drawMultiBarChart(chartname,para,kname){
 			const data = para.data;
 			console.log(data);
-			data = [
-			{
-		    'month': '01',
-		    "2018":19619.64,
-				"2019":5196
-		  }
-
-
-
-		];
-
 		const keys = Object.keys(data[0]);
 		if(keys.indexOf("month")>=0){
-			keys.splice(keys.indexOf("month"), 1);
+			keys.splice(keys.indexOf(kname), 1);
 		}
 		console.log(keys);
-		const tip = d3.tip().html(d=> d.value.profit+ "<br>"+d.value.salary);
-		tip.offset(function() {
-		  return [this.getBBox().height / 2, 0]
-		})
+		const tip = d3.tip().html(d=> d.key+ ": "+d.value);
 
 		var wd = $(chartname).width();
 			var wh = $(chartname).height();
@@ -821,26 +833,25 @@ div.tooltip {
 		const y = d3.scaleLinear()
 		  .rangeRound([height, 0]);
 
-		const z = d3.scaleOrdinal()
-		  .range(['#AA8139', '#AA9439', '#3C3176', '#2C4770', '#96A537', '#68266F', '#492E74']);
+		const z =  d3.scaleOrdinal(d3.schemeCategory10);
 
-		  x0.domain(data.map(d => d.month));
+		  x0.domain(data.map(d => d[kname]));
 		  x1.domain(keys).rangeRound([0, x0.bandwidth()]);
-		  y.domain([0, d3.max(data, d => d3.max(keys, key=> d[key].profit))]).nice();
+		  y.domain([0, d3.max(data, d => d3.max(keys, key=> d[key]))]).nice();
 		//console.log(d3.max(data, d => d3.max(keys, key=> d[key])));
 		g.append('g')
 		  .selectAll('g')
 		  .data(data)
 		  .enter()
 		  .append('g')
-		  .attr('transform', d => 'translate(' + x0(d.month) + ',0)')
+		  .attr('transform', d => 'translate(' + x0(d[kname]) + ',0)')
 		  .selectAll('rect')
 		  .data(d => keys.map(key => {return {key: key, value: d[key]}}))
 		  .enter().append('rect')
 		  .attr('x', d => x1(d.key))
-		  .attr('y', d => y(d.value.profit))
-		  .attr('width', x1.bandwidth())
-		  .attr('height', d => height - y(d.value.profit))
+		  .attr('y', d => y(d.value))
+		  .attr('width', x1.bandwidth()+1)
+		  .attr('height', d => height - y(d.value))
 		  .attr('fill', d =>  z(d.key))
 		  .on('mouseover', tip.show)
 		  .on('mouseout', tip.hide)

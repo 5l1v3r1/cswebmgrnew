@@ -139,6 +139,24 @@ class DashboardController extends CommonController {
         $fy = "2018";
         $ty = "2019";
         $res = getMonthsData($fy,$ty);
+        $this->ajaxReturn($res);
+    }
+    public function getQdatas(){
+        $fy = "2018";
+        $ty = "2019";
+        /*
+        q1: 1-31 -3-31
+        q2: 4-1  6-30
+        q3  7-1  9-30
+        q4  10-1 12-31
+        */
+        
+        /*get Q1*/
+        $fy = "2018";
+        $ty = "2019";
+        $end0 = "-01-01";
+        $end1 = "-03-31";
+        $res = getQData($fy,$ty,"Q1");
         //$this->ajaxReturn($res);
     }
 }
