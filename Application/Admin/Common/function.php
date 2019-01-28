@@ -415,26 +415,40 @@ q2: 4-1  6-30
 q3  7-1  9-30
 q4  10-1 12-31
 */
-function getQData($fy,$ty,$start,$end,$qname){
+function getQData($fy,$ty,$qname){
     /*year show*/
-
+  if($qname == "Q1"){
+    $start = "-01-01";
+    $end = "-03-31";
+  }else if($qname == "Q2"){
+    $start = "-04-01";
+    $end = "-06-30";
+  }else if($qname == "Q3"){
+    $start = "-07-01";
+    $end = "-09-30";
+  }else if($qname == "Q4"){
+    $start = "-10-01";
+    $end = "-12-31";
+  }
 	$ORDER = M('orders');
     $year_revenuesarr = [];
     $year_revenuearray = [];
-    $year_profitarray = []
+    $year_profitarray = [];
     $year_day_all = [];
     $year_salaryarr = [];
+    //print_r($year_salaryarr);
     for($i=$fy;$i<=$ty;$i++){
-        $fromdate = date('Y-m-d', strtotime($i.$start)); //start of year
-        $todate = date('Y-m-d', strtotime($i.$end));//end of year
+        $fromdate = date('Y-m-d', strtotime(strval($i.$start))); //start of year
+        $todate = date('Y-m-d', strtotime(strval($i.$end)));//end of year
 
         $datetime_start = new \DateTime();
         $datetime_end = new \DateTime($fromdate);
         //var_dump($datetime_start->diff($datetime_end));
-        $revenuesarr  = $ORDER->field('DATE_FORMAT(db_orders.createtime,"%Y") as createday,db_orders.moneytype,SUM(db_orders.totalprice) as revenues')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%Y"),db_orders.moneytype')->select();
+        $revenuesarr  = $ORDER->field('CONCAT("Y",DATE_FORMAT(db_orders.createtime,"%Y")) as createday,db_orders.moneytype,SUM(db_orders.totalprice) as revenues')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%Y"),db_orders.moneytype')->select();
         $revenuearray = [];
         $day_all = [];
-        //print_r($year_revenuesarr);
+        $salaryarr = [];
+        //print_r($revenuesarr);
         foreach($revenuesarr as $k=>$v){
           //print_r($v);
           $Model = M('configure_exchange');
@@ -445,26 +459,39 @@ function getQData($fy,$ty,$start,$end,$qname){
           $day_all[$v['createday']][$v['moneytype']] = $v['revenues'];
         }
         //print_r($year_revenuearray);
-        $salaryarr  = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('DATE_FORMAT(db_orders.createtime,"%Y") as createday,SUM(db_worker_order.w_payment) as salary')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%Y")')->select();
+
+        $salaryarr  = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('CONCAT("Y",DATE_FORMAT(db_orders.createtime,"%Y")) as createday,SUM(db_worker_order.w_payment) as salary')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%Y")')->select();
         $profitarray = [];
-        //print_r($year_salaryarr);
+        if(empty($salaryarr)){
+          $salaryarr = [];
+        }
+        //print_r($salaryarr);
         foreach($salaryarr as $k=>$v){
           //print_r($v);
           $Model = M('configure_exchange');
-          $profitarray[$v['createday']] = $revenuearray[$v['createday']] - $v['salary'];
+          $profitarray[strval($v['createday'])] = $revenuearray[$v['createday']] - $v['salary'];
+
         }
+        $year_salaryarr = array_merge($year_salaryarr,$salaryarr);
+        $year_revenuearray = array_merge($year_revenuearray,$revenuearray);
+        $year_profitarray = array_merge($year_profitarray,$profitarray);
+        $year_day_all = array_merge($year_day_all,$day_all);
     }
-	
+    //print_r($year_salaryarr);
+
 	$datas = [];
 	$salarysum = 0;
 	$revenuesum = 0;
-    $datacell = [];
-    
+  $datacell = [];
+  //print_r($year_salaryarr);
+  //print_r($year_revenuearray);
+  //print_r($year_revenuearray);
+  //print_r($year_salaryarr);
 	foreach($year_salaryarr as $k=>$v){
         $room['profit'] = round($year_profitarray[$v['createday']],2);
         $room['salary'] = round($v['salary'],2);
         $room['revenuearray'] = round($year_revenuearray[$v['createday']],2);
-        $room['datas'] = $day_all[$v['createday']];
+        $room['datas'] = $year_day_all[$v['createday']];
         $room['year'] =$v['createday'];
         //array_push($datas ,$room);
         array_push($datas,$room);
@@ -485,15 +512,15 @@ function getQData($fy,$ty,$start,$end,$qname){
       $dataii[$v["year"]] = $v["profit"];
       //echo "######";
       //print_r($dataii);
-      array_push($dataend,$dataii);
-      unset($dataii);
+
       //echo "<br>";
     }
-    $dataend["qname"] = $qname;
+    //print_r($dataii);
+    $dataii["qname"] = $qname;
     //print_r($dataend);
     //print_r($datacell);
-	$res= $dataend;
-    print_r($res);
+	  $res= $dataii;
+    //print_r($res);
     return $res;
 }
 /*get order infomation */

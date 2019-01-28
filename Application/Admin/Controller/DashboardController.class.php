@@ -123,17 +123,27 @@ class DashboardController extends CommonController {
 
       $this->ajaxReturn($res);
     }
+    /*get days of potin month*/
     public function getEachMonth(){
-      $fromdate = I('post.fromdate','','htmlspecialchars');//
-      $todate = I('post.todate','','htmlspecialchars');//
-      $fromdate = "2018-01-01";
-      $todate = "2018-01-30";
-      $res = getDayToDay($fromdate,$todate);
-      $fromdate = "2019-01-01";
-      $todate = "2019-01-30";
-      $res1 = getDayToDay($fromdate,$todate);
-
-      $this->ajaxReturn(array_merge($res,$res1));
+      $m = I('post.month','','htmlspecialchars');//
+      //$m = "01";
+      $res = [];
+      $res0 = [];
+      //echo C(DATEORIYEAR);
+      $DATEYEAR = date("Y",time());
+      //echo $DATEYEAR;
+      for($i=C(DATEORIYEAR);$i<=$DATEYEAR;$i++){
+        //echo $i;
+        $fromdate = $i."-".$m."-01";
+        $todate = $i."-".$m."-31";
+        $res0 = getDayToDay($fromdate,$todate);
+        if(empty($res0)){
+          $res0 = [];
+        }
+        //print_r($res0);
+        $res = array_merge($res,$res0);
+      }
+      $this->ajaxReturn($res);
     }
     public function getMonths(){
         $fy = "2018";
@@ -150,13 +160,17 @@ class DashboardController extends CommonController {
         q3  7-1  9-30
         q4  10-1 12-31
         */
-        
+
         /*get Q1*/
-        $fy = "2018";
-        $ty = "2019";
-        $end0 = "-01-01";
-        $end1 = "-03-31";
-        $res = getQData($fy,$ty,"Q1");
-        //$this->ajaxReturn($res);
+        $fy = 2018;
+        $ty = 2020;
+        $res1 = getQData($fy,$ty,"Q1");
+        $res2 = getQData($fy,$ty,"Q2");
+        $res3 = getQData($fy,$ty,"Q3");
+        $res4 = getQData($fy,$ty,"Q4");
+        $res = [];
+        array_push($res,$res1,$res2,$res3,$res4);
+        //print_r($res);
+        $this->ajaxReturn($res);
     }
 }

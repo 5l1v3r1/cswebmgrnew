@@ -461,7 +461,7 @@ div.tooltip {
 					</div>
 				<!-- END PORTLET-->
 			</div>
-				<div class="col-md-6 col-sm-12">
+				<div class="col-md-6 col-sm-12" >
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
@@ -478,10 +478,27 @@ div.tooltip {
 									</a>
 								</div>
 							</div>
-							<div class="portlet-body form">
+							<div class="portlet-body form" style="height: 550px;">
 								<div class="row">
-
-									<div id="daychart" style="padding: 0px; position: relative;width:100%;height: 550px;"></div>
+									<div class="col-md-12 col-sm-12">
+										<div class="input-group ">
+											<select id="monthselect" class="form-control input-inline input-medium" name="monthinput">
+												<option value="1">1 month</option>
+												<option value="2">2 month</option>
+												<option value="3">3 month</option>
+												<option value="4">4 month</option>
+												<option value="5">5 month</option>
+												<option value="6">6 month</option>
+												<option value="7">7 month</option>
+												<option value="8">8 month</option>
+												<option value="9">9 month</option>
+												<option value="10">10 month</option>
+												<option value="11">11 month</option>
+												<option value="12">12 month</option>
+											</select>
+										</div>
+									</div>
+									<div id="daychart" style="padding: 10px; position: relative;width:100%;height: 500px;"></div>
 								</div>
 
 							</div>
@@ -517,7 +534,7 @@ div.tooltip {
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Months of every Year statistic
+									<i class="fa fa-gift"></i> Quaters of every Year statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -533,7 +550,7 @@ div.tooltip {
 							<div class="portlet-body form">
 								<div class="row">
 
-									<div id="monthchart" style="padding: 0px; position: relative;width:100%;height: 550px;"></div>
+									<div id="qchart" style="padding: 0px; position: relative;width:100%;height: 550px;"></div>
 								</div>
 
 							</div>
@@ -627,11 +644,10 @@ div.tooltip {
 				}
 			});
 		}
-		get_each_query("0","0");
-		function get_each_query(fromdate,todate){
+
+		function get_days_of_month_query(m){
 			var data = {};
-			data.fromdate = fromdate;
-			data.todate = todate;
+			data.month = m;
 			var url='__URL__/getEachMonth';
 			$.ajax({
 				type:"post",
@@ -796,12 +812,34 @@ div.tooltip {
 				}
 			});
 		}
+		get_each_Q_query("0","0");
+		function get_each_Q_query(fromdate,todate){
+			var data = {};
+			data.fromdate = fromdate;
+			data.todate = todate;
+			var url='__URL__/getQdatas';
+			$.ajax({
+				type:"post",
+				url:url,
+				data:data,
+				dataType:"json",
+				success: function aa(data) {
+
+						//para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-01-31'),xtformate:"%d"};
+						//drawLineChart(data,"#daychart","profit",para)	;
+						console.log(data);
+						var para = {data}
+						drawMultiBarChart("#qchart",para,"qname");
+
+				}
+			});
+		}
 		//drawMultiBarChart("#monthchart",para);
 		function drawMultiBarChart(chartname,para,kname){
 			const data = para.data;
 			console.log(data);
 		const keys = Object.keys(data[0]);
-		if(keys.indexOf("month")>=0){
+		if(keys.indexOf(kname)>=0){
 			keys.splice(keys.indexOf(kname), 1);
 		}
 		console.log(keys);
@@ -895,7 +933,19 @@ div.tooltip {
 		  .attr('dy', '0.32em')
 		  .text(d => d);
 				}
+/* month select  */
 
+var nowdate = new Date();
+var nowmonth = nowdate.getMonth()+1;
+get_days_of_month_query(nowmonth);
+$("#monthselect").val(nowmonth);
+$("#monthselect").live('change',function(){
+	//alert();
+	$("#daychart").html("")
+	get_days_of_month_query($("#monthselect").val());
+	//alert();
+
+});
 
 
 
