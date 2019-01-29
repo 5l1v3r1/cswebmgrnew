@@ -115,10 +115,12 @@ class DashboardController extends CommonController {
 
     }
     public function getDayToDay(){
+	  
       $fromdate = I('post.fromdate','','htmlspecialchars');//
       $todate = I('post.todate','','htmlspecialchars');//
-      $fromdate = "2018-01-01";
-      $todate = "2019-01-20";
+      $fromdate = C(DATEORIYEAR)."-".$fromdate;
+	  $DATEYEAR = date("Y",time());
+      $todate = $DATEYEAR."-".$todate;
       $res = getDayToDay($fromdate,$todate);
 
       $this->ajaxReturn($res);

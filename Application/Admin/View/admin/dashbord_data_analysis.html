@@ -549,7 +549,7 @@ div.tooltip {
 							</div>
 							<div class="portlet-body form">
 								<div class="row">
-
+									
 									<div id="qchart" style="padding: 0px; position: relative;width:100%;height: 550px;"></div>
 								</div>
 
@@ -560,7 +560,7 @@ div.tooltip {
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Years statistic
+									<i class="fa fa-gift"></i> Day to Day Statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -575,7 +575,22 @@ div.tooltip {
 							</div>
 							<div class="portlet-body form">
 								<div class="row">
-
+									<div class="col-md-12 col-sm-12">
+										<a class="btn yellow" id="aaa"><i class="fa fa-search"></i></a>
+										<div class="input-group ">
+											<div class="input-group input-large date-picker input-daterange" data-date="10-11" data-date-format="mm-dd">
+												<input type="text" class="form-control" name="fromdaytoday" id="daytodayfrom" />
+												<span class="input-group-addon">
+												to </span>
+												<input type="text" class="form-control" name="todaytoday" id="daytodayto" />
+											</div>
+											<div class="input-group-btn input-large">
+												<button class="btn red " id="daytodayreset" ><i class="fa fa-times"></i></button>
+												
+												
+											</div>
+										</div>
+									</div>
 									<div id="chart" style="padding: 0px; position: relative;width:100%;height: 500px;"></div>
 								</div>
 
@@ -625,7 +640,11 @@ div.tooltip {
 			Demo.init(); // init demo features
 			ComponentsPickers.init();
         });
-		get_daytoday_query("0","0");
+		/* globel date */
+		var nowdate = new Date();
+		
+
+		get_daytoday_query("01-01","12-31");
 		function get_daytoday_query(fromdate,todate){
 			var data = {};
 			data.fromdate = fromdate;
@@ -644,7 +663,17 @@ div.tooltip {
 				}
 			});
 		}
+		/* month select handle */	
+		var nowmonth = nowdate.getMonth()+1;
+		get_days_of_month_query(nowmonth);
+		$("#monthselect").val(nowmonth);
+		$("#monthselect").live('change',function(){
+			//alert();
+			$("#daychart").html("")
+			get_days_of_month_query($("#monthselect").val());
+			//alert();
 
+		});
 		function get_days_of_month_query(m){
 			var data = {};
 			data.month = m;
@@ -837,12 +866,12 @@ div.tooltip {
 		//drawMultiBarChart("#monthchart",para);
 		function drawMultiBarChart(chartname,para,kname){
 			const data = para.data;
-			console.log(data);
+			//console.log(data);
 		const keys = Object.keys(data[0]);
 		if(keys.indexOf(kname)>=0){
 			keys.splice(keys.indexOf(kname), 1);
 		}
-		console.log(keys);
+		//console.log(keys);
 		const tip = d3.tip().html(d=> d.key+ ": "+d.value);
 
 		var wd = $(chartname).width();
@@ -933,20 +962,18 @@ div.tooltip {
 		  .attr('dy', '0.32em')
 		  .text(d => d);
 				}
-/* month select  */
 
-var nowdate = new Date();
-var nowmonth = nowdate.getMonth()+1;
-get_days_of_month_query(nowmonth);
-$("#monthselect").val(nowmonth);
-$("#monthselect").live('change',function(){
-	//alert();
-	$("#daychart").html("")
-	get_days_of_month_query($("#monthselect").val());
-	//alert();
+/* day to day */
+		console.log($("#aaa").attr("id"));
+		$("#aaa").click(function(){
+			//alert("ccc");
+			//var day1 = $("input[name='fromdaytoday']").val();
+			//var day2 = $("input[name='todaytoday']").val();
+			//$("#chart").html("");
+			//get_daytoday_query(day1,day2);
+			console.log("123");
 
-});
-
+		});
 
 
 		</script>
