@@ -125,7 +125,11 @@ class DashboardController extends CommonController {
       for($i=C(DATEORIYEAR);$i<=$DATEYEAR;$i++){
         $fromdate = $i."-".$fd;
         $todate = $i."-".$td;
-        array_push($res,getDayToDay($fromdate,$todate));
+        $tmp = getDayToDay($fromdate,$todate);
+        if(!empty($tmp['values'])){
+             array_push($res,$tmp);
+        }
+       
       }
       $this->ajaxReturn($res);
     }
