@@ -214,7 +214,7 @@ function getMonthData($daydata){
 
 /**************    Graph datas     *******************/
 /* get data from day to day*/
-function getDayToDay($fromdate,$todate){
+function getDayToDayYears($fromdate,$todate){
     $res = [];
     $ORDER = M('orders');
     $fromdate = date('Y-m-d', strtotime($fromdate)); //月初
@@ -280,6 +280,58 @@ function getDayToDay($fromdate,$todate){
 
     }
 
+    return $res;
+}
+/* one year */
+function getDayToDay($fromdate,$todate){
+    $res = [];
+    $ORDER = M('orders');
+    $fromdate = date('Y-m-d', strtotime($fromdate)); //月初
+    $todate = date('Y-m-d', strtotime($todate));//月末
+    $flagyear =  date('Y', strtotime($fromdate));
+    //echo $yearlength;
+    $month_revenuesarr  = $ORDER->field('DATE_FORMAT(db_orders.createtime,"%Y-%m-%d") as createday,db_orders.moneytype,SUM(db_orders.totalprice) as revenues')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('db_orders.moneytype,DATE_FORMAT(db_orders.createtime,"%Y-%m-%d")')->select();
+    //print($fromdate);
+    //print($todate);
+    //print_r($month_revenuesarr);
+    $day_revenuearray = [];
+    $day_all = [];
+
+    foreach($month_revenuesarr as $k=>$v){
+      //print_r($v);
+      $Model = M('configure_exchange');
+      $cc['currency'] = $v['moneytype'];
+      $item = $Model->where($cc)->find();
+      $day_revenuearray[$v['createday']] = $day_revenuearray[$v['createday']] + $v['revenues']*$item['rating'];
+
+          $day_all[$v['createday']][$v['moneytype']] = $v['revenues'];
+    }
+    //print_r($day_revenuearray);
+    /*  month day salary */
+    $month_salaryarr  = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('DATE_FORMAT(db_orders.createtime,"%Y-%m-%d") as createday,SUM(db_worker_order.w_payment) as salary')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%Y-%m-%d")')->select();
+    //print_r($month_salaryarr);
+    $day_profitarray = [];
+
+    foreach($month_salaryarr as $k=>$v){
+      //print_r($v);
+      $Model = M('configure_exchange');
+      $day_profitarray[$v['createday']] = $day_revenuearray[$v['createday']] - $v['salary'];
+    }
+    //print_r($day_profitarray);
+    $datas = [];
+    foreach($month_salaryarr as $k=>$v){
+      $cell['profit'] = $day_profitarray[$v['createday']];
+      $cell['salary'] = $v['salary'];
+    //$salarysum = $salarysum + $v['salary'];
+      $cell['revenuearray'] = $day_revenuearray[$v['createday']];
+      $cell['createday'] = date('m-d', strtotime($v['createday']));
+      $cell['fullcreateday'] = date('Y-m-d', strtotime($v['createday']));
+      $cell['datas'] = $day_all[$v['createday']];
+      //$revenuesum = $day_revenuearray[$v['createday']] + $revenuesum;
+      array_push($datas ,$cell);
+    }
+    $res["values"] = $datas;
+    $res["name"] = $flagyear;
     return $res;
 }
 

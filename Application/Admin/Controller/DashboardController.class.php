@@ -114,15 +114,19 @@ class DashboardController extends CommonController {
        $this->display(T('admin/dashbord_data_analysis'));
 
     }
+    /* one year */
     public function getDayToDay(){
-	  
-      $fromdate = I('post.fromdate','','htmlspecialchars');//
-      $todate = I('post.todate','','htmlspecialchars');//
-      $fromdate = C(DATEORIYEAR)."-".$fromdate;
-	  $DATEYEAR = date("Y",time());
-      $todate = $DATEYEAR."-".$todate;
-      $res = getDayToDay($fromdate,$todate);
 
+      $fd = I('post.fromdate','','htmlspecialchars');//
+      $td = I('post.todate','','htmlspecialchars');//
+      $DATEYEAR = date("Y",time());
+
+      $res = [];
+      for($i=C(DATEORIYEAR);$i<=$DATEYEAR;$i++){
+        $fromdate = $i."-".$fd;
+        $todate = $i."-".$td;
+        array_push($res,getDayToDay($fromdate,$todate));
+      }
       $this->ajaxReturn($res);
     }
     /*get days of potin month*/
@@ -138,7 +142,7 @@ class DashboardController extends CommonController {
         //echo $i;
         $fromdate = $i."-".$m."-01";
         $todate = $i."-".$m."-31";
-        $res0 = getDayToDay($fromdate,$todate);
+        $res0 = getDayToDayYears($fromdate,$todate);
         if(empty($res0)){
           $res0 = [];
         }
@@ -164,8 +168,8 @@ class DashboardController extends CommonController {
         */
 
         /*get Q1*/
-        $fy = 2018;
-        $ty = 2020;
+        $ty = date("Y",time());
+        $fy = C(DATEORIYEAR);
         $res1 = getQData($fy,$ty,"Q1");
         $res2 = getQData($fy,$ty,"Q2");
         $res3 = getQData($fy,$ty,"Q3");

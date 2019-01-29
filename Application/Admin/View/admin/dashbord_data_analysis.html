@@ -549,7 +549,7 @@ div.tooltip {
 							</div>
 							<div class="portlet-body form">
 								<div class="row">
-									
+
 									<div id="qchart" style="padding: 0px; position: relative;width:100%;height: 550px;"></div>
 								</div>
 
@@ -573,10 +573,10 @@ div.tooltip {
 									</a>
 								</div>
 							</div>
-							<div class="portlet-body form">
+							<div class="portlet-body form" >
 								<div class="row">
-									<div class="col-md-12 col-sm-12">
-										<a class="btn yellow" id="aaa"><i class="fa fa-search"></i></a>
+									<div class="col-md-12" >
+
 										<div class="input-group ">
 											<div class="input-group input-large date-picker input-daterange" data-date="10-11" data-date-format="mm-dd">
 												<input type="text" class="form-control" name="fromdaytoday" id="daytodayfrom" />
@@ -586,12 +586,12 @@ div.tooltip {
 											</div>
 											<div class="input-group-btn input-large">
 												<button class="btn red " id="daytodayreset" ><i class="fa fa-times"></i></button>
-												
-												
+												<a class="btn yellow" id="aaa"><i class="fa fa-search"></i></a>
+
 											</div>
 										</div>
 									</div>
-									<div id="chart" style="padding: 0px; position: relative;width:100%;height: 500px;"></div>
+									<div id="chart" style="padding: 0px;width:100%;height: 550px;"></div>
 								</div>
 
 							</div>
@@ -642,8 +642,19 @@ div.tooltip {
         });
 		/* globel date */
 		var nowdate = new Date();
-		
 
+		/* day to day */
+		$("#aaa").click(function(){
+			//alert("ccc");
+			var day1 = $("input[name='fromdaytoday']").val();
+			var day2 = $("input[name='todaytoday']").val();
+			$("#chart").html("");
+			console.log(day1);
+			console.log(day2);
+			get_daytoday_query(day1,day2);
+			//console.log("123");
+
+		});
 		get_daytoday_query("01-01","12-31");
 		function get_daytoday_query(fromdate,todate){
 			var data = {};
@@ -657,13 +668,20 @@ div.tooltip {
 				dataType:"json",
 				success: function aa(data) {
 					  //showstorelist(data.stores);
-						var para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-12-31'),xtformate:"%m"};
+						var fstep = new Date('1900-'+fromdate);
+						var tstep = new Date('1900-'+todate);
+						var xtformate = "%d";
+						if(fstep.getMonth() != tstep.getMonth()){
+							xtformate = "%m";
+						}
+						nowdate.getMonth()+1
+						var para = {mindate:fstep ,maxdate:tstep,xtformate:xtformate};
 						drawLineChart(data,"#chart","profit",para);
 
 				}
 			});
 		}
-		/* month select handle */	
+		/* month select handle */
 		var nowmonth = nowdate.getMonth()+1;
 		get_days_of_month_query(nowmonth);
 		$("#monthselect").val(nowmonth);
@@ -696,13 +714,13 @@ div.tooltip {
 			var div = d3.select("body").append("div")
 				.attr("class", "tooltip")
 				.style("opacity", 0);
-
+			console.log(para);
 			var wd = $(chartid).width();
 			var wh = $(chartid).height();
 			var margin = {top:20, left:60, bottom:10, right:20};
 			var height = wh - margin.top - margin.bottom,
 					width = wd - margin.left - margin.right;
-			console.log(width);
+			//console.log(width);
 			var duration = 50;
 
 			var lineOpacity = "0.25";
@@ -963,17 +981,7 @@ div.tooltip {
 		  .text(d => d);
 				}
 
-/* day to day */
-		console.log($("#aaa").attr("id"));
-		$("#aaa").click(function(){
-			//alert("ccc");
-			//var day1 = $("input[name='fromdaytoday']").val();
-			//var day2 = $("input[name='todaytoday']").val();
-			//$("#chart").html("");
-			//get_daytoday_query(day1,day2);
-			console.log("123");
 
-		});
 
 
 		</script>
