@@ -34,7 +34,7 @@ div.tooltip {
   position: absolute;
   text-align: center;
   width: 150px;
-  height: 28px;
+  height: 30px;
   padding: 2px;
   font: 12px sans-serif;
   background: lightsteelblue;
@@ -668,10 +668,11 @@ div.tooltip {
 				dataType:"json",
 				success: function aa(data) {
 					  //showstorelist(data.stores);
-					    var fs = '1900-'+fromdate;
-						var fstep = new Date(Date.parse(fs.replace(/-/g,   "/"));
+					  var fs = '1900-'+fromdate;
 						var ts = '1900-'+todate;
-						var tstep = new Date('1900-'+todate);
+						var fstep = new Date(Date.parse(fs.replace(/-/g,   "/")));
+						var ts = '1900-'+todate;
+						var tstep = new Date(Date.parse(ts.replace(/-/g,   "/")));
 					    console.log(fstep);
 						var xtformate = "%d";
 						if(fstep.getMonth() != tstep.getMonth()){
@@ -705,7 +706,7 @@ div.tooltip {
 				data:data,
 				dataType:"json",
 				success: function aa(data) {
-						
+
 						para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-01-31'),xtformate:"%d"};
 						drawLineChart(data,"#daychart","profit",para)	;
 

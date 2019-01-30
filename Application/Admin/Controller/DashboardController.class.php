@@ -129,14 +129,14 @@ class DashboardController extends CommonController {
         if(!empty($tmp['values'])){
              array_push($res,$tmp);
         }
-       
+
       }
       $this->ajaxReturn($res);
     }
     /*get days of potin month*/
     public function getEachMonth(){
       $m = I('post.month','','htmlspecialchars');//
-      //$m = "01";
+      $m = "02";
       $res = [];
       $res0 = [];
       //echo C(DATEORIYEAR);
@@ -150,8 +150,18 @@ class DashboardController extends CommonController {
         if(empty($res0)){
           $res0 = [];
         }
-        //print_r($res0);
         $res = array_merge($res,$res0);
+        //print_r($res0);
+
+      }
+      $i = 0;
+      foreach($res as $k=>$v){
+        //echo ($k["name"]);
+        //echo (count($k["values"]));
+        if(count($k["values"]) == 0){
+          unset($res[$k]);
+        }
+        //echo "<br>";
       }
       $this->ajaxReturn($res);
     }
