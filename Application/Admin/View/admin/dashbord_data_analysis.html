@@ -33,7 +33,7 @@ svg {
 div.tooltip {
   position: absolute;
   text-align: center;
-  width: 150px;
+  width: 100px;
   height: 30px;
   padding: 2px;
   font: 12px sans-serif;
@@ -85,7 +85,7 @@ div.tooltip {
 					Default Dashboard</a>
 				</li>
 				<li class="active">
-					<a href="{:U('Dashboard/showDataAnalysis');}">
+					<a href="{:U('Dashboard/showDataMoneyAnalysis');}">
 					<i class="icon-bar-chart"></i>
 					Data Analysis</a>
 				</li>
@@ -342,57 +342,79 @@ div.tooltip {
 								<span class="caption-helper">global statistic...</span>
 							</div>
 						</div>
-						<div class="portlet-body" >
+						<div class="portlet-body"  >
 							<div class="portlet-body">
 								<div class="row static-info">
-									<div class="col-md-6 name">
-										 Revenues (all completed):
-									</div>
-									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$revenues} RMB
+									<h4>Total datas table</h4>
+									<div class="table-scrollable">
+										
+										<table class="table table-hover">
+										<thead>
+										<tr>
+											<th>
+												 #
+											</th>
+											<th>
+												 Revenues
+											</th>
+											<th>
+												 Profit
+											</th>
+											<th>
+												 Salary
+											</th>
+											<th>
+												 No.Orders
+											</th>
+										</tr>
+										</thead>
+										<tbody>
+										<foreach name="datas" item="vo">
+											<if condition="$vo.createyear eq 'Total' ">
+												<tr class="danger">
+													<td>
+														 {$vo.createyear}
+													</td>
+													<td>
+														 {$vo.revenuesum}
+													</td>
+													<td>
+														 {$vo.profitsum}
+													</td>
+													<td>
+														{$vo.salarysum}
+													</td>
+													<td>
+														{$vo.ordernum}
+													</td>
+												</tr>
+											<else />
+												<tr>
+													<td>
+														 {$vo.createyear}
+													</td>
+													<td>
+														 {$vo.revenuesum}
+													</td>
+													<td>
+														 {$vo.profitsum}
+													</td>
+													<td>
+														{$vo.salarysum}
+													</td>
+													<td>
+														{$vo.ordernum}
+													</td>
+												</tr>
+											</if>
+											
+										</foreach>
+										
+										</tbody>
+										</table>
 									</div>
 								</div>
-								<foreach name="revenuesarr" item="vo">
-									<div class="row static-info">
-										<div class="col-md-6 name">
-										</div>
-										<div class="col-md-6 value">
-											 <small><i class="fa fa-check-square-o"></i> {$vo['revenues']} {$vo['moneytype']} </small><span class="label label-sm label-info"> {$vo['rating']} </span>
-										</div>
-									</div>
-								</foreach>
-								<div class="row static-info">
-									<div class="col-md-6 name">
-										 Profit (all completed):
-									</div>
-									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$profit} RMB
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-6 name">
-										 Worker Salary (all completed):
-									</div>
-									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$salary} RMB
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-6 name">
-										 No. completed Orders
-									</div>
-									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$ordernum}
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-6 name">
-										 Average Profig/day (all completed):
-									</div>
-									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$profitavg} RMB
-									</div>
-								</div>
+								
 								<hr/>
 								<div class="row static-info">
 									<div class="col-md-3 name">
@@ -483,15 +505,15 @@ div.tooltip {
 									<div class="col-md-12 col-sm-12">
 										<div class="input-group ">
 											<select id="monthselect" class="form-control input-inline input-medium" name="monthinput">
-												<option value="1">1 month</option>
-												<option value="2">2 month</option>
-												<option value="3">3 month</option>
-												<option value="4">4 month</option>
-												<option value="5">5 month</option>
-												<option value="6">6 month</option>
-												<option value="7">7 month</option>
-												<option value="8">8 month</option>
-												<option value="9">9 month</option>
+												<option value="01">1 month</option>
+												<option value="02">2 month</option>
+												<option value="03">3 month</option>
+												<option value="04">4 month</option>
+												<option value="05">5 month</option>
+												<option value="06">6 month</option>
+												<option value="07">7 month</option>
+												<option value="08">8 month</option>
+												<option value="09">9 month</option>
 												<option value="10">10 month</option>
 												<option value="11">11 month</option>
 												<option value="12">12 month</option>
@@ -556,7 +578,7 @@ div.tooltip {
 							</div>
 						</div>
 				</div>
-				<div class="col-md-12 col-sm-12">
+				<div class="col-md-12 col-sm-12" >
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
@@ -573,7 +595,7 @@ div.tooltip {
 									</a>
 								</div>
 							</div>
-							<div class="portlet-body form" >
+							<div class="portlet-body form" style="height: 600px;">
 								<div class="row">
 									<div class="col-md-12" >
 
@@ -642,7 +664,6 @@ div.tooltip {
         });
 		/* globel date */
 		var nowdate = new Date();
-
 		/* day to day */
 		$("#aaa").click(function(){
 			//alert("ccc");
@@ -656,6 +677,8 @@ div.tooltip {
 
 		});
 		get_daytoday_query("01-01","12-31");
+		$("input[name='fromdaytoday']").val("01-01");
+		$("input[name='todaytoday']").val("12-31");
 		function get_daytoday_query(fromdate,todate){
 			var data = {};
 			data.fromdate = fromdate;
@@ -667,20 +690,24 @@ div.tooltip {
 				data:data,
 				dataType:"json",
 				success: function aa(data) {
-					  //showstorelist(data.stores);
-					  var fs = '1900-'+fromdate;
-						var ts = '1900-'+todate;
-						var fstep = new Date(Date.parse(fs.replace(/-/g,   "/")));
-						var ts = '1900-'+todate;
-						var tstep = new Date(Date.parse(ts.replace(/-/g,   "/")));
-					    console.log(fstep);
-						var xtformate = "%d";
-						if(fstep.getMonth() != tstep.getMonth()){
-							xtformate = "%m";
-						}
-					    console.log(xtformate);
-						var para = {mindate:fstep ,maxdate:tstep,xtformate:xtformate};
-						drawLineChart(data,"#chart","profit",para);
+					//showstorelist(data.stores);
+					var fs = '1900-'+fromdate;
+					var ts = '1900-'+todate;
+					var fstep = new Date(Date.parse(fs.replace(/-/g,   "/")));
+					var tstep = new Date(Date.parse(ts.replace(/-/g,   "/")));
+					console.log(fstep);
+					var xtformate = "%d";
+					var xnum = 12;
+					if(fstep.getMonth() != tstep.getMonth()){
+						xtformate = "%m";
+						xnum = Math.abs(fstep.getMonth() - tstep.getMonth())+1;
+					}else{
+						fstep.getMonth() - tstep.getMonth();
+						xnum = Math.abs(fstep.getDate() - tstep.getDate())+1;
+					}
+					//console.log(tstep);
+					var para = {mindate:fstep ,maxdate:tstep,xtformate:xtformate,xnum:xnum,ytext:"Total Profit"};
+					drawLineChart(data,"#chart","profit",para);
 
 				}
 			});
@@ -688,12 +715,17 @@ div.tooltip {
 		/* month select handle */
 		var nowmonth = nowdate.getMonth()+1;
 		get_days_of_month_query(nowmonth);
-		$("#monthselect").val(nowmonth);
+		if(nowmonth<10){
+			$("#monthselect").val("0"+nowmonth);
+		}else
+		{
+			$("#monthselect").val(nowmonth);
+		}
 		$("#monthselect").live('change',function(){
-			//alert();
-			$("#daychart").html("")
-			get_days_of_month_query($("#monthselect").val());
-			//alert();
+		//alert();
+		$("#daychart").html("")
+		get_days_of_month_query($("#monthselect").val());
+		//alert();
 
 		});
 		function get_days_of_month_query(m){
@@ -706,27 +738,30 @@ div.tooltip {
 				data:data,
 				dataType:"json",
 				success: function aa(data) {
-
-						para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-01-31'),xtformate:"%d"};
-						drawLineChart(data,"#daychart","profit",para)	;
-
+					var fs = "1900-"+ m + "-01";
+					var ts = "1900-"+ m + "-31";				
+					var fstep = new Date(Date.parse(fs.replace(/-/g,   "/")));
+					var tstep = new Date(Date.parse(ts.replace(/-/g,   "/")));
+					var xnum = 15;
+					para = {mindate:fstep,maxdate:tstep,xtformate:"%d",xnum:xnum,ytext:"Total Profit"};
+					drawLineChart(data,"#daychart","profit",para);
 				}
 			});
 		}
-	//drawLineChart(data,"#chart","price");
+		//drawLineChart(data,"#chart","price");
 		function drawLineChart(data,chartid,attrname,para){
+			console.log(data);
 			var div = d3.select("body").append("div")
 				.attr("class", "tooltip")
 				.style("opacity", 0);
-			console.log(data);
+			//console.log(data);
 			var wd = $(chartid).width();
 			var wh = $(chartid).height();
 			var margin = {top:20, left:60, bottom:10, right:20};
 			var height = wh - margin.top - margin.bottom,
-					width = wd - margin.left - margin.right;
+				width = wd - margin.left - margin.right;
 			//console.log(width);
 			var duration = 50;
-
 			var lineOpacity = "0.25";
 			var lineOpacityHover = "0.85";
 			var otherLinesOpacityHover = "0.1";
@@ -735,13 +770,15 @@ div.tooltip {
 
 			var circleOpacity = '0.85';
 			var circleOpacityOnLineHover = "0.25"
-			var circleRadius = 2;
+			var circleRadius = 3;
 			var circleRadiusHover = 6;
 
 
 			/* Format Data */
 			var parseDate = d3.timeParse("%m-%d");
+			var keys = [];
 			data.forEach(function(d) {
+			  keys.push(d.name);
 			  d.values.forEach(function(d) {
 				d.createday = parseDate(d.createday);
 				d[attrname] = +d[attrname];
@@ -823,7 +860,7 @@ div.tooltip {
 
 
 			/* Add Axis into SVG */
-			var xAxis = d3.axisBottom(xScale).tickFormat(d3.timeFormat(para.xtformate));
+			var xAxis = d3.axisBottom(xScale).tickFormat(d3.timeFormat(para.xtformate)).ticks(para.xnum);
 
 			var yAxis = d3.axisLeft(yScale).ticks(5);
 
@@ -839,7 +876,29 @@ div.tooltip {
 			  .attr("y", 15)
 			  .attr("transform", "rotate(-90)")
 			  .attr("fill", "#000")
-			  .text("Total values");
+			  .text(para.ytext);
+			//const keys = Object.keys(data[0]);
+			const z =  d3.scaleOrdinal(d3.schemeCategory10);
+			const legend = svg.append('g')
+			   .attr('font-family', 'sans-serif')
+			   .attr('font-size', 10)
+			   .attr('text-anchor', 'end')
+			   .selectAll('g')
+			   .data(keys.slice().reverse())
+			   .enter().append('g')
+			   .attr('transform', (d, i) => 'translate(0,' + i * 20 + ')');
+
+			legend.append('rect')
+			  .attr('x', width - 19)
+			  .attr('width', 10)
+			  .attr('height', 10)
+			  .attr('fill', z);
+
+			legend.append('text')
+			  .attr('x', width - 32)
+			  .attr('y', 6)
+			  .attr('dy', '0.32em')
+			  .text(d => d);
 
 		}
 		get_each_month_query("0","0");
@@ -858,7 +917,7 @@ div.tooltip {
 						//para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-01-31'),xtformate:"%d"};
 						//drawLineChart(data,"#daychart","profit",para)	;
 						var para = {data}
-						drawMultiBarChart("#monthchart",para,"month");
+						drawMultiBarChart("#monthchart",para,"month","Total Profit");
 
 				}
 			});
@@ -875,115 +934,114 @@ div.tooltip {
 				data:data,
 				dataType:"json",
 				success: function aa(data) {
-
 						//para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-01-31'),xtformate:"%d"};
 						//drawLineChart(data,"#daychart","profit",para)	;
-						console.log(data);
+						//console.log(data);
 						var para = {data}
-						drawMultiBarChart("#qchart",para,"qname");
+						drawMultiBarChart("#qchart",para,"qname","Total Profit");
 
 				}
 			});
 		}
 		//drawMultiBarChart("#monthchart",para);
-		function drawMultiBarChart(chartname,para,kname){
+		function drawMultiBarChart(chartname,para,kname,ytext){
 			const data = para.data;
 			//console.log(data);
-		const keys = Object.keys(data[0]);
-		if(keys.indexOf(kname)>=0){
-			keys.splice(keys.indexOf(kname), 1);
-		}
-		//console.log(keys);
-		const tip = d3.tip().html(d=> d.key+ ": "+d.value);
+			const keys = Object.keys(data[0]);
+			if(keys.indexOf(kname)>=0){
+				keys.splice(keys.indexOf(kname), 1);
+			}
+			//console.log(keys);
+			const tip = d3.tip().html(d=> d.key+ ": "+d.value);
 
-		var wd = $(chartname).width();
+			var wd = $(chartname).width();
 			var wh = $(chartname).height();
 			var margin = {top:20, left:60, bottom:70, right:20};
 			var height = wh - margin.top - margin.bottom,
-			    width = wd - margin.left - margin.right;
-		  $(chartname).html("");
+				width = wd - margin.left - margin.right;
+			$(chartname).html("");
 			var svg = d3.select(chartname)
-			        .append("svg")
-			        .attr("height", height + margin.top + margin.bottom)
-			        .attr("width", width + margin.left + margin.right)
-			        .style("cursor","default");
+					.append("svg")
+					.attr("height", height + margin.top + margin.bottom)
+					.attr("width", width + margin.left + margin.right)
+					.style("cursor","default");
 			 var g = svg.append("g")
-			        .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+					.attr("transform","translate(" + margin.left + "," + margin.top + ")");
 
-		svg.call(tip)
+			svg.call(tip)
 
-		const x0 = d3.scaleBand()
-		  .rangeRound([0, width])
-		  .paddingInner(.1);
+			const x0 = d3.scaleBand()
+			  .rangeRound([0, width])
+			  .paddingInner(.1);
 
-		const x1 = d3.scaleBand()
-		  .padding(.05);
+			const x1 = d3.scaleBand()
+			  .padding(.05);
 
-		const y = d3.scaleLinear()
-		  .rangeRound([height, 0]);
+			const y = d3.scaleLinear()
+			  .rangeRound([height, 0]);
 
-		const z =  d3.scaleOrdinal(d3.schemeCategory10);
+			const z =  d3.scaleOrdinal(d3.schemeCategory10);
 
-		  x0.domain(data.map(d => d[kname]));
-		  x1.domain(keys).rangeRound([0, x0.bandwidth()]);
-		  y.domain([0, d3.max(data, d => d3.max(keys, key=> d[key]))]).nice();
-		//console.log(d3.max(data, d => d3.max(keys, key=> d[key])));
-		g.append('g')
-		  .selectAll('g')
-		  .data(data)
-		  .enter()
-		  .append('g')
-		  .attr('transform', d => 'translate(' + x0(d[kname]) + ',0)')
-		  .selectAll('rect')
-		  .data(d => keys.map(key => {return {key: key, value: d[key]}}))
-		  .enter().append('rect')
-		  .attr('x', d => x1(d.key))
-		  .attr('y', d => y(d.value))
-		  .attr('width', x1.bandwidth()+1)
-		  .attr('height', d => height - y(d.value))
-		  .attr('fill', d =>  z(d.key))
-		  .on('mouseover', tip.show)
-		  .on('mouseout', tip.hide)
+			  x0.domain(data.map(d => d[kname]));
+			  x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+			  y.domain([0, d3.max(data, d => d3.max(keys, key=> d[key]))]).nice();
+			//console.log(d3.max(data, d => d3.max(keys, key=> d[key])));
+			g.append('g')
+			  .selectAll('g')
+			  .data(data)
+			  .enter()
+			  .append('g')
+			  .attr('transform', d => 'translate(' + x0(d[kname]) + ',0)')
+			  .selectAll('rect')
+			  .data(d => keys.map(key => {return {key: key, value: d[key]}}))
+			  .enter().append('rect')
+			  .attr('x', d => x1(d.key))
+			  .attr('y', d => y(d.value))
+			  .attr('width', x1.bandwidth()+1)
+			  .attr('height', d => height - y(d.value))
+			  .attr('fill', d =>  z(d.key))
+			  .on('mouseover', tip.show)
+			  .on('mouseout', tip.hide)
 
-		g.append('g')
-		  .attr('class', 'axis-bottom')
-		  .attr('transform', 'translate(0,' + height + ')')
-		  .call(d3.axisBottom(x0));
+			g.append('g')
+			  .attr('class', 'axis-bottom')
+			  .attr('transform', 'translate(0,' + height + ')')
+			  .call(d3.axisBottom(x0));
 
-		g.append('g')
-		  .attr('class', 'axis-left')
-		  .call(d3.axisLeft(y).ticks(null, 's'))
-		  .append('text')
-		  .attr('x', 10)
-		  .attr('y', y(y.ticks().pop()) + 10)
-		  .attr('dy', '0.32em')
-		  .attr('fill', '#000')
-		  .style('transform', 'rotate(-90deg)')
-		  .attr('font-weight', 'bold')
-		  .attr('text-anchor', 'end')
-		  .text('Population');
+			g.append('g')
+			  .attr('class', 'axis-left')
+			  .call(d3.axisLeft(y).ticks(null, 's'))
+			  .append('text')
+			  .attr('x', 10)
+			  .attr('y', y(y.ticks().pop()) + 10)
+			  .attr('dy', '0.32em')
+			  .attr('fill', '#000')
+			  .style('transform', 'rotate(-90deg)')
+			  .attr('font-weight', 'bold')
+			  .attr('text-anchor', 'end')
+			  .text(ytext);
 
-		const legend = g.append('g')
-		   .attr('font-family', 'sans-serif')
-		   .attr('font-size', 10)
-		   .attr('text-anchor', 'end')
-		   .selectAll('g')
-		   .data(keys.slice().reverse())
-		   .enter().append('g')
-		   .attr('transform', (d, i) => 'translate(0,' + i * 20 + ')');
+			const legend = g.append('g')
+			   .attr('font-family', 'sans-serif')
+			   .attr('font-size', 10)
+			   .attr('text-anchor', 'end')
+			   .selectAll('g')
+			   .data(keys.slice().reverse())
+			   .enter().append('g')
+			   .attr('transform', (d, i) => 'translate(0,' + i * 20 + ')');
 
-		legend.append('rect')
-		  .attr('x', width - 19)
-		  .attr('width', 10)
-		  .attr('height', 10)
-		  .attr('fill', z);
+			legend.append('rect')
+			  .attr('x', width - 19)
+			  .attr('width', 10)
+			  .attr('height', 10)
+			  .attr('fill', z);
 
-		legend.append('text')
-		  .attr('x', width - 32)
-		  .attr('y', 6)
-		  .attr('dy', '0.32em')
-		  .text(d => d);
-				}
+			legend.append('text')
+			  .attr('x', width - 32)
+			  .attr('y', 6)
+			  .attr('dy', '0.32em')
+			  .text(d => d);
+			}
 
 
 

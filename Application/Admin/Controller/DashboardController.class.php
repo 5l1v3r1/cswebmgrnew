@@ -81,19 +81,14 @@ class DashboardController extends CommonController {
       $res = getYearData($year);
       $this->ajaxReturn($res);
     }
-    public function showDataAnalysis(){
-        $year = date("Y");
+    public function showDataMoneyAnalysis(){
         $res = [];
-        $res = getAllData();
-        $cydata = [];
-        $cydata = getYearData($year);
+        $res = getAllData();        
         $this->assign('revenues',$res[0]);
         $this->assign('salary',$res[1]);
         $this->assign('profit',$res[2]);
         $this->assign('revenuesarr',$res[3]);
         $this->assign('ordernum',$res[4]);
-
-
         $this->assign('ongoingrevenues',$res[5]);
         $this->assign('ongoingsalary',$res[6]);
         $this->assign('ongoingprofit',$res[7]);
@@ -102,8 +97,31 @@ class DashboardController extends CommonController {
         $this->assign('ongoingunpaid',$res[10]);
         $this->assign('ongoingdoing',$res[11]);
         $this->assign('ongoingunset',$res[12]);
-
-        $this->assign('cydata',$cydata);//current day data info
+        
+        $DATEYEAR = date("Y");
+        /*[createyear] => [salarysum] => 0 [revenuesum] => 0 [moneyinfo] => [profitsum] => 0 [ordernum] => 0 [profitavg] => 0 [datas] => Array ( ) )*/
+        $salarysum = 0;
+        $revenuesum = 0;
+        $profitsum  = 0;
+        $ordernum = 0;
+        $datas = [];
+        for($i=C(DATEORIYEAR);$i<=$DATEYEAR;$i++){
+            $cydata = [];
+            $cydata = getYearData($i);
+            $salarysum = $salarysum + $cydata["salarysum"];
+            $revenuesum = $revenuesum + $cydata["revenuesum"];
+            $profitsum = $profitsum + $cydata["profitsum"];
+            $ordernum = $ordernum + $cydata["ordernum"]; 
+            array_push($datas,$cydata);
+        }
+        $cydata["createyear"] = "Total" ;
+        $cydata["salarysum"] = $salarysum;
+        $cydata["revenuesum"] = $revenuesum; 
+        $cydata["profitsum"] = $profitsum;
+        $cydata["ordernum"] = $ordernum;
+        array_push($datas,$cydata);
+        print_r($datas);
+        $this->assign('datas',$datas);//current day data info
 
         //print_r($cydata);
 
@@ -111,7 +129,7 @@ class DashboardController extends CommonController {
         $this->assign('today',$fromdate);
         $this->assign('todaymonth',date("Y-m"));
         $this->assign('todayyear',$year);
-       $this->display(T('admin/dashbord_data_analysis'));
+        $this->display(T('admin/dashbord_data_analysis'));
 
     }
     /* one year */
@@ -136,7 +154,7 @@ class DashboardController extends CommonController {
     /*get days of potin month*/
     public function getEachMonth(){
       $m = I('post.month','','htmlspecialchars');//
-      $m = "02";
+      //$m = "02";
       $res = [];
       $res0 = [];
       //echo C(DATEORIYEAR);
@@ -155,25 +173,27 @@ class DashboardController extends CommonController {
 
       }
       $i = 0;
-      foreach($res as $k=>$v){
+      for($i = 0; $i<count($res);$i++){
         //echo ($k["name"]);
         //echo (count($k["values"]));
-        if(count($k["values"]) == 0){
-          unset($res[$k]);
+        //print_r($res[$i]["values"]);
+        if(count($res[$i]["values"]) == 0){
+          unset($res[$i]);
         }
         //echo "<br>";
       }
+      //print_r($res);
       $this->ajaxReturn($res);
     }
     public function getMonths(){
-        $fy = "2018";
-        $ty = "2019";
+        $fy = C(DATEORIYEAR);
+        $ty = date("Y",time());
         $res = getMonthsData($fy,$ty);
         $this->ajaxReturn($res);
     }
     public function getQdatas(){
-        $fy = "2018";
-        $ty = "2019";
+        $fy = C(DATEORIYEAR);
+        $ty = date("Y",time());
         /*
         q1: 1-31 -3-31
         q2: 4-1  6-30
@@ -182,8 +202,6 @@ class DashboardController extends CommonController {
         */
 
         /*get Q1*/
-        $ty = date("Y",time());
-        $fy = C(DATEORIYEAR);
         $res1 = getQData($fy,$ty,"Q1");
         $res2 = getQData($fy,$ty,"Q2");
         $res3 = getQData($fy,$ty,"Q3");
