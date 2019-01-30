@@ -668,9 +668,11 @@ div.tooltip {
 				dataType:"json",
 				success: function aa(data) {
 					  //showstorelist(data.stores);
-					    
-						var fstep = new Date('1900-'+fromdate);
+					    var fs = '1900-'+fromdate;
+						var fstep = new Date(Date.parse(fs.replace(/-/g,   "/"));
+						var ts = '1900-'+todate;
 						var tstep = new Date('1900-'+todate);
+					    console.log(fstep);
 						var xtformate = "%d";
 						if(fstep.getMonth() != tstep.getMonth()){
 							xtformate = "%m";
