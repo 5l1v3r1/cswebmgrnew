@@ -83,7 +83,7 @@ class DashboardController extends CommonController {
     }
     public function showDataMoneyAnalysis(){
         $res = [];
-        $res = getAllData();        
+        $res = getAllData();
         $this->assign('revenues',$res[0]);
         $this->assign('salary',$res[1]);
         $this->assign('profit',$res[2]);
@@ -97,7 +97,7 @@ class DashboardController extends CommonController {
         $this->assign('ongoingunpaid',$res[10]);
         $this->assign('ongoingdoing',$res[11]);
         $this->assign('ongoingunset',$res[12]);
-        
+
         $DATEYEAR = date("Y");
         /*[createyear] => [salarysum] => 0 [revenuesum] => 0 [moneyinfo] => [profitsum] => 0 [ordernum] => 0 [profitavg] => 0 [datas] => Array ( ) )*/
         $salarysum = 0;
@@ -111,16 +111,16 @@ class DashboardController extends CommonController {
             $salarysum = $salarysum + $cydata["salarysum"];
             $revenuesum = $revenuesum + $cydata["revenuesum"];
             $profitsum = $profitsum + $cydata["profitsum"];
-            $ordernum = $ordernum + $cydata["ordernum"]; 
+            $ordernum = $ordernum + $cydata["ordernum"];
             array_push($datas,$cydata);
         }
         $cydata["createyear"] = "Total" ;
         $cydata["salarysum"] = $salarysum;
-        $cydata["revenuesum"] = $revenuesum; 
+        $cydata["revenuesum"] = $revenuesum;
         $cydata["profitsum"] = $profitsum;
         $cydata["ordernum"] = $ordernum;
         array_push($datas,$cydata);
-        print_r($datas);
+        //print_r($datas);
         $this->assign('datas',$datas);//current day data info
 
         //print_r($cydata);

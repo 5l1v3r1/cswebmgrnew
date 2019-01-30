@@ -347,7 +347,7 @@ div.tooltip {
 								<div class="row static-info">
 									<h4>Total datas table</h4>
 									<div class="table-scrollable">
-										
+
 										<table class="table table-hover">
 										<thead>
 										<tr>
@@ -407,14 +407,14 @@ div.tooltip {
 													</td>
 												</tr>
 											</if>
-											
+
 										</foreach>
-										
+
 										</tbody>
 										</table>
 									</div>
 								</div>
-								
+
 								<hr/>
 								<div class="row static-info">
 									<div class="col-md-3 name">
@@ -739,7 +739,7 @@ div.tooltip {
 				dataType:"json",
 				success: function aa(data) {
 					var fs = "1900-"+ m + "-01";
-					var ts = "1900-"+ m + "-31";				
+					var ts = "1900-"+ m + "-31";
 					var fstep = new Date(Date.parse(fs.replace(/-/g,   "/")));
 					var tstep = new Date(Date.parse(ts.replace(/-/g,   "/")));
 					var xnum = 15;
@@ -750,7 +750,7 @@ div.tooltip {
 		}
 		//drawLineChart(data,"#chart","price");
 		function drawLineChart(data,chartid,attrname,para){
-			console.log(data);
+			//console.log(data);
 			var div = d3.select("body").append("div")
 				.attr("class", "tooltip")
 				.style("opacity", 0);
@@ -884,7 +884,7 @@ div.tooltip {
 			   .attr('font-size', 10)
 			   .attr('text-anchor', 'end')
 			   .selectAll('g')
-			   .data(keys.slice().reverse())
+			   .data(keys.slice())
 			   .enter().append('g')
 			   .attr('transform', (d, i) => 'translate(0,' + i * 20 + ')');
 

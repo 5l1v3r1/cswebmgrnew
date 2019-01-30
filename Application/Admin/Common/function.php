@@ -320,7 +320,7 @@ function getDayToDay($fromdate,$todate){
     //print_r($day_profitarray);
     $datas = [];
     foreach($month_salaryarr as $k=>$v){
-      $cell['profit'] = $day_profitarray[$v['createday']];
+      $cell['profit'] = round($day_profitarray[$v['createday']],2);
       $cell['salary'] = $v['salary'];
     //$salarysum = $salarysum + $v['salary'];
       $cell['revenuearray'] = $day_revenuearray[$v['createday']];
@@ -367,7 +367,7 @@ function getDayData($daydata){
       $datas['today_revenues'] = $today_revenues;
       $datas['today_alldata'] = $today_revenuesarr;
       $datas['today_ordernum'] = $today_ordernum;
-      $datas['today_profit'] = $today_revenues - $today_salary;
+      $datas['today_profit'] = round($today_revenues - $today_salary,2);
       return $datas;
 }
 function getMonthsData($fy,$ty){
