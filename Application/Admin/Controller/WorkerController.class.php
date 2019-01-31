@@ -401,10 +401,10 @@ class WorkerController extends CommonController {
 		$this->display(T('admin/workers_analysis'));
 		
 	}
-	public function getAllWorkerData(){
-		$workertotal = [];
-		$workertotal = getAllWorkerData();
-		$this->assign('workertotal',workertotal);
+	public function getTechWorkerDatas(){
+		$res = [];
+        $res = getTechWorkerDatas();
+        $this->ajaxReturn($res);
 		
 	}
 }

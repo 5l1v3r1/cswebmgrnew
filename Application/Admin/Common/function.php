@@ -1062,3 +1062,57 @@ function getAllWorkerData(){
 	}
 */
 }
+/* one tech -> workers statistics */
+function getTechWorkerDatas(){
+    $techlist = M('technologies')->field("techid,content as techname")->select();
+    $worker_doing_wxids = M('orders')->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_workers.wxid')->where('db_worker_order.w_state = 1')->group("db_workers.wxid")->select();
+    $worker_unpaid_wxids = M('orders')->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_workers.wxid')->where('db_worker_order.w_state = 2')->group("db_workers.wxid")->select();
+    //$worker_doing_wxidsstr = implode(",",$worker_doing_wxids);
+    //$worker_unpaid_wxidsstr = implode(",",$worker_unpaid_wxids);
+    $worker_doing_wxidsstr = "";
+    $worker_unpaid_wxidsstr = "";
+    foreach($worker_doing_wxids as $k => $v){
+        if($worker_doing_wxidsstr == ""){
+            $worker_doing_wxidsstr = '"'.$v["wxid"].'"';
+        }else{
+             $worker_doing_wxidsstr = $worker_doing_wxidsstr.',"'.$v["wxid"].'"';
+        }
+    }
+    foreach($worker_unpaid_wxids as $k => $v){
+        if($worker_unpaid_wxidsstr == ""){
+            $worker_unpaid_wxidsstr = '"'.$v["wxid"].'"';
+        }else{
+             $worker_unpaid_wxidsstr = $worker_unpaid_wxidsstr.',"'.$v["wxid"].'"';
+        }
+    }
+    //print_r($worker_doing_wxids);
+    //echo $worker_doing_wxidsstr;
+    //echo "<br>";
+    //echo $worker_unpaid_wxidsstr;
+    $Tech= M('worker_tech');
+    $dataset = [];
+    foreach($techlist as $k => $v){
+        $item = [];
+        //echo $v["techid"];
+        //echo $v["techname"];
+        //echo "#########";
+        //$techeslist = $Tech->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->where('db_worker_tech.wxid in ("'.$worker_doing_wxidsstr.'") and db_technologies.techid = "'.$v["techid"].'"')->select();
+        $doing = $Tech->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->where('db_worker_tech.wxid in ('.$worker_doing_wxidsstr.') and db_technologies.techid = "'.$v["techid"].'"')->count();
+        $unpaid = $Tech->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->where('db_worker_tech.wxid in ('.$worker_unpaid_wxidsstr.') and db_technologies.techid = "'.$v["techid"].'"')->count();
+        $total = $Tech->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->where('db_technologies.techid = "'.$v["techid"].'"')->count();
+        $item["name"] = $v["techname"];
+        $item["total"] =  $total;
+        $item["doing"] =  $doing;
+        $item["unpaid"] =  $unpaid;
+        $item["free"] =  $total - $doing - $unpaid;
+        $item["formular"] = $item["free"]."/".$total;
+        $item["rate"] = round($item["free"]/$total,2);
+        array_push($dataset,$item); 
+        //echo "<br>";
+    }
+    //print_r($dataset);
+    return $dataset;
+	//$Tech= M('worker_tech');
+	//$techeslist = $Tech->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->select();
+	//print_r($techeslist);
+}
