@@ -982,3 +982,83 @@ function CodeToTimeZone($code){
     }
     return $tz;
 }
+/*
+**###################################################################################
+********************************** workers data api *********************************
+**###################################################################################
+*/
+function getAllWorkerData(){
+	$data = [];
+	$Model = M('workers');
+	$workers = $Model->order('addtime asc')->select();
+	$data["worker_total"] = $Model->order('addtime asc')->count();
+	$ORDER = M('orders');
+	//$ordercomplete = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_workers.wxid,db_worker_order.w_state')->where('db_workers.wxid = "'.$wxid.'" AND db_worker_order.w_state = 3')->count();
+	$worker_doing = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_workers.wxid,count(*) as num')->where('db_worker_order.w_state = 1')->group("db_workers.wxid")->select();
+	$data["worker_doing"]  = count($worker_doing);
+	$worker_unpaid = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_workers.wxid,count(*) as num')->where('db_worker_order.w_state = 2')->group("db_workers.wxid")->select();
+	$data["worker_unpaid"]  = count($worker_unpaid);
+	$worker_old = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_workers.wxid,count(*) as num')->group("db_workers.wxid")->select();
+	//print_r($worker_old);
+	$data["worker_oldnum"]  = count($worker_old);
+	$data["worker_free"]  = $data["worker_total"] - $data["worker_doing"];
+	$data["worker_salary"] = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->sum('db_worker_order.w_payment');
+	$data["worker_unpaidsalary"] = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->where('db_worker_order.w_state = 2')->sum('db_worker_order.w_payment');
+	return $data;
+	//echo count($worker_old);
+	
+	//dump($workers);
+/*
+	foreach($workers as $k=>$v){
+		$MM = M('worker_tech');
+		$map['wxid'] = $v['wxid'];
+		$teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
+		$v['techarr'] = $teches;
+		$ORDER = M('orders');
+		$workitem = getWorkerInfo($v['wxid']);
+
+		$v['ordercomplete'] = $workitem[0];//$ordercomplete;
+		$v['orderonging'] = $workitem[3] ;//$orderonging;
+		$v['orderunpaid'] = $workitem[4] ;//$order unpaid;
+		$v['orderall'] = $workitem[5];//$orderonging + $ordercomplete;
+		$v['income'] = $workitem[2];
+		$v['remark'] = round($workitem[1],2);
+
+		$workers[$k] = $v;
+		//dump($workers[$k]);
+		//echo $k;
+		switch($type){
+			case 1:
+			  if($v['income'] == 0.00 && $workers[$k]["status"] == 0){
+				array_push($workersres,$workers[$k]);
+			  }
+			  break;
+			case 2:
+			  if($v['income'] > 0.00 && $workers[$k]["status"] == 0){
+				array_push($workersres,$workers[$k]);
+			  }
+			  break;
+			case 3:
+			  if($workers[$k]["status"] == 1){
+				array_push($workersres,$workers[$k]);
+			  }
+			  break;
+			case 4:
+			  if($workers[$k]["orderonging"] == 0 && $workers[$k]["status"] == 0){
+				array_push($workersres,$workers[$k]);
+			  }
+			  break;
+			case 5:
+			  if($workers[$k]["orderonging"] > 0 && $workers[$k]["status"] == 0){
+				array_push($workersres,$workers[$k]);
+			  }
+			  break;
+			default:
+			  if($workers[$k]["status"] == 0){
+				array_push($workersres,$workers[$k]);
+			  }
+		}
+
+	}
+*/
+}

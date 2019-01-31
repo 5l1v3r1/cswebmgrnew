@@ -392,4 +392,19 @@ class WorkerController extends CommonController {
 		$this->assign('workerinfo',$v);
 		$this->display(T('admin/workers_detail'));
 	}
+	/* worker analysis */
+	public function showDataAnalysisPage(){
+		$workertotal = [];
+		$workertotal = getAllWorkerData();
+		$this->assign('workertotal',$workertotal);
+		//print_r();
+		$this->display(T('admin/workers_analysis'));
+		
+	}
+	public function getAllWorkerData(){
+		$workertotal = [];
+		$workertotal = getAllWorkerData();
+		$this->assign('workertotal',workertotal);
+		
+	}
 }

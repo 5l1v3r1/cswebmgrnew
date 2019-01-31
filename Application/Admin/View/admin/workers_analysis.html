@@ -1,16 +1,12 @@
 <extend name="public/template" />
 <block name="headerlink">
-	<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
-	<link href="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
-	<link href="__PUBLIC__/metronic3_7/assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
-	<link href="__PUBLIC__/metronic3_7/assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
-	<!-- END PAGE LEVEL PLUGIN STYLES -->
-	<!-- BEGIN PAGE STYLES -->
-	<link href="__PUBLIC__/metronic3_7/assets/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
-	<!-- END PAGE STYLES -->
+	<!-- BEGIN PAGE LEVEL STYLES -->
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/select2/select2.css"/>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-datepicker/css/datepicker.css"/>
+	<!-- END PAGE LEVEL STYLES -->
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/admin/pages/css/pagecode.css"/>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
-	<script src="__PUBLIC__/metronic3_7/assets/admin/layout/scripts/tooltip.js"></script>
-	<link href="__PUBLIC__/metronic3_7/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
 </block>
 <block name="siderbarmenu">
 	<ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
@@ -31,7 +27,7 @@
 				<i class="icon-close"></i>
 				</a>
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search..." />
+					<input type="text" class="form-control" placeholder="Search...">
 					<span class="input-group-btn">
 					<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
 					</span>
@@ -39,7 +35,7 @@
 			</form>
 			<!-- END RESPONSIVE QUICK SEARCH FORM -->
 		</li>
-		<li class="start active open">
+		<li class="start">
 			<a href="javascript:;">
 			<i class="icon-home"></i>
 			<span class="title">Dashboard</span>
@@ -47,7 +43,7 @@
 			<span class="arrow open"></span>
 			</a>
 			<ul class="sub-menu">
-				<li class="active">
+				<li>
 					<a href="{:U('Dashboard/index');}">
 					<i class="icon-bar-chart"></i>
 					Default Dashboard</a>
@@ -101,7 +97,7 @@
 				</li>
 			</ul>
 		</li>
-		<li>
+		<li  class="active">
 			<a href="javascript:;">
 				<i class="fa fa-code"></i>
 				<span class="title">Workers</span>
@@ -109,46 +105,234 @@
 			</a>
 			<ul class="sub-menu">
 				<li>
-					<a href="{:U('Worker/showDataAnalysisPage');}">
+					<a href="ecommerce_index.html">
 					<i class="icon-home"></i>
 					Dashboard</a>
 				</li>
-				<li>
-					<a href="{:U('Worker/workerlist');}">
-						<i class="icon-basket"></i>
-						ALL Workers Workers
-					</a>
-				</li>
-				<li>
-					<a href="{:U('Worker/workerlist?type=4');}">
-						<i class="icon-basket"></i>
-						free workers
-					</a>
-				</li>
-				<li>
-					<a href="{:U('Worker/workerlist?type=5');}">
-						<i class="icon-basket"></i>
-						busy workers
-					</a>
-				</li>
-				<li>
-					<a href="{:U('Worker/workerlist?type=2');}">
-						<i class="icon-basket"></i>
-						Income > 0
-					</a>
-				</li>
-				<li >
-					<a href="{:U('Worker/workerlist?type=1');}">
-						<i class="icon-basket"></i>
-						Income = 0
-					</a>
-				</li>
-				<li>
-					<a href="{:U('Worker/workerlist?type=3');}">
-						<i class="icon-basket"></i>
-						dead workers
-					</a>
-				</li>
+				<if condition="$type eq 1">
+					<li>
+						<a href="{:U('Worker/workerlist');}">
+							<i class="icon-basket"></i>
+							ALL Workers Workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=4');}">
+							<i class="icon-basket"></i>
+							free workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=5');}">
+							<i class="icon-basket"></i>
+							busy workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=2');}">
+							<i class="icon-basket"></i>
+							Income > 0
+						</a>
+					</li>
+					<li class="active">
+						<a href="{:U('Worker/workerlist?type=1');}">
+							<i class="icon-basket"></i>
+							Income = 0
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=3');}">
+							<i class="icon-basket"></i>
+							dead workers
+						</a>
+					</li>
+				<elseif condition="$type eq 2"/>
+					<li>
+						<a href="{:U('Worker/workerlist');}">
+							<i class="icon-basket"></i>
+							ALL Workers Workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=4');}">
+							<i class="icon-basket"></i>
+							free workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=5');}">
+							<i class="icon-basket"></i>
+							busy workers
+						</a>
+					</li>
+					<li class="active">
+						<a href="{:U('Worker/workerlist?type=2');}">
+							<i class="icon-basket"></i>
+							Income > 0
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=1');}">
+							<i class="icon-basket"></i>
+							Income = 0
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=3');}">
+							<i class="icon-basket"></i>
+							dead workers
+						</a>
+					</li>
+				<elseif condition="$type eq 3"/>
+					<li>
+						<a href="{:U('Worker/workerlist');}">
+							<i class="icon-basket"></i>
+							ALL Workers Workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=4');}">
+							<i class="icon-basket"></i>
+							free workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=5');}">
+							<i class="icon-basket"></i>
+							busy workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=2');}">
+							<i class="icon-basket"></i>
+							Income > 0
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=1');}">
+							<i class="icon-basket"></i>
+							Income = 0
+						</a>
+					</li>
+					<li class="active">
+						<a href="{:U('Worker/workerlist?type=3');}">
+							<i class="icon-basket"></i>
+							dead workers
+						</a>
+					</li>
+				<elseif condition="$type eq 4"/>
+					<li>
+						<a href="{:U('Worker/workerlist');}">
+							<i class="icon-basket"></i>
+							ALL Workers Workers
+						</a>
+					</li>
+					<li class="active">
+						<a href="{:U('Worker/workerlist?type=4');}">
+							<i class="icon-basket"></i>
+							free workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=5');}">
+							<i class="icon-basket"></i>
+							busy workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=2');}">
+							<i class="icon-basket"></i>
+							Income > 0
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=1');}">
+							<i class="icon-basket"></i>
+							Income = 0
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=3');}">
+							<i class="icon-basket"></i>
+							dead workers
+						</a>
+					</li>
+				<elseif condition="$type eq 5"/>
+					<li>
+						<a href="{:U('Worker/workerlist');}">
+							<i class="icon-basket"></i>
+							ALL Workers Workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=4');}">
+							<i class="icon-basket"></i>
+							free workers
+						</a>
+					</li>
+					<li class="active">
+						<a href="{:U('Worker/workerlist?type=5');}">
+							<i class="icon-basket"></i>
+							busy workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=2');}">
+							<i class="icon-basket"></i>
+							Income > 0
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=1');}">
+							<i class="icon-basket"></i>
+							Income = 0
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=3');}">
+							<i class="icon-basket"></i>
+							dead workers
+						</a>
+					</li>
+				<else />
+					<li class="active">
+						<a href="{:U('Worker/workerlist');}">
+							<i class="icon-basket"></i>
+							ALL Workers Workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=4');}">
+							<i class="icon-basket"></i>
+							free workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=5');}">
+							<i class="icon-basket"></i>
+							busy workers
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=2');}">
+							<i class="icon-basket"></i>
+							Income > 0
+						</a>
+					</li>
+					<li >
+						<a href="{:U('Worker/workerlist?type=1');}">
+							<i class="icon-basket"></i>
+							Income = 0
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Worker/workerlist?type=3');}">
+							<i class="icon-basket"></i>
+							dead workers
+						</a>
+					</li>
+				</if>
+
 				<li>
 					<a href="#">
 						<i class="icon-bar-chart"></i>
@@ -196,7 +380,6 @@
 
 			</ul>
 		</li>
-
 	</ul>
 </block>
 <block name="container">
@@ -219,7 +402,7 @@
 				</ul>
 			</div>
 			<h3 class="page-title">
-			Dashboard <small>reports & statistics</small>
+			Workers Dashboard <small>reports & statistics</small>
 			</h3>
 			<!-- END PAGE HEADER-->
 			<!-- BEGIN DASHBOARD STATS -->
@@ -231,10 +414,10 @@
 						</div>
 						<div class="details">
 							<div class="number">
-								 {$cydata.revenuesum} <i class="fa fa-cny"></i>
+								 {$workertotal.worker_total} <i class="fa fa-cny"></i>
 							</div>
 							<div class="desc">
-								 Revenues/{$todayyear}
+								 Total No.
 							</div>
 						</div>
 						<a class="more" href="javascript:;">
@@ -249,10 +432,10 @@
 						</div>
 						<div class="details">
 							<div class="number">
-								 {$cydata.profitsum} <i class="fa fa-cny"></i>
+								 {$workertotal.worker_doing} <i class="fa fa-cny"></i>
 							</div>
 							<div class="desc">
-								 Profit/{$todayyear}
+								 Busy No.
 							</div>
 						</div>
 						<a class="more" href="javascript:;">
@@ -267,10 +450,10 @@
 						</div>
 						<div class="details">
 							<div class="number">
-								 {$cin}
+								 {$workertotal.worker_unpaidsalary} <i class="fa fa-cny"></i>
 							</div>
 							<div class="desc">
-								 Ongoing
+								 Unpaid
 							</div>
 						</div>
 						<a class="more" href="javascript:;">
@@ -285,10 +468,10 @@
 						</div>
 						<div class="details">
 							<div class="number">
-								 {$ongoingprofit}<i class="fa fa-cny"></i>
+								 {$workertotal.worker_unpaid} <i class="fa fa-cny"></i>
 							</div>
 							<div class="desc">
-								 Estimat
+								 Unpaid No.
 							</div>
 						</div>
 						<a class="more" href="javascript:;">
@@ -314,113 +497,42 @@
 							<div class="portlet-body">
 								<div class="row static-info">
 									<div class="col-md-6 name">
-										 Revenues (all completed):
+										 Total No. :
 									</div>
 									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$revenues} RMB
-									</div>
-								</div>
-								<foreach name="revenuesarr" item="vo">
-									<div class="row static-info">
-										<div class="col-md-6 name">
-										</div>
-										<div class="col-md-6 value">
-											 <small><i class="fa fa-check-square-o"></i> {$vo['revenues']} {$vo['moneytype']} </small><span class="label label-sm label-info"> {$vo['rating']} </span>
-										</div>
-									</div>
-								</foreach>
-								<div class="row static-info">
-									<div class="col-md-6 name">
-										 Profit (all completed):
-									</div>
-									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$profit} RMB
+										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_total} 
 									</div>
 								</div>
 								<div class="row static-info">
 									<div class="col-md-6 name">
-										 Worker Salary (all completed):
+										 Busy No. :
 									</div>
 									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$salary} RMB
+										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_doing}
 									</div>
 								</div>
 								<div class="row static-info">
 									<div class="col-md-6 name">
-										 No. completed Orders
+										 Free No. :
 									</div>
 									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$ordernum}
+										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_free}
 									</div>
 								</div>
 								<div class="row static-info">
 									<div class="col-md-6 name">
-										 Average Profig/day (all completed):
+										 All Salary :
 									</div>
 									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$profitavg} RMB
-									</div>
-								</div>
-								<hr/>
-								<div class="row static-info">
-									<div class="col-md-3 name">
-										 Revenues (ongoing):
-									</div>
-									<div class="col-md-3 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingrevenues} RMB
-									</div>
-									<div class="col-md-4 name">
-										 Order Unpaid && done:
-									</div>
-									<div class="col-md-2 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingunpaid}
-									</div>
-								</div>
-
-								<div class="row static-info">
-									<div class="col-md-3 name">
-									</div>
-									<div class="col-md-3 value">
-										<foreach name="ongoingrevenuesarr" item="vo">
-										 <small><i class="fa fa-check-square-o"></i> {$vo['revenues']} {$vo['moneytype']} <br/></small>
-										</foreach>
-									</div>
-									<div class="col-md-4 name">
-										 Order Doing:
-									</div>
-									<div class="col-md-2 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingdoing}
-									</div>
-								</div>
-
-								<div class="row static-info">
-									<div class="col-md-3 name">
-										 Profit (ongoing):
-									</div>
-									<div class="col-md-3 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingprofit} RMB
-									</div>
-									<div class="col-md-4 name">
-										Order Unset:
-									</div>
-									<div class="col-md-2 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingunset}
+										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_salary} RMB
 									</div>
 								</div>
 								<div class="row static-info">
-									<div class="col-md-3 name">
-										 Salary (ongoing):
+									<div class="col-md-6 name">
+										 Unpaid Salary :
 									</div>
-									<div class="col-md-3 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingsalary} RMB
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-3 name">
-										 No.Orders(ongoing):
-									</div>
-									<div class="col-md-3 value">
-										 <i class="fa fa-paper-plane"></i> {$cin}
+									<div class="col-md-6 value">
+										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_unpaidsalary} RMB
 									</div>
 								</div>
 								<hr/>
@@ -604,40 +716,8 @@
 							</div>
 							<div class="portlet-body form">
 								<div class="row">
-									<div class="col-md-12 col-sm-12">
-										<div class="form-group">
-											<div class="col-md-3 col-sm-12">
-												<div class="input-group ">
-													<div class="input-group input-medium date date-picker" data-date="{$todaymonth}" data-date-format="yyyy-mm" data-date-viewmode="years" data-date-minviewmode="months">
-														<input type="text" class="form-control" name="monthsearchinput" width="80%" value="{$todaymonth}" readonly />
-														<span class="input-group-btn">
-														<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-														</span>
-													</div>
-													<div class="input-group-btn input-large">
-														<button class="btn yellow table-group-action-submit" id="monthsearchbtn"><i class="fa fa-search"></i></button>
-													</div>
-												</div>
-
-												<!-- /input-group -->
-											</div>
-											<div class="col-md-4 col-sm-12">
-												<h3 class="text-right"><i class="fa fa-calendar"></i> <span id="monthspan"></span></h3>
-											</div>
-											<div class="col-md-4 col-sm-12">
-												<div class="tile bg-red-sunglo">
-													<div class="tile-body" style="padding-left:2%;padding-top:2%;padding-bottom:2%">
-															<h4>Salary/mon: <span id="monthsalarysum"></span></h4>
-															<h4>Profit/mon: <span id="monthprofitsum"></span></h4>
-															<h4>Revenues/mon: <span id="monthrevenuessum"></span></h4>
-															<h4>Profit/day: <span id="monthprofitavg"></span></h4>
-
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div id="chart_month" class="chart" style="padding: 0px; position: relative;width:100%;height: 400px;"></div>
+									
+									<div id='stacked-bar' class="chart" style="padding: 0px; position: relative;width:100%;height: auto;"></div>
 								</div>
 
 							</div>
@@ -707,225 +787,86 @@
 		</div>
 </block>
 <block name="footscript">
+	<!-- BEGIN PAGE LEVEL PLUGINS -->
 	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/select2/select2.min.js"></script>
 	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 	<!-- END PAGE LEVEL PLUGINS -->
 	<!-- BEGIN PAGE LEVEL SCRIPTS -->
-	<!-- BEGIN PAGE LEVEL PLUGINS -->
-	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/clockface/js/clockface.js"></script>
-	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
-	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-	<script type="text/javascript" src="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-	<!-- END PAGE LEVEL PLUGINS -->
-	<!-- BEGIN PAGE LEVEL SCRIPTS -->
 	<script src="__PUBLIC__/metronic3_7/assets/global/scripts/metronic.js" type="text/javascript"></script>
 	<script src="__PUBLIC__/metronic3_7/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
-	<script src="__PUBLIC__/metronic3_7/assets/admin/pages/scripts/components-pickers.js"></script>
-	<script src="__PUBLIC__/metronic3_7/assets/global/scripts/metronic.js" type="text/javascript"></script>
-	<script src="__PUBLIC__/metronic3_7/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
-	<script src="__PUBLIC__/metronic3_7/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
-	<script src="__PUBLIC__/metronic3_7/assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
-	<script src="__PUBLIC__/metronic3_7/assets/admin/pages/scripts/components-pickers.js"></script>
 
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<script>
-		jQuery(document).ready(function() {
-			// initiate layout and plugins
-			Metronic.init(); // init metronic core components
-			Layout.init(); // init current layout
-			Demo.init(); // init demo features
-			ComponentsPickers.init();
-        });
-		/* date data */
-		function get_datedata_query(day){
-			var data = {};
-			data.daytime = day;
-			var url='__URL__/getDayData';
-			$.ajax({
-				type:"post",
-				url:url,
-				data:data,
-				dataType:"json",
-				success: function aa(data) {
-					  //showstorelist(data.stores);
-						//console.log(data);
-						showDayData(data);
-				}
+			jQuery(document).ready(function() {
+           Metronic.init(); // init metronic core components
+Layout.init(); // init current layout
 			});
-		}
-		function showDayData(data){
-			$("#dayrevenues").html("");
-			$("#daydatalist").html("");
-			$("#dayrevenues").text("  " + data.today_revenues + " RMB");
-			if(data.today_alldata != null){
-				for(var i=0;i< data.today_alldata.length;i++){
-					var cell='<small><i class="fa fa-check-square-o"> </i> ' + data['today_alldata'][i].revenues + " " + data['today_alldata'][i].moneytype +  ' </small> ';
-					$("#daydatalist").append(cell);
-				}
-			}
 
-			$("#dayprofit").text("  " + data.today_profit + " RMB");
-			if(data.today_salary == null){
-				data.today_salary = 0;
-			}
-			if(data.today_ordernum == null){
-				data.today_ordernum = 0;
-			}
-			$("#daysalary").text("  " + data.today_salary + " RMB");
-			$("#dayordernum").text("  " + data.today_ordernum);
-		}
-		var day  = $("input[name='daysearchinput']").val();
+var initStackedBarChart = {
+	draw: function(config) {
+		me = this,
+		domEle = config.element,
+		stackKey = config.key,
+		data = config.data,
+		margin = {top: 20, right: 20, bottom: 30, left: 50},
+		parseDate = d3.timeParse("%m/%Y"),
+		width = 960 - margin.left - margin.right,
+		height = 500 - margin.top - margin.bottom,
+		xScale = d3.scaleLinear().rangeRound([0, width]),
+		yScale = d3.scaleBand().rangeRound([height, 0]).padding(0.1),
+		color = d3.scaleOrdinal(d3.schemeCategory20),
+		xAxis = d3.axisBottom(xScale),
+		yAxis =  d3.axisLeft(yScale).tickFormat(d3.timeFormat("%b")),
+		svg = d3.select("#"+domEle).append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+				.append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-		get_datedata_query(day);
-		$("#daysearchbtn").click(function(){
-			var data = {};
-			var day = $("input[name='daysearchinput']").val();
-			get_datedata_query(day);
-			//console.log(day);
+		var stack = d3.stack()
+			.keys(stackKey)
+			/*.order(d3.stackOrder)*/
+			.offset(d3.stackOffsetNone);
+	
+		var layers= stack(data);
+			data.sort(function(a, b) { return b.total - a.total; });
+			yScale.domain(data.map(function(d) { return parseDate(d.date); }));
+			xScale.domain([0, d3.max(layers[layers.length - 1], function(d) { return d[0] + d[1]; }) ]).nice();
 
-		});
-		/* month data  */
-		function get_monthdata_query(day){
-			var data = {};
-			data.daytime = day;
-			var url='__URL__/getMonthData';
-			$.ajax({
-				type:"post",
-				url:url,
-				data:data,
-				dataType:"json",
-				success: function aa(data) {
-					  //showstorelist(data.stores);
-						console.log(data);
-						drawProfitBar(data.datas,"#chart_month");
-						$("#monthsalarysum").text("  " + data.salarysum + " RMB");
-						$("#monthprofitsum").text("  " + data.profitsum + " RMB");
-						$("#monthrevenuessum").text("  " + data.revenuesum + " RMB");
-						$("#monthprofitavg").text("  " + data.profitavg + " RMB");
-						$("#monthspan").text(data.createdate);
-						//showDayData(data);
-				}
-			});
-		}
-		var month = $("input[name='monthsearchinput']").val();
-		get_monthdata_query(month);
-		$("#monthsearchbtn").click(function(){
-			var data = {};
-			var month = $("input[name='monthsearchinput']").val();
-			get_monthdata_query(month);
-			//console.log(day);
-		});
-		/* get year */
-		function get_yeardata_query(day){
-			var data = {};
-			data.daytime = day;
-			var url='__URL__/getYearData';
-			$.ajax({
-				type:"post",
-				url:url,
-				data:data,
-				dataType:"json",
-				success: function aa(data) {
-					  //showstorelist(data.stores);
-						console.log(data);
-						drawProfitBar(data.datas,"#chart_year");
-						//drawProfitBar(data.datas);
-						$("#yearsalarysum").text("  " + data.salarysum + " RMB");
-						$("#yearprofitsum").text("  " + data.profitsum + " RMB");
-						$("#yearrevenuessum").text("  " + data.revenuesum + " RMB");
-						$("#yearspan").text(data.createyear);
-						//showDayData(data);
-				}
-			});
-		}
-		get_yeardata_query('2019');
-		$("#yearsearchbtn").click(function(){
-			var data = {};
-			var year = $("select[name='yearinput']").val();
-			get_yeardata_query(year)
-			console.log(year);
-		});
-		</script>
-		<script>
-			/*
-			var data = [
-    {name:'A',count:64,description:"This is column A!"},
-    {name:'B',count:32,description:"This is column B!"},
-    {name:'C',count:16,description:"This is column C!"},
-    {name:'D',count:8,description:"This is column D!"},
-    {name:'E',count:4,description:"This is column E!"},
-    {name:'F',count:2,description:"This is column F!"},
-];*/
-function drawProfitBar(data,chartname){
-console.log(data);
-	// Draw a basic bar chart
-	var wd = $(chartname).width();
-	var wh = $(chartname).height();
-	var margin = {top:20, left:60, bottom:70, right:20};
-	var height = wh - margin.top - margin.bottom,
-	    width = wd - margin.left - margin.right;
-  $(chartname).html("");
-	var svg = d3.select(chartname)
-	        .append("svg")
-	        .attr("height", height + margin.top + margin.bottom)
-	        .attr("width", width + margin.left + margin.right)
-	        .style("cursor","default")
-	        .append("g")
-	        .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+		var layer = svg.selectAll(".layer")
+			.data(layers)
+			.enter().append("g")
+			.attr("class", "layer")
+			.style("fill", function(d, i) { return color(i); });
 
-	var x = d3.scaleBand()
-	    .domain(data.map(function(d) { return d.createday;}))
-	    .range([0,width])
-	    .padding(.1);
-	var flagv = Math.max.apply(Math,data.map(function(o){return o.profit;}))
-	var y = d3.scaleLinear()
-	    .domain([0,flagv])
-	    .range([height,0]);
+		  layer.selectAll("rect")
+			  .data(function(d) { return d; })
+			.enter().append("rect")
+			  .attr("y", function(d) { return yScale(parseDate(d.data.date)); })
+			  .attr("x", function(d) { return xScale(d[0]); })
+			  .attr("height", yScale.bandwidth())
+			  .attr("width", function(d) { return xScale(d[1]) - xScale(d[0]) });
 
-	var color = d3.scaleOrdinal(d3.schemeCategory10)
-	    .domain(x.domain())
+			svg.append("g")
+			.attr("class", "axis axis--x")
+			.attr("transform", "translate(0," + (height+5) + ")")
+			.call(xAxis);
 
-
-	var tooltip = d3.tooltip() // returns the tooltip function
-	    .extent([[0,0],[width,height]]) // tells the tooltip how much area it has to work with
-	    .tips(["createday","profit","salary","revenuearray"],["CreateDate: ","Profit: ","Salary: ","Revenue: "]) // tells the tooltip which properties to display in the tip and what to label thme
-	    .fontSize(12) // sets the font size for the tooltip
-	    .padding([8,4]) // sets the amount of padding in the tooltip rectangle
-	    .margin([10,10]); // set the distance H and V to keep the tooltip from the mouse pointer
-
-	svg.selectAll(".bar")
-	    .data(data)
-	    .enter()
-	    .append("rect")
-	    .attr("x", function(d) { return x(d.createday)})
-	    .attr("y", function(d) { return y(d.profit)})
-	    .attr("width", x.bandwidth())
-	    .attr("height", function(d) { return height - y(d.profit)})
-	    .attr("fill", function(d) { return color(d.createday)})
-	    .each(tooltip.events); // attaches the tooltips mouseenter/leave/move events but does not overwrite previously attached events
-
-	svg.append("g")
-	    .attr("transform", "translate(0," + height + ")")
-	    .call(d3.axisBottom(x))
-			.selectAll("text")
-        .style("text-anchor", "end")
-        .attr("dx", "-.8em")
-        .attr("dy", ".15em")
-        .attr("transform", "rotate(-65)");
-
-	svg.append("g")
-	    .call(d3.axisLeft(y));
-
-	svg.call(tooltip) // draws the tooltip;
+			svg.append("g")
+			.attr("class", "axis axis--y")
+			.attr("transform", "translate(0,0)")
+			.call(yAxis);							
+	}
 }
+var data = [{"date":"4/1854","total":8571,"disease":1,"wounds":0,"other":5},{"date":"5/1854","total":23333,"disease":12,"wounds":0,"other":9},{"date":"6/1854","total":28333,"disease":11,"wounds":0,"other":6},{"date":"7/1854","total":28772,"disease":359,"wounds":0,"other":23},{"date":"8/1854","total":30246,"disease":828,"wounds":1,"other":30},{"date":"9/1854","total":30290,"disease":788,"wounds":81,"other":70},{"date":"10/1854","total":30643,"disease":503,"wounds":132,"other":128},{"date":"11/1854","total":29736,"disease":844,"wounds":287,"other":106},{"date":"12/1854","total":32779,"disease":1725,"wounds":114,"other":131},{"date":"1/1855","total":32393,"disease":2761,"wounds":83,"other":324},{"date":"2/1855","total":30919,"disease":2120,"wounds":42,"other":361},{"date":"3/1855","total":30107,"disease":1205,"wounds":32,"other":172},{"date":"4/1855","total":32252,"disease":477,"wounds":48,"other":57},{"date":"5/1855","total":35473,"disease":508,"wounds":49,"other":37},{"date":"6/1855","total":38863,"disease":802,"wounds":209,"other":31},{"date":"7/1855","total":42647,"disease":382,"wounds":134,"other":33},{"date":"8/1855","total":44614,"disease":483,"wounds":164,"other":25},{"date":"9/1855","total":47751,"disease":189,"wounds":276,"other":20},{"date":"10/1855","total":46852,"disease":128,"wounds":53,"other":18},{"date":"11/1855","total":37853,"disease":178,"wounds":33,"other":32},{"date":"12/1855","total":43217,"disease":91,"wounds":18,"other":28},{"date":"1/1856","total":44212,"disease":42,"wounds":2,"other":48},{"date":"2/1856","total":43485,"disease":24,"wounds":0,"other":19},{"date":"3/1856","total":46140,"disease":15,"wounds":0,"other":35}];
+var key = ["wounds", "other", "disease"];
+initStackedBarChart.draw({
+	data: data,
+	key: key,
+	element: 'stacked-bar'
+});
 
-
-
-
-		</script>
+	</script>
 </block>
