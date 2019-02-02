@@ -787,6 +787,14 @@ div.tooltip {
 
 
 			/* Scale */
+			var ymax = 0;
+			for(var i=0;i<data.length;i++){
+				var tmp_data =d3.max(data[i].values, d => d[attrname]);
+				if(tmp_data > ymax){
+					ymax = tmp_data
+				}
+			}
+			
 		    var mindate = para.mindate;
 		    var maxdate = para.maxdate;
 			var xScale = d3.scaleTime()
@@ -794,7 +802,7 @@ div.tooltip {
 			  .range([0, width-margin.left-margin.right]);
 			//console.log(d3.extent(data[0].values, d => d.createday));
 			var yScale = d3.scaleLinear()
-			  .domain([0, d3.max(data[0].values, d => d[attrname])])
+			  .domain([0, ymax])
 			  .range([height-margin.top - margin.bottom, 0]);
 
 			var color = d3.scaleOrdinal(d3.schemeCategory10);

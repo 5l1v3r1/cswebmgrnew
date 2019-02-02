@@ -5,7 +5,17 @@
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/global/plugins/bootstrap-datepicker/css/datepicker.css"/>
 	<!-- END PAGE LEVEL STYLES -->
-  <link rel="stylesheet" type="text/css" href="__PUBLIC__/metronic3_7/assets/admin/pages/css/pagecode.css"/>
+  <style> /* CSS styling */
+
+  div.tooltip{
+    position: absolute;
+    border: 1px solid #0b3536;
+    border-radius: 6px;
+    text-align: center;
+    padding: 0 5px;
+    background: white;
+  }
+</style>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 </block>
 <block name="siderbarmenu">
@@ -697,7 +707,7 @@
 					</div>
 				</div>
 				<!-- END PORTLET-->
-				<div class="col-md-12 col-sm-12">
+				<div class="col-md-6 col-sm-12">
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
@@ -717,17 +727,18 @@
 							<div class="portlet-body form">
 								<div class="row">
 									
-									<div id='stacked-bar' class="chart" style="padding: 0px; position: relative;width:100%;height:1000px;"></div>
+									<div id='stackedbar' class="chart" style="padding: 0px;width:100%;height: 1050px;"></div>
+									
 								</div>
 
 							</div>
 						</div>
 				</div>
-				<div class="col-md-12 col-sm-12">
+				<div class="col-md-6 col-sm-12">
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> One Year statistic <small>12 monthes of one year</small>
+									<i class="fa fa-gift"></i> Single Month statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -742,45 +753,15 @@
 							</div>
 							<div class="portlet-body form">
 								<div class="row">
-									<div class="col-md-12 col-sm-12">
-										<div class="form-group">
-											<div class="col-md-3 col-sm-12 text-right">
-												<div class="input-group ">
-													<select class="form-control input-inline input-medium" name="yearinput">
-														<option value="2018">2018</option>
-														<option value="2019" selected>2019</option>
-														<option value="2020">2020</option>
-														<option value="2021">2021</option>
-														<option value="2022">2022</option>
-													</select>
-												</div>
-												<!-- /input-group -->
-											</div>
-											<div class="col-md-1 col-sm-12">
-												<button class="btn yellow table-group-action-submit" id="yearsearchbtn"><i class="fa fa-search"></i></button>
-											</div>
-											<div class="col-md-4 col-sm-12">
-												<h3 class="text-right"><i class="fa fa-calendar"></i> <span id="yearspan"></span></h3>
-											</div>
-											<div class="col-md-4 col-sm-12">
-												<div class="tile bg-red-sunglo">
-													<div class="tile-body" style="padding-left:2%;padding-top:2%;padding-bottom:2%">
-														<h4>Salary/mon: <span id="yearsalarysum"></span></h4>
-															<h4>Profit/mon: <span id="yearprofitsum"></span></h4>
-															<h4>Revenues/mon: <span id="yearrevenuessum"></span></h4>
-
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div id="chart_year" class="chart" style="padding: 0px; position: relative;width:100%;height: 400px;">
-									</div>
+									
+									<div id='horizonbar' class="chart" style="padding: 0px;width:100%;height: 1050px;"></div>
+									
 								</div>
 
 							</div>
 						</div>
 				</div>
+				
 			</div>
 			<div class="clearfix">
 			</div>
@@ -803,74 +784,199 @@
            Metronic.init(); // init metronic core components
 Layout.init(); // init current layout
 			});
+		get_workertech_query();
+		function get_workertech_query(){
+			var data = {};
+			var url='__URL__/getTechWorkerDatas';
+			$.ajax({
+				type:"get",
+				url:url,
+				success: function aa(data) {
+					//showstorelist(data.stores);
+					console.log(data);
+					//var para = {mindate:fstep ,maxdate:tstep,xtformate:xtformate,xnum:xnum,ytext:"Total Profit"};
+					//drawLineChart(data,"#chart","profit",para);
+					drwaStackBar(data,"#stackedbar",["free","doing","unpaid"]);
 
-var initStackedBarChart = {
-	draw: function(config) {
-		var me = this;
-		var domEle = config.element;
-		var stackKey = config.key;
-		var data = config.data;
-		var wd = $("#"+domEle).width();
-		var wh = $("#"+domEle).height();
-		console.log("#"+domEle);
-		var margin = {top:20, left:60, bottom:70, right:20};
+				}
+			});
+		}
+		
+		//drwaStackBar(data,chartid,keys);
+		function drwaStackBar(data,chartid,keys){
+			$(chartid).html("");
+			var wd = $(chartid).width();
+			var wh = $(chartid).height();
+			var margin = {top:20, left:120, bottom:20, right:20};
+			var height = wh - margin.top - margin.bottom,
+				width = wd - margin.left - margin.right;
+			var svg = d3.select(chartid).append("svg")
+						  .attr("width", (width + margin.left + margin.right)+"px")
+						  .attr("height", (height+margin.top + margin.bottom)+"px")
+						  .append('g')
+						  .attr("transform", `translate(${margin.left}, ${margin.right})`);
+			var tooltip = d3.select('#stackedbar').append('div')
+				.attr('class', 'tooltip').style('opacity', 0);
+
+
+			var y = d3.scaleBand()			// x = d3.scaleBand()	
+				.rangeRound([0, height])	// .rangeRound([0, width])
+				.paddingInner(0.05)
+				.align(0.1);
+
+			var x = d3.scaleLinear()		// y = d3.scaleLinear()
+				.rangeRound([0, width]);	// .rangeRound([height, 0]);
+
+			var z = d3.scaleOrdinal(d3.schemeCategory10);
+
+			
+
+			  console.log(d3.max(data, function(d) { return d.free; }));
+
+			  data.sort(function(a, b) { return b.total - a.total; });
+			  y.domain(data.map(function(d) { return d.name; }));					// x.domain...
+			  x.domain([0, d3.max(data, function(d) { return d.total; })]).nice();	// y.domain...
+			  z.domain(keys);
+
+			  svg.append("g")
+				.selectAll("g")
+				.data(d3.stack().keys(keys)(data))
+				.enter().append("g")
+				  .attr("fill", function(d) { return z(d.key); })
+				.selectAll("rect")
+				.data(function(d) { return d; })
+				.enter().append("rect")
+				  .attr("y", function(d) { return y(d.data.name); })	    //.attr("x", function(d) { return x(d.data.name); })
+				  .attr("x", function(d) { return x(d[0]); })			    //.attr("y", function(d) { return y(d[1]); })	
+				  .attr("width", function(d) { return x(d[1]) - x(d[0]); })	//.attr("height", function(d) { return y(d[0]) - y(d[1]); })
+				  .attr("height", y.bandwidth())						    //.attr("width", x.bandwidth());	
+				.on('mouseover', function(d){
+					  d3.select(this).attr('opacity', 0.7);
+					  tooltip.transition().duration(100).style('opacity', 0.95);
+					  tooltip.html(
+							'<div style="font-size: 1rem; color: #0b3536; font-weight: bold">' +
+							d.data.name+ '<br/>technology: ' + d.data.name + '<br/> total: ' + d.data.total + '<br/> doing:' + d.data.doing + '<br/> unpaid:' + d.data.doing + '<br/> free:'+d.data.free +'</div>')
+						.style('left', (x(d[0])+ (x(d[1]) - x(d[0]))/2) + 'px')
+						.style('top', (y(d.data.name) + y.bandwidth()/10) + 'px');
+					  })
+					.on('mouseout', function(d){
+					  d3.select(this)
+						.attr('opacity', 1);
+					  tooltip.transition().style('opacity', 0); });
+
+			  svg.append("g")
+				  .attr("class", "axis")
+				  .attr("transform", "translate(0,0)") 						//  .attr("transform", "translate(0," + height + ")")
+				  .call(d3.axisLeft(y));									//   .call(d3.axisBottom(x));
+
+			  svg.append("g")
+				  .attr("class", "axis")
+				  .attr("transform", "translate(0,"+height+")")				// New line
+				  .call(d3.axisBottom(x).ticks(null, "s"))					//  .call(d3.axisLeft(y).ticks(null, "s"))
+				.append("text")
+				  .attr("y", 2)												//     .attr("y", 2)
+				  .attr("x", x(x.ticks().pop()) + 0.5) 						//     .attr("y", y(y.ticks().pop()) + 0.5)
+				  .attr("dy", "0.32em")										//     .attr("dy", "0.32em")
+				  .attr("fill", "#000")
+				  .attr("font-weight", "bold")
+				  .attr("text-anchor", "start")
+				  .text("Population")
+				  .attr("transform", "translate("+ (-width) +",-10)");   	// Newline
+
+			  var legend = svg.append("g")
+				  .attr("font-family", "sans-serif")
+				  .attr("font-size", 10)
+				  .attr("text-anchor", "end")
+				.selectAll("g")
+				.data(keys.slice().reverse())
+				.enter().append("g")
+				//.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+				 .attr("transform", function(d, i) { return "translate(-50," + (300 + i * 20) + ")"; });
+
+			  legend.append("rect")
+				  .attr("x", width - 19)
+				  .attr("width", 19)
+				  .attr("height", 19)
+				  .attr("fill", z);
+
+			  legend.append("text")
+				  .attr("x", width - 24)
+				  .attr("y", 9.5)
+				  .attr("dy", "0.32em")
+				  .text(function(d) { return d; });
+		}
+    var data = [{"name":"Bob","rate":33},{"name":"Robin","rate":12},{"name":"Anne","rate":41},{"name":"Mark","rate":16},{"name":"Joe","rate":59},{"name":"Eve","rate":38},{"name":"Karen","rate":21},{"name":"Kirsty","rate":25},{"name":"Chris","rate":30},{"name":"Lisa","rate":47},{"name":"Tom","rate":5},{"name":"Stacy","rate":20},{"name":"Charles","rate":13},{"name":"Mary","rate":29}];
+		var chartid = "#horizonbar";
+		drawHorizonBarChart(data,chartid);
+	function drawHorizonBarChart(data,chartid){
+		
+
+		$(chartid).html("");
+		var wd = $(chartid).width();
+		var wh = $(chartid).height();
+		var margin = {top:20, left:120, bottom:20, right:20};
 		var height = wh - margin.top - margin.bottom,
 			width = wd - margin.left - margin.right;
-		//var parseDate = d3.timeParse("%m/%Y");
+		var svg = d3.select(chartid).append("svg")
+					  .attr("width", (width + margin.left + margin.right)+"px")
+					  .attr("height", (height+margin.top + margin.bottom)+"px")
+					  .append('g')
+					  .attr("transform", `translate(${margin.left}, ${margin.right})`);
+		var tooltip = d3.select(chartid).append('div')
+			.attr('class', 'tooltip').style('opacity', 0);
 
-		var xScale = d3.scaleLinear().rangeRound([0, width]);
-		var yScale = d3.scaleBand().rangeRound([height, 0]).padding(0.1);
-		var color = d3.scaleOrdinal(d3.schemeCategory20);
-		var xAxis = d3.axisBottom(xScale);
-		var yAxis =  d3.axisLeft(yScale).tickFormat(d3.timeFormat("%b"));
-		svg = d3.select("#"+domEle).append("svg")
-				.attr("width", width + margin.left + margin.right)
-				.attr("height", height + margin.top + margin.bottom)
-				.append("g")
-				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		// set the ranges
+		var y = d3.scaleBand()
+				  .range([height, 0])
+				  .padding(0.1);
 
-		var stack = d3.stack()
-			.keys(stackKey)
-			/*.order(d3.stackOrder)*/
-			.offset(d3.stackOffsetNone);
-	
-		var layers= stack(data);
-			data.sort(function(a, b) { return b.total - a.total; });
-			yScale.domain(data.map(function(d) { return parseDate(d.name); }));
-			xScale.domain([0, d3.max(layers[layers.length - 1], function(d) { return d[0] + d[1]; }) ]).nice();
+		var x = d3.scaleLinear()
+				  .range([0, width]);
 
-		var layer = svg.selectAll(".layer")
-			.data(layers)
-			.enter().append("g")
-			.attr("class", "layer")
-			.style("fill", function(d, i) { return color(i); });
+		// append the svg object to the body of the page
+		// append a 'group' element to 'svg'
+		// moves the 'group' element to the top left margin
+		  // format the data
+		  data.forEach(function(d) {
+			d.rate = +d.rate;
+		  });
 
-		  layer.selectAll("rect")
-			  .data(function(d) { return d; })
+		  // Scale the range of the data in the domains
+		  x.domain([0, d3.max(data, function(d){ return d.rate; })])
+		  y.domain(data.map(function(d) { return d.name; }));
+		  //y.domain([0, d3.max(data, function(d) { return d.rate; })]);
+
+		  // append the rectangles for the bar chart
+		  svg.selectAll(".bar")
+			  .data(data)
 			.enter().append("rect")
-			  .attr("y", function(d) { return yScale(parseDate(d.data.name)); })
-			  .attr("x", function(d) { return xScale(d[0]); })
-			  .attr("height", yScale.bandwidth())
-			  .attr("width", function(d) { return xScale(d[1]) - xScale(d[0]) });
+			  .attr("class", "bar")
+			  //.attr("x", function(d) { return x(d.rate); })
+			  .attr("width", function(d) {return x(d.rate); } )
+			  .attr("y", function(d) { return y(d.name); })
+			  .attr("height", y.bandwidth())
+			.on('mouseover', function(d){
+				  d3.select(this).attr('opacity', 0.7);
+				  tooltip.transition().duration(100).style('opacity', 0.95);
+				  tooltip.html(
+						'<div style="font-size: 1rem; color: #0b3536; font-weight: bold">part: ' + d.name + ' | won: ' + d.name + '</div>')
+					.style('left', (x(d.rate))/2 + 'px')
+					.style('top', (y(d.name) + y.bandwidth()/2) + 'px');
+				  })
+				.on('mouseout', function(d){
+				  d3.select(this)
+					.attr('opacity', 1);
+				  tooltip.transition().style('opacity', 0); });
 
-			svg.append("g")
-			.attr("class", "axis axis--x")
-			.attr("transform", "translate(0," + (height+5) + ")")
-			.call(xAxis);
+		  // add the x Axis
+		  svg.append("g")
+			  .attr("transform", "translate(0," + height + ")")
+			  .call(d3.axisBottom(x));
 
-			svg.append("g")
-			.attr("class", "axis axis--y")
-			.attr("transform", "translate(0,0)")
-			.call(yAxis);							
+		  // add the y Axis
+		  svg.append("g")
+			  .call(d3.axisLeft(y));
 	}
-}
-var data = [{"name":"\u7b97\u6cd5\/\u6570\u636e\u7ed3\u6784","total":"142","doing":"4","unpaid":"7","free":131,"formular":"131\/142","rate":0.92},{"name":"php","total":"36","doing":"0","unpaid":"1","free":35,"formular":"35\/36","rate":0.97},{"name":"nodejs","total":"39","doing":"1","unpaid":"2","free":36,"formular":"36\/39","rate":0.92},{"name":"\u524d\u7aef","total":"5","doing":"0","unpaid":"0","free":5,"formular":"5\/5","rate":1},{"name":"java","total":"134","doing":"3","unpaid":"6","free":125,"formular":"125\/134","rate":0.93},{"name":"web flask","total":"36","doing":"1","unpaid":"2","free":33,"formular":"33\/36","rate":0.92},{"name":"python","total":"140","doing":"4","unpaid":"7","free":129,"formular":"129\/140","rate":0.92},{"name":"AI\/\u673a\u5668\u5b66\u4e60","total":"57","doing":"2","unpaid":"3","free":52,"formular":"52\/57","rate":0.91},{"name":"R\u8bed\u8a00","total":"17","doing":"0","unpaid":"0","free":17,"formular":"17\/17","rate":1},{"name":"C\/C++","total":"106","doing":"3","unpaid":"4","free":99,"formular":"99\/106","rate":0.93},{"name":"\u8ba1\u7b97\u673a\u7f51\u7edc","total":"45","doing":"1","unpaid":"1","free":43,"formular":"43\/45","rate":0.96},{"name":"database","total":"71","doing":"2","unpaid":"5","free":64,"formular":"64\/71","rate":0.9},{"name":"linux shell","total":"54","doing":"1","unpaid":"2","free":51,"formular":"51\/54","rate":0.94},{"name":"linux program","total":"39","doing":"1","unpaid":"1","free":37,"formular":"37\/39","rate":0.95},{"name":"C#","total":"19","doing":"0","unpaid":"1","free":18,"formular":"18\/19","rate":0.95},{"name":"matlab","total":"26","doing":"0","unpaid":"1","free":25,"formular":"25\/26","rate":0.96},{"name":"X86\u6c47\u7f16","total":"6","doing":"1","unpaid":"1","free":4,"formular":"4\/6","rate":0.67},{"name":"arm \u6c47\u7f16","total":"3","doing":"1","unpaid":"1","free":1,"formular":"1\/3","rate":0.33},{"name":"web java","total":"73","doing":"2","unpaid":"6","free":65,"formular":"65\/73","rate":0.89},{"name":"django","total":"30","doing":"0","unpaid":"3","free":27,"formular":"27\/30","rate":0.9},{"name":"js","total":"62","doing":"2","unpaid":"3","free":57,"formular":"57\/62","rate":0.92},{"name":"reactJS","total":"29","doing":"0","unpaid":"0","free":29,"formular":"29\/29","rate":1},{"name":"\u5b89\u5353","total":"24","doing":"1","unpaid":"3","free":20,"formular":"20\/24","rate":0.83},{"name":"OS\u64cd\u4f5c\u7cfb\u7edf","total":"26","doing":"1","unpaid":"1","free":24,"formular":"24\/26","rate":0.92},{"name":"RUBY","total":"6","doing":"1","unpaid":"0","free":5,"formular":"5\/6","rate":0.83},{"name":"GO","total":"26","doing":"1","unpaid":"2","free":23,"formular":"23\/26","rate":0.88},{"name":"BIG Data","total":"23","doing":"0","unpaid":"0","free":23,"formular":"23\/23","rate":1},{"name":"AMPL","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"IOS","total":"14","doing":"0","unpaid":"2","free":12,"formular":"12\/14","rate":0.86},{"name":"scala","total":"14","doing":"1","unpaid":"1","free":12,"formular":"12\/14","rate":0.86},{"name":"haskhell","total":"4","doing":"0","unpaid":"1","free":3,"formular":"3\/4","rate":0.75},{"name":"racket","total":"3","doing":"0","unpaid":"0","free":3,"formular":"3\/3","rate":1},{"name":"opengl","total":"9","doing":"2","unpaid":"1","free":6,"formular":"6\/9","rate":0.67},{"name":"pygame","total":"4","doing":"1","unpaid":"2","free":1,"formular":"1\/4","rate":0.25},{"name":"webgl","total":"6","doing":"1","unpaid":"1","free":4,"formular":"4\/6","rate":0.67},{"name":"math","total":"17","doing":"1","unpaid":"2","free":14,"formular":"14\/17","rate":0.82},{"name":"\u7edf\u8ba1\u5b66","total":"15","doing":"1","unpaid":"1","free":13,"formular":"13\/15","rate":0.87},{"name":"\u5546\u79d1","total":"1","doing":"0","unpaid":"0","free":1,"formular":"1\/1","rate":1},{"name":"web(asp\u7b49Net\u73af\u5883)","total":"1","doing":"0","unpaid":"0","free":1,"formular":"1\/1","rate":1},{"name":"web(\u5176\u4ed6)","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"\u7f51\u7edc\u5b89\u5168","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"mips","total":"1","doing":"0","unpaid":"0","free":1,"formular":"1\/1","rate":1},{"name":"opencv","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"scheme","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"\u6570\u636e\u6316\u6398","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"prolog","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"vue","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"d3","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"web(ruby on rails)","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"unity","total":"1","doing":"0","unpaid":"0","free":1,"formular":"1\/1","rate":1},{"name":"javafx","total":"1","doing":"0","unpaid":"0","free":1,"formular":"1\/1","rate":1},{"name":"java swing","total":"1","doing":"0","unpaid":"0","free":1,"formular":"1\/1","rate":1},{"name":"anjularjs","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"\u82f1\u6587report","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0},{"name":"\u7f16\u8bd1\u539f\u7406","total":"0","doing":"0","unpaid":"0","free":0,"formular":"0\/0","rate":0}];
-var key = ["doing", "unpaid", "free"];
-initStackedBarChart.draw({
-	data: data,
-	key: key,
-	element: 'stacked-bar'
-});
 
-	</script>
+</script>
 </block>

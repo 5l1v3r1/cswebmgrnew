@@ -1101,9 +1101,9 @@ function getTechWorkerDatas(){
         $unpaid = $Tech->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->where('db_worker_tech.wxid in ('.$worker_unpaid_wxidsstr.') and db_technologies.techid = "'.$v["techid"].'"')->count();
         $total = $Tech->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->where('db_technologies.techid = "'.$v["techid"].'"')->count();
         $item["name"] = $v["techname"];
-        $item["total"] =  $total;
-        $item["doing"] =  $doing;
-        $item["unpaid"] =  $unpaid;
+        $item["total"] =  intval($total);
+        $item["doing"] =  intval($doing);
+        $item["unpaid"] =  intval($unpaid);
         $item["free"] =  $total - $doing - $unpaid;
         $item["formular"] = $item["free"]."/".$total;
         $item["rate"] = round($item["free"]/$total,2);
