@@ -428,6 +428,106 @@
 					</div>
 					<!-- End: life time stats -->
 				</div>
+				<!-- start recommand-->
+				<div class="col-md-8">
+					<!-- Begin: life time stats -->
+					<div class="portlet box green">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="fa fa-shopping-cart"></i>Recommand Workers tools
+							</div>
+						</div>
+						<div class="portlet-body form">
+							<form class="form-horizontal" role="form">
+							<div class="form-body">
+								<div class="form-group ">
+									<div class="col-md-12">
+										<div class="form-group has-error">
+											<label class="col-md-4 control-label">Select technology</label>
+											<div class="col-md-8">
+												<div class="ms-ctn form-control ms-as-string " style="" id="ms-emails"><span class="ms-helper " style="display: inline;"></span><div class="ms-sel-ctn"><input class="form-control input-inline input-large" type="text" placeholder="Enter project name ..." required></div><div class="ms-trigger"><div class="ms-trigger-ico"></div></div></div>
+												<!--<input name="projectname" type="text" placeholder="Project name" class="form-control" required>-->
+											</div>
+										</div>
+
+
+									</div>
+									<div class="col-md-7">
+											<div class="portlet box purple" >
+												<div class="portlet-title">
+													<div class="caption">
+														<i class="fa fa-gift"></i>Olders
+														<span class="label label-sm label-success">Complete</span>
+														<span class="label label-sm label-danger">Ongoing</span>
+														<span class="label label-sm label-warning">Unpaid</span>
+														<span class="label label-sm label-primary">Attr</span>
+														<span class="label label-sm label-info">Remark</span>
+													</div>
+													<div class="tools">
+														<a href="javascript:;" class="collapse" data-original-title="" title="">
+														</a>
+														<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+														</a>
+														<a href="javascript:;" class="reload" data-original-title="" title="">
+														</a>
+													</div>
+												</div>
+												<div class="portlet-body" >
+													<h6><span class="text-success" id="oldworkernum"></span></h6>
+														<div style="max-height:630px;overflow-y: scroll; ">
+
+															<table class="table table-striped table-advance table-hover">
+																<tbody id="ShowOldWorkers">
+
+																</tbody>
+															</table>
+														</div>
+												</div>
+											</div>
+									</div>
+									<div class="col-md-5">
+											<div class="portlet box blue" >
+												<div class="portlet-title">
+													<div class="caption">
+														<i class="fa fa-gift"></i>Newers
+													</div>
+													<div class="tools">
+														<a href="javascript:;" class="collapse" data-original-title="" title="">
+														</a>
+														<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+														</a>
+														<a href="javascript:;" class="reload" data-original-title="" title="">
+														</a>
+													</div>
+												</div>
+												<div class="portlet-body" >
+													<h6><span class="text-success" id="newworkernum"></span></h6>
+														<div style="max-height:630px;overflow-y: scroll; ">
+															<table class="table table-striped table-advance table-hover">
+																<tbody id="ShowNewWorkers">
+																</tbody>
+															</table>
+														</div>
+												</div>
+											</div>
+<!--
+-->
+
+<!--
+-->
+
+
+
+									</div>
+								</div>
+							</div>
+							</form>
+						<!-- body -->
+						</div>
+
+					</div>
+				</div>
+				<!-- end -->
 
 			</div>
 			<!-- END PAGE CONTENT-->
@@ -566,6 +666,135 @@
 ';
 			$("#showtimediv").append($(divc));
 			}
+/*recomand system */
+/*auto fill*/
+$(function() {
+	var myarray={:json_encode($teches)};
+	console.log(myarray);
+	var ms = $('#ms-emails').magicSuggest({
+		placeholder: 'Select technologies label ...',
+		data: myarray,
+		valueField: 'email',
+		/*value:[{
+				name: 'Georges Washington',
+				email: 'georges.washington@whitehouse.gov'
+		}],*/
+		renderer: function(data){
+				return data.email + ' (<b>' + data.name + '</b>)';
+		},
+		resultAsString: true,
+		name: "projectname"
+	});
+	$(ms).on('selectionchange', function(e,m){
+		//console.log(ms.getSelection());
+		var res = ms.getSelection();
+		//console.log(res);
+		var datas = [];
+		for(var i=0;i<res.length;i++){
+			if(res[i]["email"] != res[i]["name"]){
+				//console.log(res[i]);
+				datas.push(res[i]);
 
+			}
+		}
+		//console.log(datas);
+		$.ajax({
+			url: "{:U('Order/ajaxRecommand');}", // server url
+			type: 'POST', //POST or GET
+			data: {"data":datas}, // data to send in ajax format or querystring format
+			datatype: 'json',
+			success: function(data) {
+				//callback(data); // return data in callback
+				//console.log(data[1]);
+				showOldWorkers(data[0],"#oldworkernum","#ShowOldWorkers");
+				showNewWorkers(data[1],"#newworkernum","#ShowNewWorkers");
+			},
+			error: function(xhr, status, error) {
+					alert(xhr.responseText);
+			}
+		});
+	});
+	/*select workers*/
+	var workers ={:json_encode($workers)};
+	for(var i=0;i<workers.length;i++){
+		workers[i]["name"] = workers[i]["name"]+"("+workers[i]["email"] + ")";
+
+	}
+	var ms1 = $('#ms-workers').magicSuggest({
+		placeholder: 'Select workers ...',
+		data: workers,
+		valueField: 'email',
+		/*value:[{
+				name: 'Georges Washington',
+				email: 'georges.washington@whitehouse.gov'
+		}],*/
+		renderer: function(data){
+				return data.name ;
+		},
+		resultAsString: true,
+		name: "wxid"
+	});
+	$("#ShowOldWorkers").on("click","a", function() {
+		//console.log($(this).attr("id"));
+		var id = $(this).attr("id")
+
+		ms1.setSelection([{email:id.split("|")[0], name:id.split("|")[1]+"("+id.split("|")[0]+")"}]);
+	});
+	$("#ShowNewWorkers").on("click","a", function() {
+		//console.log($(this).attr("id"));
+		var id = $(this).attr("id")
+
+		ms1.setSelection([{email:id.split("|")[0], name:id.split("|")[1]+"("+id.split("|")[0]+")"}]);
+	});
+});
+/* show workers*/
+function showOldWorkers(data,numlabel,showtbody){
+
+	$(numlabel).html('<i class="fa fa-users"></i>  recommand total workers '+data.length);
+	$(showtbody).html("");
+	for(var i=0;i<data.length;i++){
+			var trc = '\
+<td><small><i class="fa fa-paperclip"></i> '+ (i+1) +'\
+<br><i class="fa fa-star text-danger"></i> <font color="red">'+ data[i].mark_sum +'</font></small>\
+</td>\
+<td class="view-message">\
+<a href="javascript:;" class="name"><small><strong>'+ data[i].wxname +'</strong><br>'+ data[i].wxid +'</small></a>\
+</td>\
+<td class="view-message ">\
+<span class="label label-sm label-danger"><small><strong>'+ data[i].orderonging +'</strong></small></span>\
+<span class="label label-sm label-warning"><small><strong>'+ data[i].orderunpaid +'</strong></small></span>\
+<span class="label label-sm label-success"><small>'+ data[i].ordercomplete +'</small></span>\
+<span class="label label-sm bg-purple"><small>'+ data[i].attrsimple +'</small></span>\
+</td>\
+<td class="view-message text-right">\
+<span class="label label-sm label-success"><small>'+ data[i].mark_ordercomplete +'</small></span>\
+<span class="label label-sm label-danger"><small>'+ data[i].mark_orderongoing +'</small></span>\
+<span class="label label-sm label-primary"><small>'+ data[i].mark_attrs +'</small></span>\
+<span class="label label-sm label-info"><small>'+ data[i].mark_remark +'</small></span>\
+</td>\
+';
+		$(showtbody).append($('<tr class="unread"></tr>').append(trc));
+}
+}
+function showNewWorkers(data,numlabel,showtbody){
+$(numlabel).html('<i class="fa fa-users"></i>  recommand total workers '+data.length);
+$(showtbody).html("");
+for(var i=0;i<data.length;i++){
+	var trc='\
+<td class="view-message" style="width:auto">\
+<a href="javascript:;" class="name"><small><strong>'+ (i+1) +'.  '+ data[i].wxname +'</strong><br>'+ data[i].wxid +'</small></a>\
+</td>\
+<td class="view-message ">\
+<span class="label label-sm label-danger"><small>\
+'+ data[i].addtime.split(" ")[0] +'\
+</small></span>\
+<span class="label label-sm bg-purple"><small><strong>\
+'+ data[i].attrsimple +'\
+</small></strong></span>\
+</td>\
+';
+$(showtbody).append($('<tr class="unread"></tr>').append(trc));
+}
+}
 		</script>
 </block>

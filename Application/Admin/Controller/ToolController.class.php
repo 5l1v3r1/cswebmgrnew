@@ -7,6 +7,9 @@ class ToolController extends CommonController {
 		$data["currency"] = "USD";
 		$rate = $Model->field("rating")->where($data)->find();
 		$this->assign('rate',$rate["rating"]);
+		$Model = M('technologies');
+		$teches = $Model->field("techid as email,content as name")->select();
+		$this->assign('teches',$teches);
 		//print_r($rate);
 		//$this->assign('currencies',$output);
 		$this->display(T('admin/tools_exchange'));
@@ -34,6 +37,6 @@ class ToolController extends CommonController {
 		//$this->display(T('admin/conf_tech_list'));
 
 	}
-	
+
 
 }

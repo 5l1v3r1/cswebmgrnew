@@ -510,7 +510,7 @@
 										 Total No. :
 									</div>
 									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_total} 
+										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_total}
 									</div>
 								</div>
 								<div class="row static-info">
@@ -726,9 +726,9 @@
 							</div>
 							<div class="portlet-body form">
 								<div class="row">
-									
+
 									<div id='stackedbar' class="chart" style="padding: 0px;width:100%;height: 1050px;"></div>
-									
+
 								</div>
 
 							</div>
@@ -753,15 +753,17 @@
 							</div>
 							<div class="portlet-body form">
 								<div class="row">
-									
+
 									<div id='horizonbar' class="chart" style="padding: 0px;width:100%;height: 1050px;"></div>
-									
+
 								</div>
 
 							</div>
 						</div>
 				</div>
 				
+
+
 			</div>
 			<div class="clearfix">
 			</div>
@@ -801,13 +803,13 @@ Layout.init(); // init current layout
 				}
 			});
 		}
-		
+
 		//drwaStackBar(data,chartid,keys);
 		function drwaStackBar(data,chartid,keys){
 			$(chartid).html("");
 			var wd = $(chartid).width();
 			var wh = $(chartid).height();
-			var margin = {top:20, left:120, bottom:20, right:20};
+			var margin = {top:10, left:120, bottom:20, right:20};
 			var height = wh - margin.top - margin.bottom,
 				width = wd - margin.left - margin.right;
 			var svg = d3.select(chartid).append("svg")
@@ -819,7 +821,7 @@ Layout.init(); // init current layout
 				.attr('class', 'tooltip').style('opacity', 0);
 
 
-			var y = d3.scaleBand()			// x = d3.scaleBand()	
+			var y = d3.scaleBand()			// x = d3.scaleBand()
 				.rangeRound([0, height])	// .rangeRound([0, width])
 				.paddingInner(0.05)
 				.align(0.1);
@@ -829,7 +831,7 @@ Layout.init(); // init current layout
 
 			var z = d3.scaleOrdinal(d3.schemeCategory10);
 
-			
+
 
 			  console.log(d3.max(data, function(d) { return d.free; }));
 
@@ -847,15 +849,14 @@ Layout.init(); // init current layout
 				.data(function(d) { return d; })
 				.enter().append("rect")
 				  .attr("y", function(d) { return y(d.data.name); })	    //.attr("x", function(d) { return x(d.data.name); })
-				  .attr("x", function(d) { return x(d[0]); })			    //.attr("y", function(d) { return y(d[1]); })	
+				  .attr("x", function(d) { return x(d[0]); })			    //.attr("y", function(d) { return y(d[1]); })
 				  .attr("width", function(d) { return x(d[1]) - x(d[0]); })	//.attr("height", function(d) { return y(d[0]) - y(d[1]); })
-				  .attr("height", y.bandwidth())						    //.attr("width", x.bandwidth());	
+				  .attr("height", y.bandwidth())						    //.attr("width", x.bandwidth());
 				.on('mouseover', function(d){
 					  d3.select(this).attr('opacity', 0.7);
 					  tooltip.transition().duration(100).style('opacity', 0.95);
 					  tooltip.html(
-							'<div style="font-size: 1rem; color: #0b3536; font-weight: bold">' +
-							d.data.name+ '<br/>technology: ' + d.data.name + '<br/> total: ' + d.data.total + '<br/> doing:' + d.data.doing + '<br/> unpaid:' + d.data.doing + '<br/> free:'+d.data.free +'</div>')
+							'<div style="font-size: 1rem; color: #0b3536; font-weight: bold">technology: ' + d.data.name + '<br/> total: ' + d.data.total + '<br/> doing:' + d.data.doing + '<br/> unpaid:' + d.data.unpaid + '<br/> free:'+d.data.free +'</div>')
 						.style('left', (x(d[0])+ (x(d[1]) - x(d[0]))/2) + 'px')
 						.style('top', (y(d.data.name) + y.bandwidth()/10) + 'px');
 					  })
@@ -907,9 +908,27 @@ Layout.init(); // init current layout
 		}
     var data = [{"name":"Bob","rate":33},{"name":"Robin","rate":12},{"name":"Anne","rate":41},{"name":"Mark","rate":16},{"name":"Joe","rate":59},{"name":"Eve","rate":38},{"name":"Karen","rate":21},{"name":"Kirsty","rate":25},{"name":"Chris","rate":30},{"name":"Lisa","rate":47},{"name":"Tom","rate":5},{"name":"Stacy","rate":20},{"name":"Charles","rate":13},{"name":"Mary","rate":29}];
 		var chartid = "#horizonbar";
-		drawHorizonBarChart(data,chartid);
+		//drawHorizonBarChart(data,chartid);
+		get_freerate_query();
+		function get_freerate_query(){
+			var data = {};
+			var url='__URL__/getTechWorkerDatas';
+			$.ajax({
+				type:"get",
+				url:url,
+				success: function aa(data) {
+					//showstorelist(data.stores);
+					console.log(data);
+					//var para = {mindate:fstep ,maxdate:tstep,xtformate:xtformate,xnum:xnum,ytext:"Total Profit"};
+					//drawLineChart(data,"#chart","profit",para);
+					//drwaStackBar(data,"#stackedbar",["free","doing","unpaid"]);
+					drawHorizonBarChart(data,"#horizonbar")
+
+				}
+			});
+		}
 	function drawHorizonBarChart(data,chartid){
-		
+
 
 		$(chartid).html("");
 		var wd = $(chartid).width();
@@ -951,6 +970,7 @@ Layout.init(); // init current layout
 			  .data(data)
 			.enter().append("rect")
 			  .attr("class", "bar")
+				.attr("fill", "red")
 			  //.attr("x", function(d) { return x(d.rate); })
 			  .attr("width", function(d) {return x(d.rate); } )
 			  .attr("y", function(d) { return y(d.name); })
@@ -958,8 +978,9 @@ Layout.init(); // init current layout
 			.on('mouseover', function(d){
 				  d3.select(this).attr('opacity', 0.7);
 				  tooltip.transition().duration(100).style('opacity', 0.95);
-				  tooltip.html(
-						'<div style="font-size: 1rem; color: #0b3536; font-weight: bold">part: ' + d.name + ' | won: ' + d.name + '</div>')
+					tooltip.html(
+						'<div style="font-size: 1rem; color: #0b3536; font-weight: bold">' +
+						d.name+ '<br/>technology: ' + d.name + '<br/> total: ' + d.total + '<br/> free:' + d.free + '<br/> unpaid:' + d.unpaid + '<br/> rate:'+d.rate +'</div>')
 					.style('left', (x(d.rate))/2 + 'px')
 					.style('top', (y(d.name) + y.bandwidth()/2) + 'px');
 				  })

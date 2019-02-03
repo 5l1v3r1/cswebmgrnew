@@ -1006,7 +1006,7 @@ function getAllWorkerData(){
 	$data["worker_unpaidsalary"] = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->where('db_worker_order.w_state = 2')->sum('db_worker_order.w_payment');
 	return $data;
 	//echo count($worker_old);
-	
+
 	//dump($workers);
 /*
 	foreach($workers as $k=>$v){
@@ -1106,8 +1106,13 @@ function getTechWorkerDatas(){
         $item["unpaid"] =  intval($unpaid);
         $item["free"] =  $total - $doing - $unpaid;
         $item["formular"] = $item["free"]."/".$total;
-        $item["rate"] = round($item["free"]/$total,2);
-        array_push($dataset,$item); 
+
+        if($total == 0){
+          $item["rate"] = 0;
+        }else{
+          $item["rate"] = round($item["free"]/$total,2);
+        }
+        array_push($dataset,$item);
         //echo "<br>";
     }
     //print_r($dataset);

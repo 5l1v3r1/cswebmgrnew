@@ -399,12 +399,13 @@ class WorkerController extends CommonController {
 		$this->assign('workertotal',$workertotal);
 		//print_r();
 		$this->display(T('admin/workers_analysis'));
-		
+
 	}
 	public function getTechWorkerDatas(){
 		$res = [];
-        $res = getTechWorkerDatas();
-        $this->ajaxReturn($res);
-		
+    $res = getTechWorkerDatas();
+    //print_r($res);
+    $this->ajaxReturn($res);
+
 	}
 }
