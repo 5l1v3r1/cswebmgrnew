@@ -397,7 +397,21 @@ class WorkerController extends CommonController {
 		$workertotal = [];
 		$workertotal = getAllWorkerData();
 		$this->assign('workertotal',$workertotal);
-		//print_r();
+        $workerpiedata = [];
+        $item = [];
+        $item["label"] = "doing";
+        $item["count"] = $workertotal["worker_doing"];
+        array_push($workerpiedata,$item);
+        $item = [];
+        $item["label"] = "unpaid";
+        $item["count"] = $workertotal["worker_unpaid"];
+        array_push($workerpiedata,$item);
+		$item = [];
+        $item["label"] = "free(-unpaid)";
+        $item["count"] = $workertotal["worker_total"] - $workertotal["worker_unpaid"];
+        array_push($workerpiedata,$item);
+        $this->assign('workerpiedata',$workerpiedata);
+        
 		$this->display(T('admin/workers_analysis'));
 
 	}

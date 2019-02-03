@@ -7,14 +7,18 @@
 	<!-- END PAGE LEVEL STYLES -->
   <style> /* CSS styling */
 
-  div.tooltip{
-    position: absolute;
-    border: 1px solid #0b3536;
-    border-radius: 6px;
-    text-align: center;
-    padding: 0 5px;
-    background: white;
+  .tooltip{
+    background: #eee;
+            box-shadow: 0 0 5px #999999;
+            color: #333;
+            font-size: 12px;
+            padding: 10px;
+            position: absolute;
+            text-align: center;
+            width: 120px;
+            z-index: 10;
   }
+	  
 </style>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 </block>
@@ -114,234 +118,47 @@
 				<span class="arrow "></span>
 			</a>
 			<ul class="sub-menu">
-				<li>
-					<a href="ecommerce_index.html">
+				<li class="active">
+					<a href="{:U('Worker/showDataAnalysisPage');}">
 					<i class="icon-home"></i>
 					Dashboard</a>
 				</li>
-				<if condition="$type eq 1">
-					<li>
-						<a href="{:U('Worker/workerlist');}">
-							<i class="icon-basket"></i>
-							ALL Workers Workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=4');}">
-							<i class="icon-basket"></i>
-							free workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=5');}">
-							<i class="icon-basket"></i>
-							busy workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=2');}">
-							<i class="icon-basket"></i>
-							Income > 0
-						</a>
-					</li>
-					<li class="active">
-						<a href="{:U('Worker/workerlist?type=1');}">
-							<i class="icon-basket"></i>
-							Income = 0
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=3');}">
-							<i class="icon-basket"></i>
-							dead workers
-						</a>
-					</li>
-				<elseif condition="$type eq 2"/>
-					<li>
-						<a href="{:U('Worker/workerlist');}">
-							<i class="icon-basket"></i>
-							ALL Workers Workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=4');}">
-							<i class="icon-basket"></i>
-							free workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=5');}">
-							<i class="icon-basket"></i>
-							busy workers
-						</a>
-					</li>
-					<li class="active">
-						<a href="{:U('Worker/workerlist?type=2');}">
-							<i class="icon-basket"></i>
-							Income > 0
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=1');}">
-							<i class="icon-basket"></i>
-							Income = 0
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=3');}">
-							<i class="icon-basket"></i>
-							dead workers
-						</a>
-					</li>
-				<elseif condition="$type eq 3"/>
-					<li>
-						<a href="{:U('Worker/workerlist');}">
-							<i class="icon-basket"></i>
-							ALL Workers Workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=4');}">
-							<i class="icon-basket"></i>
-							free workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=5');}">
-							<i class="icon-basket"></i>
-							busy workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=2');}">
-							<i class="icon-basket"></i>
-							Income > 0
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=1');}">
-							<i class="icon-basket"></i>
-							Income = 0
-						</a>
-					</li>
-					<li class="active">
-						<a href="{:U('Worker/workerlist?type=3');}">
-							<i class="icon-basket"></i>
-							dead workers
-						</a>
-					</li>
-				<elseif condition="$type eq 4"/>
-					<li>
-						<a href="{:U('Worker/workerlist');}">
-							<i class="icon-basket"></i>
-							ALL Workers Workers
-						</a>
-					</li>
-					<li class="active">
-						<a href="{:U('Worker/workerlist?type=4');}">
-							<i class="icon-basket"></i>
-							free workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=5');}">
-							<i class="icon-basket"></i>
-							busy workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=2');}">
-							<i class="icon-basket"></i>
-							Income > 0
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=1');}">
-							<i class="icon-basket"></i>
-							Income = 0
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=3');}">
-							<i class="icon-basket"></i>
-							dead workers
-						</a>
-					</li>
-				<elseif condition="$type eq 5"/>
-					<li>
-						<a href="{:U('Worker/workerlist');}">
-							<i class="icon-basket"></i>
-							ALL Workers Workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=4');}">
-							<i class="icon-basket"></i>
-							free workers
-						</a>
-					</li>
-					<li class="active">
-						<a href="{:U('Worker/workerlist?type=5');}">
-							<i class="icon-basket"></i>
-							busy workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=2');}">
-							<i class="icon-basket"></i>
-							Income > 0
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=1');}">
-							<i class="icon-basket"></i>
-							Income = 0
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=3');}">
-							<i class="icon-basket"></i>
-							dead workers
-						</a>
-					</li>
-				<else />
-					<li class="active">
-						<a href="{:U('Worker/workerlist');}">
-							<i class="icon-basket"></i>
-							ALL Workers Workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=4');}">
-							<i class="icon-basket"></i>
-							free workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=5');}">
-							<i class="icon-basket"></i>
-							busy workers
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=2');}">
-							<i class="icon-basket"></i>
-							Income > 0
-						</a>
-					</li>
-					<li >
-						<a href="{:U('Worker/workerlist?type=1');}">
-							<i class="icon-basket"></i>
-							Income = 0
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Worker/workerlist?type=3');}">
-							<i class="icon-basket"></i>
-							dead workers
-						</a>
-					</li>
-				</if>
+				<li>
+					<a href="{:U('Worker/workerlist');}">
+						<i class="icon-basket"></i>
+						ALL Workers Workers
+					</a>
+				</li>
+				<li>
+					<a href="{:U('Worker/workerlist?type=4');}">
+						<i class="icon-basket"></i>
+						free workers
+					</a>
+				</li>
+				<li>
+					<a href="{:U('Worker/workerlist?type=5');}">
+						<i class="icon-basket"></i>
+						busy workers
+					</a>
+				</li>
+				<li>
+					<a href="{:U('Worker/workerlist?type=2');}">
+						<i class="icon-basket"></i>
+						Income > 0
+					</a>
+				</li>
+				<li >
+					<a href="{:U('Worker/workerlist?type=1');}">
+						<i class="icon-basket"></i>
+						Income = 0
+					</a>
+				</li>
+				<li>
+					<a href="{:U('Worker/workerlist?type=3');}">
+						<i class="icon-basket"></i>
+						dead workers
+					</a>
+				</li>
 
 				<li>
 					<a href="#">
@@ -493,7 +310,7 @@
 			<!-- END DASHBOARD STATS -->
 			<div class="clearfix"></div>
 			<div class="row">
-				<div class="col-md-6 col-sm-6">
+				<div class="col-md-12 col-sm-12">
 				<!-- BEGIN PORTLET-->
 					<div class="portlet light ">
 						<div class="portlet-title">
@@ -505,213 +322,72 @@
 						</div>
 						<div class="portlet-body">
 							<div class="portlet-body">
-								<div class="row static-info">
-									<div class="col-md-6 name">
-										 Total No. :
+								<div class="col-md-3 col-sm-3">
+									<h4><i class="fa fa-bar-chart-o"></i> Total Datas analysis</h4>
+									<div class="row static-info ">
+										<div class="col-md-6 name">
+											 Total No. :
+										</div>
+										<div class="col-md-6 value">
+											 <i class="fa fa-paper-plane"></i> {$workertotal.worker_total}
+										</div>
 									</div>
-									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_total}
+									<div class="row static-info">
+										<div class="col-md-6 name">
+											 Busy No. :
+										</div>
+										<div class="col-md-6 value">
+											 <i class="fa fa-paper-plane"></i> {$workertotal.worker_doing}
+										</div>
 									</div>
+									<div class="row static-info">
+										<div class="col-md-6 name">
+											 Free No. :
+										</div>
+										<div class="col-md-6 value">
+											 <i class="fa fa-paper-plane"></i> {$workertotal.worker_free}
+										</div>
+									</div>
+									<div class="row static-info">
+										<div class="col-md-6 name">
+											 All Salary :
+										</div>
+										<div class="col-md-6 value">
+											 <i class="fa fa-paper-plane"></i> {$workertotal.worker_salary} RMB
+										</div>
+									</div>
+									<div class="row static-info">
+										<div class="col-md-6 name">
+											 Unpaid Salary :
+										</div>
+										<div class="col-md-6 value">
+											 <i class="fa fa-paper-plane"></i> {$workertotal.worker_unpaidsalary} RMB
+										</div>
+									</div>
+									<div class="clearfix"></div>
+									
+								
 								</div>
-								<div class="row static-info">
-									<div class="col-md-6 name">
-										 Busy No. :
-									</div>
-									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_doing}
-									</div>
+								<div class="col-md-3 col-sm-12">
+									<h4><i class="fa fa-bar-chart-o"></i> Worker Status analysis</h4>
+									<div id="totalpiechart" style="padding: 0px;width:100%;height:200px;"></div>
 								</div>
-								<div class="row static-info">
-									<div class="col-md-6 name">
-										 Free No. :
-									</div>
-									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_free}
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-6 name">
-										 All Salary :
-									</div>
-									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_salary} RMB
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-6 name">
-										 Unpaid Salary :
-									</div>
-									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$workertotal.worker_unpaidsalary} RMB
-									</div>
-								</div>
-								<hr/>
+								<div class="clearfix"></div>
 							</div>
 						</div>
 					</div>
 				<!-- END PORTLET-->
 			</div>
+				
+				
+				<!-- END PORTLET-->
+				
+				<!-- END PORTLET-->
 				<div class="col-md-6 col-sm-6">
-				<!-- BEGIN PORTLET-->
-					<div class="portlet light ">
-						<div class="portlet-title">
-							<div class="caption">
-								<i class="icon-bar-chart font-green-sharp hide"></i>
-								<span class="caption-subject font-green-sharp bold uppercase"> {$todayyear} (current year) statistic</span>
-								<span class="caption-helper">current year statistic...</span>
-							</div>
-						</div>
-						<div class="portlet-body">
-							<div class="portlet-body">
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Revenues :
-									</div>
-									<div class="col-md-8 value">
-										<i class="fa fa-paper-plane"></i> {$cydata.revenuesum} RMB
-										<foreach name="cydata.moneyinfo" item="vo">
-											<small><i class="fa fa-check-square-o"></i> {$vo['moneytype']} {$vo['revenues']} </small>
-										</foreach>
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Profit :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.profitsum} RMB
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Worker Salary :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.salarysum} RMB
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 No. Orders :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.ordernum}
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Average profit/day :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.profitavg}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				<!-- END PORTLET-->
-				</div>
-				<div class="col-md-3 col-sm-3">
-					<!-- BEGIN PORTLET-->
-					<div class="portlet light ">
-						<div class="portlet-title">
-							<div class="caption">
-								<i class="icon-share font-red-sunglo hide"></i>
-								<span class="caption-subject font-red-sunglo bold uppercase">Day statistic</span>
-							</div>
-						</div>
-						<div class="portlet-body">
-							<div class="row">
-								<div class="col-md-12 col-sm-12">
-									<div class="input-group ">
-											<div class="input-group date form_meridian_date input-small" data-date="2012-12-21T15:25:00Z">
-												<input name="daysearchinput" type="text" size="10" class="form-control input-inline" placeholder="Day" value="{$today}" readonly>
-												<span class="input-group-btn">
-												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
-											</div>
-											<div class="input-group-btn input-large">
-												<button class="btn yellow table-group-action-submit" id="daysearchbtn"><i class="fa fa-search"></i></button>
-											</div>
-
-											<!-- /input-group -->
-									</div>
-								</div>
-								<div class="col-md-12 col-sm-12 ">
-									<div class="row static-info">
-										<div class="col-md-4 name">
-											 Revenues:
-										</div>
-										<div class="col-md-8 value">
-											 <i class="fa fa-paper-plane" ></i><span id="dayrevenues"></span>
-										</div>
-									</div>
-									<div id="daydatalist">
-									</div>
-									<div class="row static-info">
-										<div class="col-md-4 name">
-											 Profit :
-										</div>
-										<div class="col-md-8 value">
-											 <i class="fa fa-paper-plane"></i>  <span id="dayprofit"></span>
-										</div>
-									</div>
-									<div class="row static-info">
-										<div class="col-md-4 name">
-											 Salary :
-										</div>
-										<div class="col-md-8 value">
-											 <i class="fa fa-paper-plane"></i> <span id="daysalary"></span>
-										</div>
-									</div>
-									<div class="row static-info">
-										<div class="col-md-5 name">
-											 No. Order :
-										</div>
-										<div class="col-md-7 value">
-											 <i class="fa fa-paper-plane"></i> <span id="dayordernum"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</div>
-				<!-- END PORTLET-->
-				<div class="col-md-3 col-sm-3">
-					<!-- BEGIN PORTLET-->
-					<div class="portlet light ">
-						<div class="portlet-title">
-							<div class="caption">
-								<i class="icon-share font-blue-steel hide"></i>
-								<span class="caption-subject font-blue-steel bold uppercase">Tools Quick link</span>
-							</div>
-						</div>
-						<div class="portlet-body">
-							<div class="portlet-body">
-								<div class="portlet-body">
-									<div class="row static-info">
-										<div class="col-md-12 name">
-											<a href="{:U('Tool/exchangeToolPage');}" target="_blank" class="btn btn-block purple"> 1. Exchange Transfer Tools <i class="fa fa-link"></i></a>
-										</div>
-										<div class="col-md-12 name">
-											<a href="{:U('Api/tradeApi');}" target="_blank" class="btn btn-block red"> 2. Trade information api <i class="fa fa-link"></i></a>
-										</div>
-									</div>
-									<hr/>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</div>
-				<!-- END PORTLET-->
-				<div class="col-md-6 col-sm-12">
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Single Month statistic
+									<i class="fa fa-gift"></i> Worker Status Number statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -727,18 +403,18 @@
 							<div class="portlet-body form">
 								<div class="row">
 
-									<div id='stackedbar' class="chart" style="padding: 0px;width:100%;height: 1050px;"></div>
+									<div id='stackedbar' class="chart" style="padding: 0px;width:100%;height: 1080px;"></div>
 
 								</div>
 
 							</div>
 						</div>
 				</div>
-				<div class="col-md-6 col-sm-12">
+				<div class="col-md-6 col-sm-6">
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Single Month statistic
+									<i class="fa fa-gift"></i> Worker Status Rate statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -754,7 +430,7 @@
 							<div class="portlet-body form">
 								<div class="row">
 
-									<div id='horizonbar' class="chart" style="padding: 0px;width:100%;height: 1050px;"></div>
+									<div id='horizonbar' class="chart" style="padding: 0px;width:100%;height: 1080px;"></div>
 
 								</div>
 
@@ -809,7 +485,7 @@ Layout.init(); // init current layout
 			$(chartid).html("");
 			var wd = $(chartid).width();
 			var wh = $(chartid).height();
-			var margin = {top:10, left:120, bottom:20, right:20};
+			var margin = {top:10, left:120, bottom:50, right:20};
 			var height = wh - margin.top - margin.bottom,
 				width = wd - margin.left - margin.right;
 			var svg = d3.select(chartid).append("svg")
@@ -833,7 +509,7 @@ Layout.init(); // init current layout
 
 
 
-			  console.log(d3.max(data, function(d) { return d.free; }));
+			  //console.log(d3.max(data, function(d) { return d.free; }));
 
 			  data.sort(function(a, b) { return b.total - a.total; });
 			  y.domain(data.map(function(d) { return d.name; }));					// x.domain...
@@ -906,8 +582,7 @@ Layout.init(); // init current layout
 				  .attr("dy", "0.32em")
 				  .text(function(d) { return d; });
 		}
-    var data = [{"name":"Bob","rate":33},{"name":"Robin","rate":12},{"name":"Anne","rate":41},{"name":"Mark","rate":16},{"name":"Joe","rate":59},{"name":"Eve","rate":38},{"name":"Karen","rate":21},{"name":"Kirsty","rate":25},{"name":"Chris","rate":30},{"name":"Lisa","rate":47},{"name":"Tom","rate":5},{"name":"Stacy","rate":20},{"name":"Charles","rate":13},{"name":"Mary","rate":29}];
-		var chartid = "#horizonbar";
+
 		//drawHorizonBarChart(data,chartid);
 		get_freerate_query();
 		function get_freerate_query(){
@@ -918,7 +593,7 @@ Layout.init(); // init current layout
 				url:url,
 				success: function aa(data) {
 					//showstorelist(data.stores);
-					console.log(data);
+					//console.log(data);
 					//var para = {mindate:fstep ,maxdate:tstep,xtformate:xtformate,xnum:xnum,ytext:"Total Profit"};
 					//drawLineChart(data,"#chart","profit",para);
 					//drwaStackBar(data,"#stackedbar",["free","doing","unpaid"]);
@@ -997,6 +672,87 @@ Layout.init(); // init current layout
 		  // add the y Axis
 		  svg.append("g")
 			  .call(d3.axisLeft(y));
+	}
+	var dataset = {:json_encode($workerpiedata)};
+	drawPieChart(dataset,"#totalpiechart");
+	function drawPieChart(dataset,chartid){
+		
+
+		var donutWidth = 20;
+		var width = $(chartid).width();
+		var height = $(chartid).height();
+		var radius = Math.min(width, height) / 2;
+		var legendRectSize = 18;
+		var legendSpacing = 4;
+
+		var color = d3.scaleOrdinal(d3.schemeCategory20);
+		var tooltip = d3.select(chartid)          
+		  .append('div')                             
+		  .attr('class', 'tooltip');                
+		
+		var svg = d3.select(chartid)
+			.append('svg')
+			.attr('width', width)
+			.attr('height', height)
+			.append('g')
+			.attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+
+		var arc = d3.arc()
+			.innerRadius(radius - donutWidth)
+			.outerRadius(radius);
+
+		var pie = d3.pie()
+			.value(function(d) { return d.count; })
+			.sort(null);
+ 
+
+		var path = svg.selectAll('path')
+			.data(pie(dataset))
+			.enter()
+			.append('path')
+			.attr('d', arc)
+			.attr('fill', function(d, i) {
+				return color(d.data.label);
+			});
+		path.on('mouseover', function(d) {
+		  var total = d3.sum(dataset.map(function(d) {
+			return d.count;
+		  }));
+		  var percent = Math.round(1000 * d.data.count / total) / 10;
+		  tooltip.html(d.data.label + "<br>"+ d.data.count + "<br>" + percent + "%");
+		  tooltip.style('display', 'block')
+			.style('top', (height/2 ) + 'px')
+			.style('left', (width/2 - 30) + 'px')
+			.style('opacity', 0.9);
+		});
+
+		path.on('mouseout', function() {
+		  tooltip.style('display', 'none');
+		});
+
+		var legend = svg.selectAll('.legend')
+		  .data(color.domain())
+		  .enter()
+		  .append('g')
+		  .attr('class', 'legend')
+		  .attr('transform', function(d, i) {
+			var height = legendRectSize + legendSpacing;
+			var offset =  height * color.domain().length / 2;
+			var horz = -2 * legendRectSize;
+			var vert = i * height - offset;
+			return 'translate(' + horz + ',' + vert + ')';
+		  });
+
+		legend.append('rect')
+			.attr('width', legendRectSize)
+			.attr('height', legendRectSize)
+			.style('fill', color)
+			.style('stroke', color);
+
+		legend.append('text')
+			.attr('x', legendRectSize + legendSpacing)
+			.attr('y', legendRectSize - legendSpacing)
+			.text(function(d) { return d; });
 	}
 
 </script>
