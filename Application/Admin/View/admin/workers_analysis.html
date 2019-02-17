@@ -18,7 +18,7 @@
             width: 120px;
             z-index: 10;
   }
-	  
+
 </style>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 </block>
@@ -365,8 +365,8 @@
 										</div>
 									</div>
 									<div class="clearfix"></div>
-									
-								
+
+
 								</div>
 								<div class="col-md-3 col-sm-12">
 									<h4><i class="fa fa-bar-chart-o"></i> Worker Status analysis</h4>
@@ -378,10 +378,10 @@
 					</div>
 				<!-- END PORTLET-->
 			</div>
-				
-				
+
+
 				<!-- END PORTLET-->
-				
+
 				<!-- END PORTLET-->
 				<div class="col-md-6 col-sm-6">
 						<div class="portlet box green">
@@ -437,7 +437,7 @@
 							</div>
 						</div>
 				</div>
-				
+
 
 
 			</div>
@@ -674,9 +674,10 @@ Layout.init(); // init current layout
 			  .call(d3.axisLeft(y));
 	}
 	var dataset = {:json_encode($workerpiedata)};
+	console.log(dataset);
 	drawPieChart(dataset,"#totalpiechart");
 	function drawPieChart(dataset,chartid){
-		
+
 
 		var donutWidth = 20;
 		var width = $(chartid).width();
@@ -686,10 +687,10 @@ Layout.init(); // init current layout
 		var legendSpacing = 4;
 
 		var color = d3.scaleOrdinal(d3.schemeCategory20);
-		var tooltip = d3.select(chartid)          
-		  .append('div')                             
-		  .attr('class', 'tooltip');                
-		
+		var tooltip = d3.select(chartid)
+		  .append('div')
+		  .attr('class', 'tooltip');
+
 		var svg = d3.select(chartid)
 			.append('svg')
 			.attr('width', width)
@@ -704,7 +705,7 @@ Layout.init(); // init current layout
 		var pie = d3.pie()
 			.value(function(d) { return d.count; })
 			.sort(null);
- 
+
 
 		var path = svg.selectAll('path')
 			.data(pie(dataset))

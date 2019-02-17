@@ -89,13 +89,13 @@ function getYearData($year){
 	$fromdate = date('Y-m-d', strtotime($year."-01-01")); //start of year
 	$todate = date('Y-m-d', strtotime($year."-12-31"));//end of year
 
-    $datetime_start = new \DateTime();
-    $datetime_end = new \DateTime($fromdate);
+  $datetime_start = new \DateTime();
+  $datetime_end = new \DateTime($fromdate);
 
-    $daystep = $datetime_start->diff($datetime_end)->days + 1;
-    //var_dump($datetime_start->diff($datetime_end));
-    $year_ordernum = $ORDER->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->count();
-    $year_revenuescc  = $ORDER->field('db_orders.moneytype,SUM(db_orders.totalprice) as revenues')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('db_orders.moneytype')->select();
+  $daystep = $datetime_start->diff($datetime_end)->days + 1;
+  //var_dump($datetime_start->diff($datetime_end));
+  $year_ordernum = $ORDER->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->count();
+  $year_revenuescc  = $ORDER->field('db_orders.moneytype,SUM(db_orders.totalprice) as revenues')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('db_orders.moneytype')->select();
 	$year_revenuesarr  = $ORDER->field('DATE_FORMAT(db_orders.createtime,"%Y-%m") as createday,db_orders.moneytype,SUM(db_orders.totalprice) as revenues')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%Y-%m"),db_orders.moneytype')->select();
 	$year_revenuearray = [];
 	$day_all = [];
@@ -574,6 +574,24 @@ function getQData($fy,$ty,$qname){
 	  $res= $dataii;
     //print_r($res);
     return $res;
+}
+
+/* get orders num of every week*/
+function getWeekDataOrder($fromdate,$todate){
+    $res = [];
+    $ORDER = M('orders');
+    $fromdate = date('Y-m-d', strtotime($fromdate)); //月初
+    $todate = date('Y-m-d', strtotime($todate));//月末
+    $flagyear =  date('Y', strtotime($fromdate));
+    //echo $yearlength;
+    $res = [];
+    $res  = $ORDER->field('DATE_FORMAT(db_orders.createtime,"%W") as label,Count(*) as count')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%W")')->select();
+    //print_r($week_orderinfo);
+    return $res;
+
+    //$res["values"] = $datas;
+    //$res["name"] = $flagyear;
+    //return $res;
 }
 /*get order infomation */
 /*

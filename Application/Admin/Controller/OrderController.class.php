@@ -550,6 +550,25 @@ class OrderController extends CommonController {
 
 		$this->ajaxReturn($res);
 	}
-
+	public function showDataAnalysisPage(){
+		
+		$this->display(T('admin/orders_analysis'));
+	}
+	public function getWeekData(){
+		//$fd = I('post.fromdate','','htmlspecialchars');//
+		//$td = I('post.todate','','htmlspecialchars');//
+		$fd = "2018-01-01";//
+		$td = "2019-12-31";//
+		if(date('w') == 0){
+			$td = date('Y-m-d', (time() + (7 - (date('w') == 0 ? 7 : date('w'))) * 24 * 3600));;
+		}else{
+			$td = date('Y-m-d', strtotime('-1 sunday', time()));
+		}
+		//echo $td;
+		//date('Y-m-d', (time() + (7 - (date('w') == 0 ? 7 : date('w'))) * 24 * 3600)); //同样使用w,以现在与周日相关天数算
+		$res = [];
+		$res = getWeekDataOrder($fd,$td);
+		$this->ajaxReturn($res);
+	}
 
 }
