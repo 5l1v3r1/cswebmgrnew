@@ -532,7 +532,7 @@ Layout.init(); // init current layout
 					  d3.select(this).attr('opacity', 0.7);
 					  tooltip.transition().duration(100).style('opacity', 0.95);
 					  tooltip.html(
-							'<div style="font-size: 1rem; color: #0b3536; font-weight: bold">technology: ' + d.data.name + '<br/> total: ' + d.data.total + '<br/> doing:' + d.data.doing + '<br/> unpaid:' + d.data.unpaid + '<br/> free:'+d.data.free +'</div>')
+							'<div style="font-size: 1rem; color: #0b3536; font-weight: bold">technology: ' + d.data.name + '<br> total: ' + d.data.total + '<br> doing:' + d.data.doing + '<br> unpaid:' + d.data.unpaid + '<br> free:'+d.data.free +'</div>')
 						.style('left', (x(d[0])+ (x(d[1]) - x(d[0]))/2) + 'px')
 						.style('top', (y(d.data.name) + y.bandwidth()/10) + 'px');
 					  })
@@ -674,7 +674,7 @@ Layout.init(); // init current layout
 			  .call(d3.axisLeft(y));
 	}
 	var dataset = {:json_encode($workerpiedata)};
-	console.log(dataset);
+	//console.log(dataset);
 	drawPieChart(dataset,"#totalpiechart");
 	function drawPieChart(dataset,chartid){
 

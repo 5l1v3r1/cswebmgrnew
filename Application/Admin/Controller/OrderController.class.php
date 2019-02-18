@@ -570,5 +570,84 @@ class OrderController extends CommonController {
 		$res = getWeekDataOrder($fd,$td);
 		$this->ajaxReturn($res);
 	}
+	/* one year */
+    public function getDayToDay(){
+
+      $fd = I('post.fromdate','','htmlspecialchars');//
+      $td = I('post.todate','','htmlspecialchars');//
+      $DATEYEAR = date("Y",time());
+
+      $res = [];
+      for($i=C(DATEORIYEAR);$i<=$DATEYEAR;$i++){
+        $fromdate = $i."-".$fd;
+        $todate = $i."-".$td;
+        $tmp = getDayToDay($fromdate,$todate);
+        if(!empty($tmp['values'])){
+             array_push($res,$tmp);
+        }
+
+      }
+      $this->ajaxReturn($res);
+    }
+	/*get days of potin month*/
+    public function getEachMonth(){
+      $m = I('post.month','','htmlspecialchars');//
+      //$m = "02";
+      $res = [];
+      $res0 = [];
+      //echo C(DATEORIYEAR);
+      $DATEYEAR = date("Y",time());
+      //echo $DATEYEAR;
+      for($i=C(DATEORIYEAR);$i<=$DATEYEAR;$i++){
+        //echo $i;
+        $fromdate = $i."-".$m."-01";
+        $todate = $i."-".$m."-31";
+        $res0 = getDayToDayYears($fromdate,$todate);
+        if(empty($res0)){
+          $res0 = [];
+        }
+        $res = array_merge($res,$res0);
+        //print_r($res0);
+
+      }
+      $i = 0;
+      for($i = 0; $i<count($res);$i++){
+        //echo ($k["name"]);
+        //echo (count($k["values"]));
+        //print_r($res[$i]["values"]);
+        if(count($res[$i]["values"]) == 0){
+          unset($res[$i]);
+        }
+        //echo "<br>";
+      }
+      //print_r($res);
+      $this->ajaxReturn($res);
+    }
+	public function getMonths(){
+        $fy = C(DATEORIYEAR);
+        $ty = date("Y",time());
+        $res = getMonthsData($fy,$ty,1);
+        $this->ajaxReturn($res);
+    }
+	public function getQdatas(){
+        $fy = C(DATEORIYEAR);
+        $ty = date("Y",time());
+        /*
+        q1: 1-31 -3-31
+        q2: 4-1  6-30
+        q3  7-1  9-30
+        q4  10-1 12-31
+        */
+
+        /*get Q1*/
+        $res1 = getQData($fy,$ty,"Q1",1);
+        $res2 = getQData($fy,$ty,"Q2",1);
+        $res3 = getQData($fy,$ty,"Q3",1);
+        $res4 = getQData($fy,$ty,"Q4",1);
+        $res = [];
+        array_push($res,$res1,$res2,$res3,$res4);
+        //print_r($res);
+        $this->ajaxReturn($res);
+    }
 
 }

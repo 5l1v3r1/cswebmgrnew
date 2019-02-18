@@ -189,7 +189,7 @@ class DashboardController extends CommonController {
     public function getMonths(){
         $fy = C(DATEORIYEAR);
         $ty = date("Y",time());
-        $res = getMonthsData($fy,$ty);
+        $res = getMonthsData($fy,$ty,0);
         $this->ajaxReturn($res);
     }
     public function getQdatas(){
@@ -203,10 +203,10 @@ class DashboardController extends CommonController {
         */
 
         /*get Q1*/
-        $res1 = getQData($fy,$ty,"Q1");
-        $res2 = getQData($fy,$ty,"Q2");
-        $res3 = getQData($fy,$ty,"Q3");
-        $res4 = getQData($fy,$ty,"Q4");
+        $res1 = getQData($fy,$ty,"Q1",0);
+        $res2 = getQData($fy,$ty,"Q2",0);
+        $res3 = getQData($fy,$ty,"Q3",0);
+        $res4 = getQData($fy,$ty,"Q4",0);
         $res = [];
         array_push($res,$res1,$res2,$res3,$res4);
         //print_r($res);

@@ -297,6 +297,11 @@ function getDayToDayYears($fromdate,$todate){
         $cell['fullcreateday'] = date('Y-m-d', strtotime($v['createday']));
         $cell['datas'] = $day_all[$v['createday']];
         $cell['ordernum'] = $day_ordernumarray[$v['createday']];
+        if($cell['ordernum'] == 0){
+            $cell['profitavg'] = 0;
+        }else{
+            $cell['profitavg'] = round($cell['profit']/$cell['ordernum'],2);
+        }
         //$revenuesum = $day_revenuearray[$v['createday']] + $revenuesum;
         array_push($datas ,$cell);
       }
@@ -405,7 +410,7 @@ function getDayData($daydata){
       $datas['today_profit'] = round($today_revenues - $today_salary,2);
       return $datas;
 }
-function getMonthsData($fy,$ty){
+function getMonthsData($fy,$ty,$cf){
     /*year show*/
 
 	$ORDER = M('orders');
@@ -452,7 +457,7 @@ function getMonthsData($fy,$ty){
 	$datas = [];
 	$salarysum = 0;
 	$revenuesum = 0;
-  $datacell = [];
+    $datacell = [];
 	foreach($year_salaryarr as $k=>$v){
         $room['profit'] = round($year_profitarray[$v['createday']],2);
         $room['salary'] = round($v['salary'],2);
@@ -463,6 +468,12 @@ function getMonthsData($fy,$ty){
         $room['month'] = date('m', strtotime($v['createday']));
         $room['year'] = date('Y', strtotime($v['createday']));
         $room['ordernum'] = $day_ordernumarray[$v['createday']];
+        if($room['ordernum'] == 0){
+            $room['profitavg'] = 0;
+        }else{
+            $room['profitavg'] = round($room['profit']/$room['ordernum'],2);
+        }
+        
         //$datacell[$room['month']];
         if (key_exists($mm,$datacell))
         {
@@ -489,8 +500,13 @@ function getMonthsData($fy,$ty){
       $dataii["month"] = $k;
       foreach($datacell[$k] as $c){
         //print_r($c);
-
-        $dataii[$c["year"]] = $c["profit"];
+        if($cf == 0){
+          $dataii[$c["year"]] = $c["profit"];
+        }else if($cf == 1)
+        {
+          $dataii[$c["year"]] = intval($c["ordernum"]);
+        }
+        //$dataii[$c["year"]] = $c["profit"];
 
       }
       //echo "######";
@@ -505,13 +521,14 @@ function getMonthsData($fy,$ty){
     //print_r($res);
     return $res;
 }
+
 /*
 q1: 1-31 -3-31
 q2: 4-1  6-30
 q3  7-1  9-30
 q4  10-1 12-31
 */
-function getQData($fy,$ty,$qname){
+function getQData($fy,$ty,$qname,$cf){
     /*year show*/
   if($qname == "Q1"){
     $start = "-01-01";
@@ -571,19 +588,20 @@ function getQData($fy,$ty,$qname){
         }
         
         $day_ordernumarray = [];
-        $day_ordernumarr  = $ORDER->field('DATE_FORMAT(db_orders.createtime,"%Y-%m") as createday,Count(*) as ordernum')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%Y-%m")')->select();
+        $day_ordernumarr  = $ORDER->field('CONCAT("Y",DATE_FORMAT(db_orders.createtime,"%Y"))  as createday,Count(*) as ordernum')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%Y")')->select();
+        //print_r($day_ordernumarr);
         $day_ordernumarray=[];
         foreach($day_ordernumarr as $k=>$v){
             $day_ordernumarray[strval($v['createday'])] = $v["ordernum"];
         }
-        
+        //print_r( $day_ordernumarray);
         $year_salaryarr = array_merge($year_salaryarr,$salaryarr);
         $year_revenuearray = array_merge($year_revenuearray,$revenuearray);
         $year_profitarray = array_merge($year_profitarray,$profitarray);
         $year_day_all = array_merge($year_day_all,$day_all);
         $year_ordernum = array_merge($year_ordernum,$day_ordernumarray);
     }
-    //print_r($year_salaryarr);
+    //print_r($year_day_all);
 
 	$datas = [];
 	$salarysum = 0;
@@ -616,7 +634,13 @@ function getQData($fy,$ty,$qname){
     $dataend = [];
     foreach($datas as $k=>$v){
       //print_r($v);
-      $dataii[$v["year"]] = $v["profit"];
+      if($cf == 0){
+          $dataii[$v["year"]] = $v["profit"];
+      }else if($cf == 1)
+      {
+          $dataii[$v["year"]] = intval($v["ordernum"]);
+      }
+      
       //echo "######";
       //print_r($dataii);
 
@@ -640,13 +664,53 @@ function getWeekDataOrder($fromdate,$todate){
     $flagyear =  date('Y', strtotime($fromdate));
     //echo $yearlength;
     $res = [];
-    $res  = $ORDER->field('DATE_FORMAT(db_orders.createtime,"%W") as label,Count(*) as count')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%W")')->select();
+    $res  = $ORDER->field('DATE_FORMAT(db_orders.createtime,"%W") as label,DATE_FORMAT(db_orders.createtime,"%w") as label0, Count(*) as count')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%W")')->select();
+    
+	$year_revenuesarr  = $ORDER->field('DATE_FORMAT(db_orders.createtime,"%W") as createday,db_orders.moneytype,SUM(db_orders.totalprice) as revenues')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%W"),db_orders.moneytype')->select();
+	$year_revenuearray = [];
+	$day_all = [];
+
+	foreach($year_revenuesarr as $k=>$v){
+	  //print_r($v);
+	  $Model = M('configure_exchange');
+	  $cc['currency'] = $v['moneytype'];
+	  $item = $Model->where($cc)->find();
+	  $year_revenuearray[$v['createday']] = $year_revenuearray[$v['createday']] + $v['revenues']*$item['rating'];
+
+	  $day_all[$v['createday']][$v['moneytype']] = $v['revenues'];
+	}
+	//print_r($year_revenuearray);
+	$year_salaryarr  = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('DATE_FORMAT(db_orders.createtime,"%W") as createday,SUM(db_worker_order.w_payment) as salary')->where('db_orders.createtime >=  "'.$fromdate.' 00:00:00" AND db_orders.createtime <= "'.$todate.' 23:59:59"')->group('DATE_FORMAT(db_orders.createtime,"%Y-%m")')->select();
+	$year_profitarray = [];
+	//print_r($year_salaryarr);
+	foreach($year_salaryarr as $k=>$v){
+	  //print_r($v);
+	  $Model = M('configure_exchange');
+	  $year_profitarray[$v['createday']] = $year_revenuearray[$v['createday']] - $v['salary'];
+	}
+   
+    $dataset = [];
+    foreach($res as $k=>$v){
+        //$room = [];
+        //echo $v;
+        $room["label"] =  $v["label"];
+        $room["label0"] =  $v["label0"];
+        $room["count"] =  $v["count"];
+        $room["profit"] =  $year_profitarray[$v["label"]];
+        array_push($dataset,$room);
+    }
+    //print_r($year_profitarray);
+    $names = array_column($dataset,'label0');
+    array_multisort($names,SORT_DESC,$dataset);
+    //$item["label"] = "Mon";
+    //$item["count"] = $res["c"]
+    //array_push($rr,);
     //print_r($week_orderinfo);
-    return $res;
+    //return $res;
 
     //$res["values"] = $datas;
     //$res["name"] = $flagyear;
-    //return $res;
+    return array_values($dataset);
 }
 /*get order infomation */
 /*

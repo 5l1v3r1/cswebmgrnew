@@ -42,6 +42,10 @@ div.tooltip {
   border-radius: 8px;
   pointer-events: none;
 }
+.label {
+  font-size: 10px;
+  text-anchor: middle;
+}
 </style>
 </block>
 <block name="siderbarmenu">
@@ -487,6 +491,74 @@ div.tooltip {
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
+									<i class="fa fa-gift"></i> Week Hot statistic
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="reload" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form" style="height: 550px;">
+								<div class="row">
+									<div id="weekchart" style="padding: 10px; position: relative;width:100%;height: 500px;"></div>
+								</div>
+
+							</div>
+						</div>
+				</div>
+				<div class="col-md-6 col-sm-12" >
+						<div class="portlet box green">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-gift"></i> Profit per Order statistic
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="reload" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form" style="height: 550px;">
+								<div class="row">
+									<div class="col-md-12 col-sm-12">
+										<div class="input-group ">
+											<select id="monthselectavg" class="form-control input-inline input-medium" name="monthinput">
+												<option value="01">1 month</option>
+												<option value="02">2 month</option>
+												<option value="03">3 month</option>
+												<option value="04">4 month</option>
+												<option value="05">5 month</option>
+												<option value="06">6 month</option>
+												<option value="07">7 month</option>
+												<option value="08">8 month</option>
+												<option value="09">9 month</option>
+												<option value="10">10 month</option>
+												<option value="11">11 month</option>
+												<option value="12">12 month</option>
+											</select>
+										</div>
+									</div>
+									<div id="daychartavg" style="padding: 10px; position: relative;width:100%;height: 500px;"></div>
+								</div>
+
+							</div>
+						</div>
+				</div>
+				<div class="col-md-6 col-sm-12" >
+						<div class="portlet box green">
+							<div class="portlet-title">
+								<div class="caption">
 									<i class="fa fa-gift"></i> Days of every Month statistic
 								</div>
 								<div class="tools">
@@ -706,8 +778,8 @@ div.tooltip {
 						xnum = Math.abs(fstep.getDate() - tstep.getDate())+1;
 					}
 					//console.log(tstep);
-					var para = {mindate:fstep ,maxdate:tstep,xtformate:xtformate,xnum:xnum,ytext:"Total Profit"};
-					drawLineChart(data,"#chart","profit",para);
+					var para = {mindate:fstep ,maxdate:tstep,xtformate:xtformate,xnum:xnum,ytext:"Total No.Orders"};
+					drawLineChart(data,"#chart","ordernum",para);
 
 				}
 			});
@@ -743,8 +815,44 @@ div.tooltip {
 					var fstep = new Date(Date.parse(fs.replace(/-/g,   "/")));
 					var tstep = new Date(Date.parse(ts.replace(/-/g,   "/")));
 					var xnum = 15;
-					para = {mindate:fstep,maxdate:tstep,xtformate:"%d",xnum:xnum,ytext:"Total Profit"};
-					drawLineChart(data,"#daychart","profit",para);
+					para = {mindate:fstep,maxdate:tstep,xtformate:"%d",xnum:xnum,ytext:"Total No.Orders"};
+					drawLineChart(data,"#daychart","ordernum",para);
+				}
+			});
+		}
+		/* profit per day select handle */
+		nowmonth = nowdate.getMonth()+1;
+		get_profit_avg_query(nowmonth);
+		if(nowmonth<10){
+			$("#monthselectavg").val("0"+nowmonth);
+		}else
+		{
+			$("#monthselectavg").val(nowmonth);
+		}
+		$("#monthselectavg").live('change',function(){
+		//alert();
+		$("#daychartavg").html("");
+		get_profit_avg_query($("#monthselectavg").val());
+		//alert();
+
+		});
+		function get_profit_avg_query(m){
+			var data = {};
+			data.month = m;
+			var url='__URL__/getEachMonth';
+			$.ajax({
+				type:"post",
+				url:url,
+				data:data,
+				dataType:"json",
+				success: function aa(data) {
+					var fs = "1900-"+ m + "-01";
+					var ts = "1900-"+ m + "-31";
+					var fstep = new Date(Date.parse(fs.replace(/-/g,   "/")));
+					var tstep = new Date(Date.parse(ts.replace(/-/g,   "/")));
+					var xnum = 15;
+					para = {mindate:fstep,maxdate:tstep,xtformate:"%d",xnum:xnum,ytext:"Profit per order"};
+					drawLineChart(data,"#daychartavg","profitavg",para);
 				}
 			});
 		}
@@ -925,7 +1033,7 @@ div.tooltip {
 						//para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-01-31'),xtformate:"%d"};
 						//drawLineChart(data,"#daychart","profit",para)	;
 						var para = {data}
-						drawMultiBarChart("#monthchart",para,"month","Total Profit");
+						drawMultiBarChart("#monthchart",para,"month","Total No.Orders");
 
 				}
 			});
@@ -946,7 +1054,7 @@ div.tooltip {
 						//drawLineChart(data,"#daychart","profit",para)	;
 						//console.log(data);
 						var para = {data}
-						drawMultiBarChart("#qchart",para,"qname","Total Profit");
+						drawMultiBarChart("#qchart",para,"qname","Total No.Orders");
 
 				}
 			});
@@ -954,7 +1062,7 @@ div.tooltip {
 		//drawMultiBarChart("#monthchart",para);
 		function drawMultiBarChart(chartname,para,kname,ytext){
 			const data = para.data;
-			//console.log(data);
+			console.log(data);
 			const keys = Object.keys(data[0]);
 			if(keys.indexOf(kname)>=0){
 				keys.splice(keys.indexOf(kname), 1);
@@ -1052,6 +1160,97 @@ div.tooltip {
 			}
 
 
+	get_week_query();
+	function get_week_query(){
+			var data = {};
+			var url='__URL__/getWeekData';
+			$.ajax({
+				type:"get",
+				url:url,
+				dataType:"json",
+				success: function aa(data) {
+					console.log(data);
+					drawPieChart(data,"#weekchart","profit");
+
+				}
+			});
+		}
+	function drawPieChart(dataset,chartid,keyword){
+
+		//console.log(dataset);
+		
+		var width = $(chartid).width();
+		var height = $(chartid).height();
+		var radius = Math.min(width, height) / 2.5;
+		var donutWidth = radius/3;
+		var legendRectSize = 18;
+		var legendSpacing = 4;
+
+		var color = d3.scaleOrdinal(d3.schemeCategory20);
+		var tooltip = d3.select(chartid)
+		  .append('div')
+		  .attr('class', 'tooltip');
+
+		var svg = d3.select(chartid)
+			.append('svg')
+			.attr('width', width)
+			.attr('height', height)
+			.append('g')
+			.attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+
+		var arc = d3.arc()
+			.innerRadius(radius - donutWidth)
+			.outerRadius(radius);
+
+		var pie = d3.pie()
+			.value(function(d) { return d[keyword]; })
+			.sort(null);
+		var label = d3.arc()
+			.outerRadius(radius + 20)
+			.innerRadius(radius + 20);
+
+		var path = svg.selectAll('path')
+			.data(pie(dataset))
+			.enter()
+			.append('path')
+			.attr('d', arc)
+			.attr('fill', function(d, i) {
+				return color(d.data.label);
+			});
+		var total = d3.sum(dataset.map(function(d) {
+			return d[keyword];
+		  }));
+		svg.selectAll("text").data(pie(dataset))
+		  .enter().append("text")
+		  .attr("class", "label")
+		  .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+		  .attr("dy", "0.35em")
+		  .text (function(d) { return d.data.label + " "+Math.round(1000 * d["data"][keyword] / total) / 10 + "%"; });
+
+		var legend = svg.selectAll('.legend')
+		  .data(color.domain())
+		  .enter()
+		  .append('g')
+		  .attr('class', 'legend')
+		  .attr('transform', function(d, i) {
+			var height = legendRectSize + legendSpacing;
+			var offset =  height * color.domain().length / 2;
+			var horz = -2 * legendRectSize;
+			var vert = i * height - offset;
+			return 'translate(' + horz + ',' + vert + ')';
+		  });
+
+		legend.append('rect')
+			.attr('width', legendRectSize)
+			.attr('height', legendRectSize)
+			.style('fill', color)
+			.style('stroke', color);
+
+		legend.append('text')
+			.attr('x', legendRectSize + legendSpacing)
+			.attr('y', legendRectSize - legendSpacing)
+			.text(function(d) { return d; });
+	}
 
 
 		</script>
