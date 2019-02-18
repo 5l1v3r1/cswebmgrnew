@@ -267,10 +267,10 @@ div.tooltip {
 						</div>
 						<div class="details">
 							<div class="number">
-								 {$revenues} <i class="fa fa-cny"></i>
+								 {$ordernum} <i class="fa fa-calculator" aria-hidden="true"></i>
 							</div>
 							<div class="desc">
-								 Revenues/total
+								 No.Orders/total
 							</div>
 						</div>
 						<a class="more" href="javascript:;">
@@ -285,10 +285,10 @@ div.tooltip {
 						</div>
 						<div class="details">
 							<div class="number">
-								 {$profit} <i class="fa fa-cny"></i>
+								 {$profitavg} <i class="fa fa-cny"></i>
 							</div>
 							<div class="desc">
-								 Profit/total
+								 Profit/day
 							</div>
 						</div>
 						<a class="more" href="javascript:;">
@@ -359,13 +359,13 @@ div.tooltip {
 												 #
 											</th>
 											<th>
-												 Revenues
+												 Profit/day
 											</th>
 											<th>
-												 Profit
+												 Profit/Order
 											</th>
 											<th>
-												 Salary
+												 Ordernum/day
 											</th>
 											<th>
 												 No.Orders
@@ -376,17 +376,17 @@ div.tooltip {
 										<foreach name="datas" item="vo">
 											<if condition="$vo.createyear eq 'Total' ">
 												<tr class="danger">
-													<td>
+                          <td>
 														 {$vo.createyear}
 													</td>
 													<td>
-														 {$vo.revenuesum}
+														 {$vo.profitavg}
 													</td>
 													<td>
-														 {$vo.profitsum}
+														 {$vo.profitperorder}
 													</td>
 													<td>
-														{$vo.salarysum}
+														{$vo.ordernumavg}
 													</td>
 													<td>
 														{$vo.ordernum}
@@ -398,13 +398,13 @@ div.tooltip {
 														 {$vo.createyear}
 													</td>
 													<td>
-														 {$vo.revenuesum}
+														 {$vo.profitavg}
 													</td>
 													<td>
-														 {$vo.profitsum}
+														 {$vo.profitperorder}
 													</td>
 													<td>
-														{$vo.salarysum}
+														{$vo.ordernumavg}
 													</td>
 													<td>
 														{$vo.ordernum}
@@ -1178,7 +1178,7 @@ div.tooltip {
 	function drawPieChart(dataset,chartid,keyword){
 
 		//console.log(dataset);
-		
+
 		var width = $(chartid).width();
 		var height = $(chartid).height();
 		var radius = Math.min(width, height) / 2.5;

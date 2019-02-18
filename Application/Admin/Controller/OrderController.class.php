@@ -551,8 +551,77 @@ class OrderController extends CommonController {
 		$this->ajaxReturn($res);
 	}
 	public function showDataAnalysisPage(){
-		
+		$res = [];
+		$res = getAllData();
+		$this->assign('revenues',$res[0]);
+		$this->assign('salary',$res[1]);
+
+		$this->assign('revenuesarr',$res[3]);
+		$this->assign('ordernum',$res[4]);
+		$this->assign('ongoingrevenues',$res[5]);
+		$this->assign('ongoingsalary',$res[6]);
+		$this->assign('ongoingprofit',$res[7]);
+		$this->assign('ongoingrevenuesarr',$res[8]);
+		$this->assign('profitavg',$res[9]);
+		$this->assign('ongoingunpaid',$res[10]);
+		$this->assign('ongoingdoing',$res[11]);
+		$this->assign('ongoingunset',$res[12]);
+
+		$DATEYEAR = date("Y");
+		/*[createyear] => [salarysum] => 0 [revenuesum] => 0 [moneyinfo] => [profitsum] => 0 [ordernum] => 0 [profitavg] => 0 [datas] => Array ( ) )*/
+		$salarysum = 0;
+		$revenuesum = 0;
+		$profitsum  = 0;
+		$ordernum = 0;
+		$daystep = 0;
+		$datas = [];
+		for($i=C(DATEORIYEAR);$i<=$DATEYEAR;$i++){
+				$cydata = [];
+				$cydata = getYearData($i);
+				$profitsum = $profitsum + $cydata["profitsum"];
+				$ordernum = $ordernum + $cydata["ordernum"];
+				$daystep = $daystep + $cydata["daystep"];
+				if($cydata["ordernum"] == 0){
+					$cydata["profitperorder"] =  0;
+				}else{
+					$cydata["profitperorder"] = round($cydata["profitsum"]/$cydata["ordernum"],2);
+				}
+
+				array_push($datas,$cydata);
+		}
+		$cydata["createyear"] = "Total" ;
+		if($ordernum == 0){
+			$cydata["profitperorder"] = 0;
+		}else{
+			$cydata["profitperorder"] = round($profitsum/$ordernum,2);
+		}
+
+		$cydata["ordernum"] = $ordernum;
+		if($daystep == 0){
+			$cydata["ordernumavg"] = 0;
+			$cydata["profitavg"] = 0;
+		}else{
+			$cydata["ordernumavg"] = round($ordernum/$daystep,2);
+			$cydata["profitavg"] = round($profitsum/$daystep,2);
+		}
+		$this->assign('profitavg',$cydata["profitavg"]);
+		$this->assign('ordernumavg',$cydata["ordernumavg"]);
+		$this->assign('profitperorder',$cydata["profitperorder"]);
+
+		array_push($datas,$cydata);
+		//print_r($datas);
+		$this->assign('datas',$datas);//current day data info
+
+		//print_r($cydata);
+
+		$fromdate = date("Y-m-d");
+		$this->assign('today',$fromdate);
+		$this->assign('todaymonth',date("Y-m"));
+		$this->assign('todayyear',$year);
+
+
 		$this->display(T('admin/orders_analysis'));
+
 	}
 	public function getWeekData(){
 		//$fd = I('post.fromdate','','htmlspecialchars');//
