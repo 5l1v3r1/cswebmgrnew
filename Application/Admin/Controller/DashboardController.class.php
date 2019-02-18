@@ -77,6 +77,7 @@ class DashboardController extends CommonController {
     public function getYearData(){
       /*year show*/
       $year =  I('post.daytime','','htmlspecialchars');//
+      //$year = "2018";
       $res = [];
       $res = getYearData($year);
       $this->ajaxReturn($res);
