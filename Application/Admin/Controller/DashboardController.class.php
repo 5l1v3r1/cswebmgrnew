@@ -35,10 +35,12 @@ class DashboardController extends CommonController {
         $this->assign('ongoingunpaid',$res[10]);
         $this->assign('ongoingdoing',$res[11]);
         $this->assign('ongoingunset',$res[12]);
+		$this->assign('unpaidsalary',$res[13]);
 
+		
         $this->assign('cydata',$cydata);//current day data info
 
-        //print_r($cydata);
+        //print_r($res);
 
         $fromdate = date("Y-m-d");
         $this->assign('today',$fromdate);
@@ -219,7 +221,7 @@ class DashboardController extends CommonController {
         $this->ajaxReturn($res);
     }
 	public function getYearProfitPercent(){
-		$fy = $ty = "2018";
+		$fy = $ty = I('post.year','','htmlspecialchars');//;
 		$res = getMonthsData($fy,$ty,0);
 		$dataset = [];
 		foreach($res as $k=>$v){
@@ -231,5 +233,21 @@ class DashboardController extends CommonController {
 			array_push($dataset,$room);
 		}
 		$this->ajaxReturn($dataset);
+	}
+	public function getWeekData(){
+		//$fd = I('post.fromdate','','htmlspecialchars');//
+		//$td = I('post.todate','','htmlspecialchars');//
+		$fd = "2018-01-01";//
+		$td = "2019-12-31";//
+		if(date('w') == 0){
+			$td = date('Y-m-d', (time() + (7 - (date('w') == 0 ? 7 : date('w'))) * 24 * 3600));;
+		}else{
+			$td = date('Y-m-d', strtotime('-1 sunday', time()));
+		}
+		//echo $td;
+		//date('Y-m-d', (time() + (7 - (date('w') == 0 ? 7 : date('w'))) * 24 * 3600)); //同样使用w,以现在与周日相关天数算
+		$res = [];
+		$res = getWeekDataOrder($fd,$td);
+		$this->ajaxReturn($res);
 	}
 }

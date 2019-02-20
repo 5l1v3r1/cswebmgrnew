@@ -11,6 +11,12 @@
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 	<script src="__PUBLIC__/metronic3_7/assets/admin/layout/scripts/tooltip.js"></script>
 	<link href="__PUBLIC__/metronic3_7/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+	<style type="text/css">
+	.label {
+	  font-size: 0.1rem;
+	  text-anchor: middle;
+	}
+	</style>
 </block>
 <block name="siderbarmenu">
 	<ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
@@ -414,6 +420,12 @@
 									<div class="col-md-3 value">
 										 <i class="fa fa-paper-plane"></i> {$ongoingsalary} RMB
 									</div>
+									<div class="col-md-3 name">
+										Unpaid Salary:
+									</div>
+									<div class="col-md-3 value">
+										 <i class="fa fa-paper-plane"></i> {$unpaidsalary} RMB
+									</div>
 								</div>
 								<div class="row static-info">
 									<div class="col-md-3 name">
@@ -422,7 +434,9 @@
 									<div class="col-md-3 value">
 										 <i class="fa fa-paper-plane"></i> {$cin}
 									</div>
+									
 								</div>
+								
 								<hr/>
 							</div>
 						</div>
@@ -584,12 +598,13 @@
 
 					</div>
 				</div>
+				<div class="clearfix"></div>
 				<!-- END PORTLET-->
-				<div class="col-md-12 col-sm-12">
+				<div class="col-md-6 col-sm-12">
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Single Month statistic
+									<i class="fa fa-bar-chart-o"></i> Single Month statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -606,10 +621,10 @@
 								<div class="row">
 									<div class="col-md-12 col-sm-12">
 										<div class="form-group">
-											<div class="col-md-3 col-sm-12">
+											<div class="col-md-4 col-sm-12">
 												<div class="input-group ">
-													<div class="input-group input-medium date date-picker" data-date="{$todaymonth}" data-date-format="yyyy-mm" data-date-viewmode="years" data-date-minviewmode="months">
-														<input type="text" class="form-control" name="monthsearchinput" width="80%" value="{$todaymonth}" readonly />
+													<div class="input-group input-small date date-picker" data-date="{$todaymonth}" data-date-format="yyyy-mm" data-date-viewmode="years" data-date-minviewmode="months">
+														<input type="text" class="form-control " name="monthsearchinput" width="80%" value="{$todaymonth}" readonly />
 														<span class="input-group-btn">
 														<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
 														</span>
@@ -621,10 +636,10 @@
 
 												<!-- /input-group -->
 											</div>
-											<div class="col-md-4 col-sm-12">
-												<h3 class="text-right"><i class="fa fa-calendar"></i> <span id="monthspan"></span></h3>
+											<div class="col-md-3 col-sm-12">
+												<h4 class="text-right"><i class="fa fa-calendar"></i> <span id="monthspan"></span></h4>
 											</div>
-											<div class="col-md-4 col-sm-12">
+											<div class="col-md-5 col-sm-12">
 												<div class="tile bg-red-sunglo">
 													<div class="tile-body" style="padding-left:2%;padding-top:2%;padding-bottom:2%">
 															<h4>Salary/mon: <span id="monthsalarysum"></span></h4>
@@ -643,11 +658,11 @@
 							</div>
 						</div>
 				</div>
-				<div class="col-md-12 col-sm-12">
-						<div class="portlet box green">
+				<div class="col-md-6 col-sm-12">
+						<div class="portlet box purple">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> One Year statistic <small>12 monthes of one year</small>
+									<i class="fa fa-bar-chart-o"></i> One Year statistic <small>12 monthes of one year</small>
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -664,25 +679,23 @@
 								<div class="row">
 									<div class="col-md-12 col-sm-12">
 										<div class="form-group">
-											<div class="col-md-3 col-sm-12 text-right">
+											<div class="col-md-5 col-sm-12 text-right">
 												<div class="input-group ">
-													<select class="form-control input-inline input-medium" name="yearinput">
+													<select class="form-control input-inline input-small" name="yearinput">
 														<option value="2018">2018</option>
 														<option value="2019" selected>2019</option>
 														<option value="2020">2020</option>
 														<option value="2021">2021</option>
 														<option value="2022">2022</option>
 													</select>
+													<button class="btn yellow table-group-action-submit" id="yearsearchbtn"><i class="fa fa-search"></i></button>
 												</div>
 												<!-- /input-group -->
 											</div>
-											<div class="col-md-1 col-sm-12">
-												<button class="btn yellow table-group-action-submit" id="yearsearchbtn"><i class="fa fa-search"></i></button>
+											<div class="col-md-2 col-sm-12">
+												<h4 class="text-right"><i class="fa fa-calendar"></i> <span id="yearspan"></span></h4>
 											</div>
-											<div class="col-md-4 col-sm-12">
-												<h3 class="text-right"><i class="fa fa-calendar"></i> <span id="yearspan"></span></h3>
-											</div>
-											<div class="col-md-4 col-sm-12">
+											<div class="col-md-5 col-sm-12">
 												<div class="tile bg-red-sunglo">
 													<div class="tile-body" style="padding-left:2%;padding-top:2%;padding-bottom:2%">
 														<h4>Salary/mon: <span id="yearsalarysum"></span></h4>
@@ -694,13 +707,40 @@
 											</div>
 										</div>
 									</div>
-									<div id="chart_year" class="chart" style="padding: 0px; position: relative;width:100%;height: 400px;">
+									<div id="chart_year" class="chart" style="padding: 0px; position: relative;width:100%;height: 420px;">
 									</div>
 								</div>
 
 							</div>
 						</div>
 				</div>
+				<div class="clearfix"></div>
+				<div class="col-md-6 col-sm-12" >
+						<div class="portlet box red">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-bar-chart-o"></i> Week Hot statistic
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="reload" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form" style="height: 530px;">
+								<div class="row">
+									<div id="weekchart" style="padding: 10px; position: relative;width:100%;height: 400px;"></div>
+								</div>
+
+							</div>
+						</div>
+				</div>
+				
 			</div>
 			<div class="clearfix">
 			</div>
@@ -801,7 +841,7 @@
 				dataType:"json",
 				success: function aa(data) {
 					  //showstorelist(data.stores);
-						console.log(data);
+						//console.log(data);
 						drawProfitBar(data.datas,"#chart_month");
 						$("#monthsalarysum").text("  " + data.salarysum + " RMB");
 						$("#monthprofitsum").text("  " + data.profitsum + " RMB");
@@ -832,7 +872,7 @@
 				dataType:"json",
 				success: function aa(data) {
 					  //showstorelist(data.stores);
-						console.log(data);
+						//console.log(data);
 						drawProfitBar(data.datas,"#chart_year");
 						//drawProfitBar(data.datas);
 						$("#yearsalarysum").text("  " + data.salarysum + " RMB");
@@ -848,7 +888,7 @@
 			var data = {};
 			var year = $("select[name='yearinput']").val();
 			get_yeardata_query(year)
-			console.log(year);
+			//console.log(year);
 		});
 		</script>
 		<script>
@@ -862,7 +902,7 @@
     {name:'F',count:2,description:"This is column F!"},
 ];*/
 function drawProfitBar(data,chartname){
-console.log(data);
+//console.log(data);
 	// Draw a basic bar chart
 	var wd = $(chartname).width();
 	var wh = $(chartname).height();
@@ -923,7 +963,97 @@ console.log(data);
 
 	svg.call(tooltip) // draws the tooltip;
 }
+get_week_query();
+function get_week_query(){
+	var data = {};
+	var url='__URL__/getWeekData';
+	$.ajax({
+		type:"get",
+		url:url,
+		dataType:"json",
+		success: function aa(data) {
+			//console.log(data);
+			drawPieChart(data,"#weekchart","profit");
 
+		}
+	});
+}
+function drawPieChart(dataset,chartid,keyword){
+
+	//console.log(dataset);
+
+	var width = $(chartid).width();
+	var height = $(chartid).height();
+	var radius = Math.min(width, height) / 2.5;
+	var donutWidth = radius/3;
+	var legendRectSize = 18;
+	var legendSpacing = 4;
+
+	var color = d3.scaleOrdinal(d3.schemeCategory20);
+	var tooltip = d3.select(chartid)
+	.append('div')
+	.attr('class', 'tooltip');
+
+	var svg = d3.select(chartid)
+	.append('svg')
+	.attr('width', width)
+	.attr('height', height)
+	.append('g')
+	.attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+
+	var arc = d3.arc()
+	.innerRadius(radius - donutWidth)
+	.outerRadius(radius);
+
+	var pie = d3.pie()
+	.value(function(d) { return d[keyword]; })
+	.sort(null);
+	var label = d3.arc()
+	.outerRadius(radius + 20)
+	.innerRadius(radius + 20);
+
+	var path = svg.selectAll('path')
+	.data(pie(dataset))
+	.enter()
+	.append('path')
+	.attr('d', arc)
+	.attr('fill', function(d, i) {
+		return color(d.data.label);
+	});
+	var total = d3.sum(dataset.map(function(d) {
+	return d[keyword];
+	}));
+	svg.selectAll("text").data(pie(dataset))
+	.enter().append("text")
+	.attr("class", "label")
+	.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+	.attr("dy", "0.35em")
+	.text (function(d) { return d.data.label + " "+Math.round(1000 * d["data"][keyword] / total) / 10 + "%"; });
+
+	var legend = svg.selectAll('.legend')
+	.data(color.domain())
+	.enter()
+	.append('g')
+	.attr('class', 'legend')
+	.attr('transform', function(d, i) {
+	var height = legendRectSize + legendSpacing;
+	var offset =  height * color.domain().length / 2;
+	var horz = -2 * legendRectSize;
+	var vert = i * height - offset;
+	return 'translate(' + horz + ',' + vert + ')';
+	});
+
+	legend.append('rect')
+	.attr('width', legendRectSize)
+	.attr('height', legendRectSize)
+	.style('fill', color)
+	.style('stroke', color);
+
+	legend.append('text')
+	.attr('x', legendRectSize + legendSpacing)
+	.attr('y', legendRectSize - legendSpacing)
+	.text(function(d) { return d; });
+}
 
 
 

@@ -12,37 +12,41 @@
 	<script src="__PUBLIC__/metronic3_7/assets/admin/layout/scripts/tooltip.js"></script>
 	<!-- <link href="__PUBLIC__/metronic3_7/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/> -->
 	<style type="text/css">
-svg {
-    font-family: Sans-Serif, Arial;
-}
-.line {
-  stroke-width: 2;
-  fill: none;
-}
+	svg {
+		font-family: Sans-Serif, Arial;
+	}
+	.line {
+	  stroke-width: 2;
+	  fill: none;
+	}
 
-.axis path {
-  stroke: black;
-}
-.text {
-  font-size: 12px;
-}
+	.axis path {
+	  stroke: black;
+	}
+	.text {
+	  font-size: 12px;
+	}
 
-.title-text {
-  font-size: 12px;
-}
-div.tooltip {
-  position: absolute;
-  text-align: center;
-  width: 100px;
-  height: 30px;
-  padding: 2px;
-  font: 12px sans-serif;
-  background: lightsteelblue;
-  border: 0px;
-  border-radius: 8px;
-  pointer-events: none;
-}
-</style>
+	.title-text {
+	  font-size: 12px;
+	}
+	div.tooltip {
+	  position: absolute;
+	  text-align: center;
+	  width: 100px;
+	  height: 30px;
+	  padding: 2px;
+	  font: 12px sans-serif;
+	  background: lightsteelblue;
+	  border: 0px;
+	  border-radius: 8px;
+	  pointer-events: none;
+	}
+	.label {
+	  font-size: 0.1rem;
+	  text-anchor: middle;
+	}
+	</style>
 </block>
 <block name="siderbarmenu">
 	<ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
@@ -332,7 +336,7 @@ div.tooltip {
 			<!-- END DASHBOARD STATS -->
 			<div class="clearfix"></div>
 			<div class="row">
-				<div class="col-md-6 col-sm-6" style="height: 570px;">
+				<div class="col-md-6 col-sm-6" style="height: 580px;">
 				<!-- BEGIN PORTLET-->
 					<div class="portlet light ">
 						<div class="portlet-title">
@@ -487,7 +491,7 @@ div.tooltip {
 						<div class="portlet box green">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Months Percent of every Year statistic
+									<i class="fa fa-bar-chart-o"></i> Months Percent of every Year statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -502,20 +506,37 @@ div.tooltip {
 							</div>
 							<div class="portlet-body form">
 								<div class="row">
-									<div class="col-md-3 col-sm-12">
-										<h4><i class="fa fa-bar-chart-o"></i> Worker Status analysis</h4>
-										<div id="profitpiechart00" style="padding: 0px;width:100%;height:200px;"></div>
+									<div class="col-md-12 col-sm-12">
+										<div class="input-group ">
+											<select id="yearselect" class="form-control input-inline input-medium" name="yearinput">
+												<option value="2018">2018</option>
+												<option value="2019">2019</option>
+												<option value="2020">2020</option>
+												<option value="2021">2021</option>
+												<option value="2022">2022</option>
+												<option value="2023">2023</option>
+												<option value="2024">2024</option>
+												<option value="2025">2025</option>
+												<option value="2026">2026</option>
+												<option value="2027">2027</option>
+												<option value="2028">2028</option>
+												<option value="2029">2029</option>
+												<option value="2030">2030</option>
+											</select>
+										</div>
 									</div>
+									<div id="profitpiechart00" style="padding: 0px;width:100%;height:490px"></div>
 								</div>
 
 							</div>
 						</div>
 				</div>
+				<div class="clearfix"></div>
 				<div class="col-md-6 col-sm-12" >
-						<div class="portlet box green">
+						<div class="portlet box red">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Days of every Month statistic
+									<i class="fa fa-bar-chart-o"></i> Days of every Month statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -555,10 +576,10 @@ div.tooltip {
 						</div>
 				</div>
 				<div class="col-md-6 col-sm-12">
-						<div class="portlet box green">
+						<div class="portlet box purple">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Months of every Year statistic
+									<i class="fa fa-bar-chart-o"></i> Months of every Year statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -581,10 +602,10 @@ div.tooltip {
 						</div>
 				</div>
 				<div class="col-md-6 col-sm-12">
-						<div class="portlet box green">
+						<div class="portlet box blue-hoki">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Quaters of every Year statistic
+									<i class="fa fa-bar-chart-o"></i> Quaters of every Year statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -607,10 +628,10 @@ div.tooltip {
 						</div>
 				</div>
 				<div class="col-md-6 col-sm-12">
-						<div class="portlet box green">
+						<div class="portlet box blue">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Avg Profit Per Day For Month statistic
+									<i class="fa fa-bar-chart-o"></i> Avg Profit Per Day For Month statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -633,10 +654,10 @@ div.tooltip {
 						</div>
 				</div>
 				<div class="col-md-12 col-sm-12" >
-						<div class="portlet box green">
+						<div class="portlet box yellow">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="fa fa-gift"></i> Day to Day Statistic
+									<i class="fa fa-bar-chart-o"></i> Day to Day Statistic
 								</div>
 								<div class="tools">
 									<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -719,17 +740,31 @@ div.tooltip {
 		/* globel date */
 		var nowdate = new Date();
 		/*profit percent draw*/
-		get_profit_permonth_query();
-		function get_profit_permonth_query(){
+		/* month select handle */
+		var nowyear = nowdate.getFullYear() - 1;
+		//console.log(nowyear);
+		get_profit_permonth_query(nowyear);
+		
+		$("#yearselect").val(nowyear);
+		$("#yearselect").live('change',function(){
+		//alert();
+		$("#profitpiechart00").html("")
+		get_profit_permonth_query($("#yearselect").val());
+		//alert();
+
+		});
+		function get_profit_permonth_query(year){
 				var data = {};
+			    data.year = year;
 				var url='__URL__/getYearProfitPercent';
 				$.ajax({
-					type:"get",
+					type:"post",
 					url:url,
+					data:data,
 					dataType:"json",
 					success: function aa(data) {
-						console.log(data);
-						drawPieChart(data,"#profitpiechart00");
+						//console.log(data);
+						drawPieChart(data,"#profitpiechart00","count");
 
 					}
 				});
@@ -1054,7 +1089,7 @@ div.tooltip {
 			//console.log(keys);
 			const tip = d3.tip().html(d=> d.key+ ": "+d.value);
 
-			var wd = $(chartname).width();
+			var wd = $(chartname).height();
 			var wh = $(chartname).height();
 			var margin = {top:20, left:60, bottom:70, right:20};
 			var height = wh - margin.top - margin.bottom,
@@ -1142,85 +1177,83 @@ div.tooltip {
 			  .attr('dy', '0.32em')
 			  .text(d => d);
 			}
-function drawPieChart(dataset,chartid){
+			function drawPieChart(dataset,chartid,keyword){
 
+					//console.log(dataset);
 
-		var donutWidth = 20;
-		var width = $(chartid).width();
-		var height = $(chartid).height();
-		var radius = Math.min(width, height) / 2;
-		var legendRectSize = 18;
-		var legendSpacing = 4;
+					var width = $(chartid).width();
+					var height = $(chartid).height()*0.95;
+					var radius = Math.min(width, height) / 2.5;
+					var donutWidth = radius/3;
+					var legendRectSize = 10;
+					var legendSpacing = 2;
 
-		var color = d3.scaleOrdinal(d3.schemeCategory20);
-		var tooltip = d3.select(chartid)
-		  .append('div')
-		  .attr('class', 'tooltip');
+					var color = d3.scaleOrdinal(d3.schemeCategory20);
+					var tooltip = d3.select(chartid)
+					  .append('div')
+					  .attr('class', 'tooltip');
 
-		var svg = d3.select(chartid)
-			.append('svg')
-			.attr('width', width)
-			.attr('height', height)
-			.append('g')
-			.attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+					var svg = d3.select(chartid)
+						.append('svg')
+						.attr('width', width)
+						.attr('height', height)
+						.append('g')
+						.attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
 
-		var arc = d3.arc()
-			.innerRadius(radius - donutWidth)
-			.outerRadius(radius);
+					var arc = d3.arc()
+						.innerRadius(radius - donutWidth)
+						.outerRadius(radius);
 
-		var pie = d3.pie()
-			.value(function(d) { return d.count; })
-			.sort(null);
+					var pie = d3.pie()
+						.value(function(d) { return d[keyword]; })
+						.sort(null);
+					var label = d3.arc()
+						.outerRadius(radius + radius*0.1)
+						.innerRadius(radius + radius*0.1);
 
+					var path = svg.selectAll('path')
+						.data(pie(dataset))
+						.enter()
+						.append('path')
+						.attr('d', arc)
+						.attr('fill', function(d, i) {
+							return color(d.data.label);
+						});
+					var total = d3.sum(dataset.map(function(d) {
+						return d[keyword];
+					  }));
+					svg.selectAll("text").data(pie(dataset))
+					  .enter().append("text")
+					  .attr("class", "label")
+					  .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+					  .attr("dy", "0.35em")
+					  .text (function(d) { return d.data.label + ""+Math.round(1000 * d["data"][keyword] / total) / 10 + "%"; });
+					var legend = svg.selectAll('.legend')
+						.data(color.domain())
+						.enter()
+						.append('g')
+						.attr('class', 'legend')
+						.attr('transform', function(d, i) {
+						var height = legendRectSize + legendSpacing;
+						var offset =  height * color.domain().length / 2;
+						var horz = -2 * legendRectSize;
+						var vert = i * height - offset;
+						return 'translate(' + horz + ',' + vert + ')';
+						});
 
-		var path = svg.selectAll('path')
-			.data(pie(dataset))
-			.enter()
-			.append('path')
-			.attr('d', arc)
-			.attr('fill', function(d, i) {
-				return color(d.data.label);
-			});
-		path.on('mouseover', function(d) {
-		  var total = d3.sum(dataset.map(function(d) {
-			return d.count;
-		  }));
-		  var percent = Math.round(1000 * d.data.count / total) / 10;
-		  tooltip.html(d.data.label + "<br>"+ d.data.count + "<br>" + percent + "%");
-		  tooltip.style('display', 'block')
-			.style('top', (height/2 ) + 'px')
-			.style('left', (width/2 - 30) + 'px')
-			.style('opacity', 0.9);
-		});
+					legend.append('rect')
+						.attr('width', legendRectSize)
+						.attr('height', legendRectSize)
+						.style('fill', color)
+						.style('stroke', color);
 
-		path.on('mouseout', function() {
-		  tooltip.style('display', 'none');
-		});
+					legend.append('text')
+						.attr('x', legendRectSize + legendSpacing)
+						.attr('y', legendRectSize - legendSpacing)
+						.text(function(d) { return d; });
 
-		var legend = svg.selectAll('.legend')
-		  .data(color.domain())
-		  .enter()
-		  .append('g')
-		  .attr('class', 'legend')
-		  .attr('transform', function(d, i) {
-			var height = legendRectSize + legendSpacing;
-			var offset =  height * color.domain().length / 2;
-			var horz = -2 * legendRectSize;
-			var vert = i * height - offset;
-			return 'translate(' + horz + ',' + vert + ')';
-		  });
-
-		legend.append('rect')
-			.attr('width', legendRectSize)
-			.attr('height', legendRectSize)
-			.style('fill', color)
-			.style('stroke', color);
-
-		legend.append('text')
-			.attr('x', legendRectSize + legendSpacing)
-			.attr('y', legendRectSize - legendSpacing)
-			.text(function(d) { return d; });
-	}
+					
+				}
 
 
 

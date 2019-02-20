@@ -28,8 +28,10 @@ function getAllData(){
     $revenues = 0.0;
     $profit = 0;
     $salary = 0;
+    $unpaidsalary = 0;
     /* salary with RMB */
     $salary = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->where('db_guest_order.g_state = 2 AND db_worker_order.w_state = 3')->sum('db_worker_order.w_payment');
+    $unpaidsalary = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->where('db_guest_order.g_state = 2 AND db_worker_order.w_state = 2')->sum('db_worker_order.w_payment');
     /* usd */
     $revenuesarr  = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.moneytype,SUM(db_orders.totalprice) as revenues')->where('db_guest_order.g_state = 2 AND db_worker_order.w_state = 3')->group('db_orders.moneytype')->select();
     $ordernum = $ORDER->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('db_guest_order.g_state = 2 AND db_worker_order.w_state = 3')->count();
@@ -78,7 +80,7 @@ function getAllData(){
     $datetime_end = new \DateTime($ordermindate);
     $daystep = $datetime_start->diff($datetime_end)->days;
     $profitavg = round($profit/$daystep);
-    return array($revenues, $salary, $profit, $revenuesarrnew,$ordernum,$ongoingrevenues,$ongoingsalary,$ongoingprofit,$ongoingrevenuesarrnew,$profitavg,$ongoingunpaid,$ongoingdoing,$ongoingunset);
+    return array($revenues, $salary, $profit, $revenuesarrnew,$ordernum,$ongoingrevenues,$ongoingsalary,$ongoingprofit,$ongoingrevenuesarrnew,$profitavg,$ongoingunpaid,$ongoingdoing,$ongoingunset,$unpaidsalary);
 
 
 }
