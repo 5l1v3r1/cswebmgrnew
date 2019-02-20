@@ -483,6 +483,34 @@ div.tooltip {
 					</div>
 				<!-- END PORTLET-->
 			</div>
+				<div class="col-md-6 col-sm-12">
+						<div class="portlet box green">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-gift"></i> Months Percent of every Year statistic
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="reload" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								<div class="row">
+									<div class="col-md-3 col-sm-12">
+										<h4><i class="fa fa-bar-chart-o"></i> Worker Status analysis</h4>
+										<div id="profitpiechart00" style="padding: 0px;width:100%;height:200px;"></div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+				</div>
 				<div class="col-md-6 col-sm-12" >
 						<div class="portlet box green">
 							<div class="portlet-title">
@@ -578,6 +606,32 @@ div.tooltip {
 							</div>
 						</div>
 				</div>
+				<div class="col-md-6 col-sm-12">
+						<div class="portlet box green">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-gift"></i> Avg Profit Per Day For Month statistic
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="reload" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								<div class="row">
+
+									<div id="profitperdaychart" style="padding: 0px; position: relative;width:100%;height: 550px;"></div>
+								</div>
+
+							</div>
+						</div>
+				</div>
 				<div class="col-md-12 col-sm-12" >
 						<div class="portlet box green">
 							<div class="portlet-title">
@@ -664,14 +718,30 @@ div.tooltip {
         });
 		/* globel date */
 		var nowdate = new Date();
+		/*profit percent draw*/
+		get_profit_permonth_query();
+		function get_profit_permonth_query(){
+				var data = {};
+				var url='__URL__/getYearProfitPercent';
+				$.ajax({
+					type:"get",
+					url:url,
+					dataType:"json",
+					success: function aa(data) {
+						console.log(data);
+						drawPieChart(data,"#profitpiechart00");
+
+					}
+				});
+			}
 		/* day to day */
 		$("#aaa").click(function(){
 			//alert("ccc");
 			var day1 = $("input[name='fromdaytoday']").val();
 			var day2 = $("input[name='todaytoday']").val();
 			$("#chart").html("");
-			console.log(day1);
-			console.log(day2);
+			//console.log(day1);
+			//console.log(day2);
 			get_daytoday_query(day1,day2);
 			//console.log("123");
 
@@ -695,7 +765,7 @@ div.tooltip {
 					var ts = '1900-'+todate;
 					var fstep = new Date(Date.parse(fs.replace(/-/g,   "/")));
 					var tstep = new Date(Date.parse(ts.replace(/-/g,   "/")));
-					console.log(fstep);
+					//console.log(fstep);
 					var xtformate = "%d";
 					var xnum = 12;
 					if(fstep.getMonth() != tstep.getMonth()){
@@ -924,8 +994,30 @@ div.tooltip {
 
 						//para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-01-31'),xtformate:"%d"};
 						//drawLineChart(data,"#daychart","profit",para)	;
+					
 						var para = {data}
 						drawMultiBarChart("#monthchart",para,"month","Total Profit");
+
+				}
+			});
+		}
+		get_each_month_profitperday_query("0","0");
+		function get_each_month_profitperday_query(fromdate,todate){
+			var data = {};
+			data.fromdate = fromdate;
+			data.todate = todate;
+			var url='__URL__/getMonthsProfitPerDay';
+			$.ajax({
+				type:"post",
+				url:url,
+				data:data,
+				dataType:"json",
+				success: function aa(data) {
+						//console.log(data);
+						//para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-01-31'),xtformate:"%d"};
+						//drawLineChart(data,"#daychart","profit",para)	;
+						var para = {data}
+						drawMultiBarChart("#profitperdaychart",para,"month","Avg Profit Per Day For Month");
 
 				}
 			});
@@ -1050,7 +1142,85 @@ div.tooltip {
 			  .attr('dy', '0.32em')
 			  .text(d => d);
 			}
+function drawPieChart(dataset,chartid){
 
+
+		var donutWidth = 20;
+		var width = $(chartid).width();
+		var height = $(chartid).height();
+		var radius = Math.min(width, height) / 2;
+		var legendRectSize = 18;
+		var legendSpacing = 4;
+
+		var color = d3.scaleOrdinal(d3.schemeCategory20);
+		var tooltip = d3.select(chartid)
+		  .append('div')
+		  .attr('class', 'tooltip');
+
+		var svg = d3.select(chartid)
+			.append('svg')
+			.attr('width', width)
+			.attr('height', height)
+			.append('g')
+			.attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+
+		var arc = d3.arc()
+			.innerRadius(radius - donutWidth)
+			.outerRadius(radius);
+
+		var pie = d3.pie()
+			.value(function(d) { return d.count; })
+			.sort(null);
+
+
+		var path = svg.selectAll('path')
+			.data(pie(dataset))
+			.enter()
+			.append('path')
+			.attr('d', arc)
+			.attr('fill', function(d, i) {
+				return color(d.data.label);
+			});
+		path.on('mouseover', function(d) {
+		  var total = d3.sum(dataset.map(function(d) {
+			return d.count;
+		  }));
+		  var percent = Math.round(1000 * d.data.count / total) / 10;
+		  tooltip.html(d.data.label + "<br>"+ d.data.count + "<br>" + percent + "%");
+		  tooltip.style('display', 'block')
+			.style('top', (height/2 ) + 'px')
+			.style('left', (width/2 - 30) + 'px')
+			.style('opacity', 0.9);
+		});
+
+		path.on('mouseout', function() {
+		  tooltip.style('display', 'none');
+		});
+
+		var legend = svg.selectAll('.legend')
+		  .data(color.domain())
+		  .enter()
+		  .append('g')
+		  .attr('class', 'legend')
+		  .attr('transform', function(d, i) {
+			var height = legendRectSize + legendSpacing;
+			var offset =  height * color.domain().length / 2;
+			var horz = -2 * legendRectSize;
+			var vert = i * height - offset;
+			return 'translate(' + horz + ',' + vert + ')';
+		  });
+
+		legend.append('rect')
+			.attr('width', legendRectSize)
+			.attr('height', legendRectSize)
+			.style('fill', color)
+			.style('stroke', color);
+
+		legend.append('text')
+			.attr('x', legendRectSize + legendSpacing)
+			.attr('y', legendRectSize - legendSpacing)
+			.text(function(d) { return d; });
+	}
 
 
 

@@ -192,6 +192,12 @@ class DashboardController extends CommonController {
         $res = getMonthsData($fy,$ty,0);
         $this->ajaxReturn($res);
     }
+	public function getMonthsProfitPerDay(){
+        $fy = C(DATEORIYEAR);
+        $ty = date("Y",time());
+        $res = getMonthsData($fy,$ty,2);
+        $this->ajaxReturn($res);
+    }
     public function getQdatas(){
         $fy = C(DATEORIYEAR);
         $ty = date("Y",time());
@@ -212,4 +218,18 @@ class DashboardController extends CommonController {
         //print_r($res);
         $this->ajaxReturn($res);
     }
+	public function getYearProfitPercent(){
+		$fy = $ty = "2018";
+		$res = getMonthsData($fy,$ty,0);
+		$dataset = [];
+		foreach($res as $k=>$v){
+			//$room = [];
+			//echo $v;
+			$room["label"] =  $v["month"];
+			$room["count"] =  $v[$fy];
+			//$room["profit"] =  $year_profitarray[$v["label"]];
+			array_push($dataset,$room);
+		}
+		$this->ajaxReturn($dataset);
+	}
 }
