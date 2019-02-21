@@ -15,6 +15,8 @@ class CommonController extends Controller
 		}else if(!in_array(cookie('admin_uid'),explode(',',C('AUTH_SUPERADMIN'))))//whether is superadmin or not
 		{
 			$auth =new Auth();
+			//echo MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME;
+			//echo cookie('admin_uid');
 			if(!$auth->check(strtolower(MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME),cookie('admin_uid')))
 			{
 				//$this->error(C('PERMISSION_DENIED_WARNING'));

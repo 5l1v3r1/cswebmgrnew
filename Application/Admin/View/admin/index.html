@@ -323,7 +323,7 @@
 										 Revenues (all completed):
 									</div>
 									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$revenues} RMB
+										 <i class="fa fa-paper-plane"></i> {$revenues} <i class="fa fa-rmb"></i>
 									</div>
 								</div>
 								<foreach name="revenuesarr" item="vo">
@@ -340,7 +340,7 @@
 										 Profit (all completed):
 									</div>
 									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$profit} RMB
+										 <i class="fa fa-paper-plane"></i> {$profit} <i class="fa fa-rmb"></i>
 									</div>
 								</div>
 								<div class="row static-info">
@@ -348,7 +348,7 @@
 										 Worker Salary (all completed):
 									</div>
 									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$salary} RMB
+										 <i class="fa fa-paper-plane"></i> {$salary} <i class="fa fa-rmb"></i>
 									</div>
 								</div>
 								<div class="row static-info">
@@ -364,7 +364,7 @@
 										 Average Profig/day (all completed):
 									</div>
 									<div class="col-md-6 value">
-										 <i class="fa fa-paper-plane"></i> {$profitavg} RMB
+										 <i class="fa fa-paper-plane"></i> {$profitavg} <i class="fa fa-rmb"></i>
 									</div>
 								</div>
 								<hr/>
@@ -373,7 +373,7 @@
 										 Revenues (ongoing):
 									</div>
 									<div class="col-md-3 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingrevenues} RMB
+										 <i class="fa fa-paper-plane"></i> {$ongoingrevenues} <i class="fa fa-rmb"></i>
 									</div>
 									<div class="col-md-4 name">
 										 Order Unpaid && done:
@@ -404,7 +404,7 @@
 										 Profit (ongoing):
 									</div>
 									<div class="col-md-3 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingprofit} RMB
+										 <i class="fa fa-paper-plane"></i> {$ongoingprofit} <i class="fa fa-rmb"></i>
 									</div>
 									<div class="col-md-4 name">
 										Order Unset:
@@ -418,13 +418,13 @@
 										 Salary (ongoing):
 									</div>
 									<div class="col-md-3 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingsalary} RMB
+										 <i class="fa fa-paper-plane"></i> {$ongoingsalary} <i class="fa fa-rmb"></i>
 									</div>
 									<div class="col-md-3 name">
 										Unpaid Salary:
 									</div>
 									<div class="col-md-3 value">
-										 <i class="fa fa-paper-plane"></i> {$unpaidsalary} RMB
+										 <i class="fa fa-paper-plane"></i> {$unpaidsalary} <i class="fa fa-rmb"></i>
 									</div>
 								</div>
 								<div class="row static-info">
@@ -434,9 +434,9 @@
 									<div class="col-md-3 value">
 										 <i class="fa fa-paper-plane"></i> {$cin}
 									</div>
-									
+
 								</div>
-								
+
 								<hr/>
 							</div>
 						</div>
@@ -460,7 +460,7 @@
 										 Revenues :
 									</div>
 									<div class="col-md-8 value">
-										<i class="fa fa-paper-plane"></i> {$cydata.revenuesum} RMB
+										<i class="fa fa-paper-plane"></i> {$cydata.revenuesum} <i class="fa fa-rmb"></i>
 										<foreach name="cydata.moneyinfo" item="vo">
 											<small><i class="fa fa-check-square-o"></i> {$vo['moneytype']} {$vo['revenues']} </small>
 										</foreach>
@@ -471,7 +471,7 @@
 										 Profit :
 									</div>
 									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.profitsum} RMB
+										 <i class="fa fa-paper-plane"></i> {$cydata.profitsum} <i class="fa fa-rmb"></i>
 									</div>
 								</div>
 								<div class="row static-info">
@@ -479,7 +479,7 @@
 										 Worker Salary :
 									</div>
 									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.salarysum} RMB
+										 <i class="fa fa-paper-plane"></i> {$cydata.salarysum} <i class="fa fa-rmb"></i>
 									</div>
 								</div>
 								<div class="row static-info">
@@ -727,7 +727,7 @@
 							</div>
 						</div>
 				</div>
-				
+
 			</div>
 			<div class="clearfix">
 			</div>
@@ -788,7 +788,7 @@
 		function showDayData(data){
 			$("#dayrevenues").html("");
 			$("#daydatalist").html("");
-			$("#dayrevenues").text("  " + data.today_revenues + " RMB");
+			$("#dayrevenues").text("  " + data.today_revenues );
 			if(data.today_alldata != null){
 				for(var i=0;i< data.today_alldata.length;i++){
 					var cell='<small><i class="fa fa-check-square-o"> </i> ' + data['today_alldata'][i].revenues + " " + data['today_alldata'][i].moneytype +  ' </small> ';
@@ -796,14 +796,14 @@
 				}
 			}
 
-			$("#dayprofit").text("  " + data.today_profit + " RMB");
+			$("#dayprofit").text("  " + data.today_profit);
 			if(data.today_salary == null){
 				data.today_salary = 0;
 			}
 			if(data.today_ordernum == null){
 				data.today_ordernum = 0;
 			}
-			$("#daysalary").text("  " + data.today_salary + " RMB");
+			$("#daysalary").text("  " + data.today_salary);
 			$("#dayordernum").text("  " + data.today_ordernum);
 		}
 		var day  = $("input[name='daysearchinput']").val();

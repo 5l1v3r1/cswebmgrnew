@@ -425,7 +425,7 @@
 										 Revenues (ongoing):
 									</div>
 									<div class="col-md-3 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingrevenues} RMB
+										 <i class="fa fa-paper-plane"></i> {$ongoingrevenues} <i class='fa fa-rmb'></i>
 									</div>
 									<div class="col-md-4 name">
 										 Order Unpaid && done:
@@ -456,7 +456,7 @@
 										 Profit (ongoing):
 									</div>
 									<div class="col-md-3 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingprofit} RMB
+										 <i class="fa fa-paper-plane"></i> {$ongoingprofit} <i class='fa fa-rmb'></i>
 									</div>
 									<div class="col-md-4 name">
 										Order Unset:
@@ -470,7 +470,7 @@
 										 Salary (ongoing):
 									</div>
 									<div class="col-md-3 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingsalary} RMB
+										 <i class="fa fa-paper-plane"></i> {$ongoingsalary} <i class='fa fa-rmb'></i>
 									</div>
 								</div>
 								<div class="row static-info">
@@ -744,7 +744,7 @@
 		var nowyear = nowdate.getFullYear() - 1;
 		//console.log(nowyear);
 		get_profit_permonth_query(nowyear);
-		
+
 		$("#yearselect").val(nowyear);
 		$("#yearselect").live('change',function(){
 		//alert();
@@ -1029,7 +1029,7 @@
 
 						//para = {mindate:new Date('1900-01-01'),maxdate:new Date('1900-01-31'),xtformate:"%d"};
 						//drawLineChart(data,"#daychart","profit",para)	;
-					
+
 						var para = {data}
 						drawMultiBarChart("#monthchart",para,"month","Total Profit");
 
@@ -1252,7 +1252,7 @@
 						.attr('y', legendRectSize - legendSpacing)
 						.text(function(d) { return d; });
 
-					
+
 				}
 
 
