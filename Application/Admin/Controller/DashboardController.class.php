@@ -4,14 +4,7 @@ use Think\Controller;
 class DashboardController extends CommonController {
     public function index()
     {
-      $uid = cookie('admin_uid');
-      $username = cookie('admin_username');
-
-      $data['uid'] = $uid;
-      $Model = M('admin');
-      $content = $Model->where($data)->find();
-      if(!empty($content) )//exist
-      {
+      
         /* cal total complete income */
 
         /**/
@@ -55,10 +48,6 @@ class DashboardController extends CommonController {
 
 
         $this->display(T('admin/index'));
-      }else
-      {
-      	$this->error(C('LOGIN_ERROR'), U('Login/index'),3);
-      }
     }
 
     public function getDayData(){

@@ -11,7 +11,7 @@ return array(
 	'LOGIN_TIPS' => 'Please log in first!',
 	'LOGIN_SUCCESS' => 'Login successfully! welcome admin!',
 	'LOGIN_ERROR' => 'username or password is wrong!',
-	'PERMISSION_DENIED_WARNING' => 'Sorry,Permission denied!',
+	'PERMISSION_DENIED_WARNING' => 'Sorry, Permission denied!',
 	'DATEORIYEAR' => 2018,
 
 );
