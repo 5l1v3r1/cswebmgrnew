@@ -432,7 +432,7 @@
 										<div class="form-group">
 											<div class="col-md-5 col-sm-12">
 												<label>Keywords search</label>
-												<input name="search" type="text" size="50" class="form-control input-inline input-large" placeholder="From" value="" >
+												<input name="search" type="text" size="50" class="form-control input-inline input-large" placeholder="Keywords..." value="{$search}" >
 											</div>
 											<div class="col-md-5 col-sm-12">
 												<button class="btn yellow table-group-action-submit"><i class="fa fa-search"></i> Search</button>
@@ -533,7 +533,7 @@
 													<td><small>
 														<i class="fa fa-dot-circle-o"></i> {$vo.gwxid}
 														<br>
-														<i class="fa fa-circle-o"></i>  {$vo.gwxname}
+														<i class="fa fa-circle-o"></i>  {$vo.gwxname} <span class="label label-sm label-info"> <small>{$vo.paymethod}</small></span>
 														</small>
 													</td>
 													<td><small>{$vo.projectname}</small></td>
@@ -565,6 +565,14 @@
 													<td>
 														<small>
 															<if condition="$vo.w_deadline neq '' ">
+																<switch name="vo.warningflag">
+
+																	<case value="0"><i class="fa fa-thermometer-0 font-green" ></i></case>
+																	<case value="1"><i class="fa fa-thermometer-2 font-red" ></i><i class="fa fa-thermometer-2 font-red" ></i></case>
+																	<case value="2"><i class="fa fa-thermometer-full font-red" ></i><i class="fa fa-thermometer-full font-red" ></i><i class="fa fa-thermometer-full font-red" ></i></case>
+																	<case value="3"><i class="fa fa-exclamation-circle font-red"></i></case>
+																	<default /><i class="fa fa-thermometer-0 font-green" ></i>
+																</switch>
 																{$vo.w_deadline}
 															<else />
 																<span class="label label-sm label-default"> unset </span>

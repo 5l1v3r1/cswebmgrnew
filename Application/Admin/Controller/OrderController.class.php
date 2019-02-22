@@ -88,6 +88,33 @@ class OrderController extends CommonController {
 				//echo "hahah";
 				//echo "all";
 		}
+		//$resarray = [];
+		/*
+		* warning step 0 : >24
+		* warning step 1 : 12 - 24
+		* warning step 2 : 0 - 12
+		* warning step 3 : high level
+		*/
+		$td = time(); //当前时间
+		foreach($orderinfolist as $k=>$v){
+			$step = round(($td-strtotime($v["w_deadline"]))/3600,2);//hours
+			if( $step < 0 && abs($step) <= 24 && abs($step) >12  && $v["w_state"] == 1){
+				$v["warningflag"] = 1;
+			}else if( $step < 0 && abs($step) <=12 && $v["w_state"] == 1){
+				$v["warningflag"] = 2;
+			}
+			else if($step >= 0 && $v["w_state"] == 1){
+
+				$v["warningflag"] = 3;
+			}else{
+				$v["warningflag"] = 0;
+			}
+			//echo $step;
+			//print_r($v);
+			//echo "<br>";
+			$orderinfolist[$k] = $v;
+		}
+		//print_r($orderinfolist);
 		/* ongoing orders*/
 
 		//dump($orderinfolist);
@@ -102,7 +129,7 @@ class OrderController extends CommonController {
 		$this->assign('page',$show);// 赋值分页输出
 		$this->assign('orders',$orderinfolist);//
 		/*search default*/
-		$this->assign('search[]',I('get.search'));
+		$this->assign('search',I('get.search'));
 		$this->assign('fflag',$flag);// 赋值分页输出
 		$this->assign('newfrom',$newfrom);// 赋值分页输出
 		$this->assign('newto',$newto);// 赋值分页输出
@@ -415,6 +442,7 @@ class OrderController extends CommonController {
 		//dump($orderinfo);
 		if(!empty($orderinfo)){
 			$data['projectname'] = $projectname;//
+			$data['paymethod'] = I('post.paymethod','','htmlspecialchars');//
 			$data['moneytype'] = I('post.moneytype','','htmlspecialchars');//
 			$data['totalprice'] = I('post.totalprice','','htmlspecialchars');//
 			$data['guarantee'] = I('post.guarantee','','htmlspecialchars');//
