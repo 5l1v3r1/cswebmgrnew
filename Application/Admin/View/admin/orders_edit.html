@@ -423,12 +423,46 @@
 													</div>
 												</div>
 											</div>
+										    <div class="form-group">
+												<label class="col-md-4 control-label">Paymethod</label>
+												<div class="col-md-8">
+													<div class="radio-list">
+														<label class="radio-inline">
+														<if condition="$orderinfo['paymethod'] eq 'Wechat'">
+															<input type="radio" name="paymethod" value="Wechat" checked> Wechat
+														<else />
+															<input type="radio" name="paymethod" value="Wechat"> Wechat
+														</if>
+														</label>
+														<label class="radio-inline">
+															<if condition="$orderinfo['paymethod'] eq 'Paypal'">
+																<input type="radio" name="paymethod" value="Paypal" checked> Paypal
+															<else />
+																<input type="radio" name="paymethod" value="Paypal"> Paypal
+															</if>
+														
+														</label>
+													</div>
+													<div class="radio-list">
+														<label class="radio-inline">
+															<if condition="$orderinfo['paymethod'] eq 'Alipay'">
+																<input type="radio" name="paymethod" value="Alipay" checked />  Alipay 
+															<else />
+																<input type="radio" name="paymethod" value="Alipay" />  Alipay 
+															</if>
+														</label>
+														<label class="radio-inline">
+														<div class="radio" id="uniform-optionsRadios27"><input type="radio" name="paymethod" value="Taobao"></div> Taobao </label>
+
+													</div>
+												</div>
+											</div>
 											<div class="form-group has-error">
 												<label class="col-md-4 control-label">Currency Type</label>
 												<div class="col-md-8">
 													<select name="moneytype" class="form-control input-inline input-medium">
 														<foreach name="currencies" item="vo">
-									            <if condition="$vo['currency'] eq $orderinfo['moneytype']">\
+									            <if condition="$vo['currency'] eq $orderinfo['moneytype']">
 									              <option value="{$orderinfo.moneytype}" selected>{$orderinfo.moneytype}</option>
 									            <else />
 									              <option value="{$vo['currency']}" >{$vo['currency']}</option>

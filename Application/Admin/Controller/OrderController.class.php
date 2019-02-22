@@ -178,6 +178,7 @@ class OrderController extends CommonController {
 		$data['orderid'] = $orderid;
 		$data['createtime'] = date('Y-m-d H:i:s',time());//
 		$data['projectname'] = $projectname;//
+		$data['paymethod'] = I('post.paymethod','','htmlspecialchars');;//
 		$data['moneytype'] = I('post.moneytype','','htmlspecialchars');//
 		$data['totalprice'] = I('post.totalprice','','htmlspecialchars');//
 		$data['guarantee'] = I('post.guarantee','','htmlspecialchars');//

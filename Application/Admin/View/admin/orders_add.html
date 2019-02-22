@@ -417,14 +417,28 @@
 													</div>
 												</div>
 											</div>
+											<div class="form-group">
+												<label class="col-md-4 control-label">Paymethod</label>
+												<div class="col-md-8">
+													<div class="radio-list">
+														<label class="radio-inline">
+														<input type="radio" name="paymethod" value="Wechat" checked> Wechat</label>
+														<label class="radio-inline">
+														<input type="radio" name="paymethod" value="Paypal"> Paypal</label>
+													</div>
+													<div class="radio-list">
+														<label class="radio-inline">
+														<input type="radio" name="paymethod" value="Alipay"> Alipay </label>
+														<label class="radio-inline">
+														<input type="radio" name="paymethod" value="Taobao"> Taobao </label>
+
+													</div>
+												</div>
+											</div>
 											<div class="form-group has-error">
 												<label class="col-md-4 control-label">Currency Type</label>
 												<div class="col-md-8">
-													<select name="moneytype" class="form-control input-inline input-medium">
-														<foreach name="currencies" item="vo">
-															<option value="{$vo['currency']}">{$vo['currency']}</option>
-														</foreach>
-													</select>
+													<input name="moneytype" class="form-control input-inline input-medium" readonly />
 												</div>
 											</div>
 											<div class="form-group has-error">
@@ -635,7 +649,7 @@
 					/*auto fill*/
 					$(function() {
 						var myarray={:json_encode($teches)};
-						console.log(myarray);
+						//console.log(myarray);
 						var ms = $('#ms-emails').magicSuggest({
 							placeholder: 'Select technologies label ...',
 			        data: myarray,
@@ -767,6 +781,19 @@
 					$(showtbody).append($('<tr class="unread"></tr>').append(trc));
 					}
 				}
+/*pay method */
+			$("input[name='moneytype']").val("RMB");
+			$("input[name='paymethod']").bind("click",function(){  
+				var moneytype = "RMB";
+				if($(this).val() == "Paypal"){
+					moneytype = "USD";
+				}
+				
+				$("input[name='moneytype']").val(moneytype);
+				//测试操作代码  
+				//alert($(this).val());  
+				
+			});  
 
 			</script>
 </block>

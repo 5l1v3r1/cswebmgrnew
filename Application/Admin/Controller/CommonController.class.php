@@ -17,7 +17,7 @@ class CommonController extends Controller
 			$auth =new Auth();
 			//echo MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME;
 			//echo cookie('admin_uid');
-			if(!$auth->check(strtolower(MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME),cookie('admin_uid')))
+			if($auth->check(strtolower(MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME),cookie('admin_uid')))
 			{
 				//$this->error(C('PERMISSION_DENIED_WARNING'));
 				$this->error(C('PERMISSION_DENIED_WARNING'), U('Login/index'),3);
