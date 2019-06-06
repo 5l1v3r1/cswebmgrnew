@@ -86,6 +86,7 @@ class ConfigureController extends CommonController {
 		$cond['techid'] = I('post.techid');
 		$data['content'] = I('post.content');
 		$data['description'] = I('post.description');
+		$data['attr'] = I('post.attr');
 		$Model = M('technologies');
 		$flag = $Model->where($cond)->save($data);
 		$this->success('Update Technology successfully!',U('Configure/techlist'),1);
@@ -100,7 +101,7 @@ class ConfigureController extends CommonController {
 	}
 	public function deltech(){
 		$cond['techid'] = I('get.techid');
-		echo $cond['techid'];
+		//echo $cond['techid'];
 		$Model = M('worker_tech');
 		$Model->where($cond)->delete();
 		$Model = M('technologies');
@@ -129,6 +130,7 @@ class ConfigureController extends CommonController {
 	public function addtech(){
 		$data['content'] = I('post.content');//description
 		$data['description'] = I('post.description');
+		$data['attr'] = I('post.attr');
 		$Model = M('technologies');
 		$maxid = $Model->max('techid');
 		$data['techid'] = $maxid + 1;

@@ -826,7 +826,7 @@ function Recommand($data){
     foreach($workers as $k=>$v){
       $MM = M('worker_tech');
       if(in_array($v['wxid'],$worklist)){
-        $teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
+        $teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content,db_technologies.attr')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
         $techsss = "";
         foreach($teches as $c){
           $techsss = $techsss.'#'.$c["techid"].'#';

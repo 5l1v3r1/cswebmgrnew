@@ -296,6 +296,9 @@
 											 Technology content
 										</th>
 										<th >
+											 Technology attr<br><small>(0.common 1.unusual 2.important)</small>
+										</th>
+										<th >
 											 Worker numbers
 										</th>
 										<th>
@@ -313,6 +316,15 @@
 													{$vo.techid}
 												</td>
 												<td>{$vo.content}</td>
+												<td>
+													<if condition="$vo.attr eq 0 ">
+														Common  <small>*Conventional technology </small>
+													<elseif condition="$vo.attr eq 1"/>
+														Unusual <small>*Rare technology</small>
+													<else />
+														Important <small>*Technology with a large order quantity</small>
+													</if>
+												</td>
 												<td>{$vo.workernum}</td>
 												<td>{$vo.description}</td>
 												<td>

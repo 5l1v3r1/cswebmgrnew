@@ -554,7 +554,7 @@
 								datatype: 'json',
 								success: function(data) {
 									//callback(data); // return data in callback
-									//console.log(data[1]);
+									console.log(data[0]);
 									showOldWorkers(data[0],"#oldworkernum","#ShowOldWorkers");
 									showNewWorkers(data[1],"#newworkernum","#ShowNewWorkers");
 								},
@@ -605,32 +605,38 @@
 							var techspans = "";
 							for(var j=0;j<data[i].techarr.length;j++){
 								//console.log(data[i].techarr[j]);
-								if(j %2 == 0 && j != 0){
-									techspans = techspans + '<br><span class="label label-sm label-danger">'+ data[i].techarr[j].content + '</span>';
+								var attrclass = '';
+								var spanclass = "";
+								if(data[i].techarr[j].attr == 1){
+									attrclass = 'text-danger';
+									spanclass = 'class="label label-sm '+ attrclass +'"';
+								}else if(data[i].techarr[j].attr == 2)
+								{
+									attrclass = 'text-success';
+									spanclass = 'class="label label-sm '+ attrclass +'"';
+								}
+								if(j %4 == 0 && j != 0){
+									techspans = techspans + '<br><small> <i class="fa fa-circle '+ attrclass +'" aria-hidden="true"></i><span '+spanclass+'> '+ data[i].techarr[j].content + '</span></small>';
 								}else{
-									techspans = techspans + '<span class="label label-sm label-danger">'+ data[i].techarr[j].content + '</span>';
+									techspans = techspans + '<small> <i class="fa fa-circle '+ attrclass +'" aria-hidden="true"></i><span '+spanclass+'> '+ data[i].techarr[j].content + '</span></small>';
 								}
 								
 							}
 								var trc = '\
 <td><small><i class="fa fa-paperclip"></i> '+ (i+1) +'\
-<br><i class="fa fa-star text-danger"></i> <font color="red">'+ data[i].mark_sum +'</font></small>\
+<br> <font color="red">'+ data[i].mark_sum +'</font></small>\
 </td>\
 <td >\
 <a href="javascript:;" class="name"><small><strong>'+ data[i].wxname +'</strong><br>'+ data[i].wxid +'</small></a>\
-<br>'+ data[i].addtime +'\
+<br><small> <i class="fa fa-clock-o" aria-hidden="true"></i> '+ data[i].addtime +'</small>\
 </td>\
 <td>\
-<span class="label label-sm label-danger"><small><strong>'+ data[i].orderonging +'</strong></small></span><br>\
+<span class="label label-sm label-danger"><small><strong>'+ data[i].orderonging +'</strong></small></span>\
 <span class="label label-sm label-warning"><small><strong>'+ data[i].orderunpaid +'</strong></small></span><br>\
 <span class="label label-sm label-success"><small>'+ data[i].ordercomplete +'</small></span><br>\
-<span class="label label-sm bg-purple"><small>'+ data[i].attrsimple +'</small></span>\
 </td>\
 <td style="width:auto">\
 '+ techspans +'\
-</td>\
-<td >\
-<a type="button" class="btn btn-xs red" id="'+data[i].wxid +"|"+ data[i].wxname+'"><i class="fa fa-user-plus" aria-hidden="true"></i></a>\
 </td>\
 ';
 							$(showtbody).append($('<tr class="unread"></tr>').append(trc));
@@ -640,22 +646,30 @@
 					$(numlabel).html('<i class="fa fa-users"></i>  recommand total workers '+data.length);
 					$(showtbody).html("");
 					for(var i=0;i<data.length;i++){
-						var trc='\
-<td class="view-message" style="width:auto">\
-<a href="javascript:;" class="name"><small><strong>'+ (i+1) +'.  '+ data[i].wxname +'</strong><br>'+ data[i].wxid +'</small></a>\
+						var techspans = "";
+						for(var j=0;j<data[i].techarr.length;j++){
+							//console.log(data[i].techarr[j]);
+							if(j %2 == 0 && j != 0){
+								techspans = techspans + '<br><span class="label label-sm label-danger">'+ data[i].techarr[j].content + '</span>';
+							}else{
+								techspans = techspans + '<span class="label label-sm label-danger">'+ data[i].techarr[j].content + '</span>';
+							}
+
+							}
+							var trc = '\
+<td><small><i class="fa fa-paperclip"></i> '+ (i+1) +'\
 </td>\
-<td class="view-message ">\
-<span class="label label-sm label-danger"><small>\
-'+ data[i].addtime.split(" ")[0] +'\
-</small></span>\
-<span class="label label-sm bg-purple"><small><strong>\
-'+ data[i].attrsimple +'\
-</small></strong></span>\
+<td >\
+<a href="javascript:;" class="name"><small><strong>'+ data[i].wxname +'</strong><br>'+ data[i].wxid +'</small></a>\
+<br><small> <i class="fa fa-clock-o" aria-hidden="true"></i> '+ data[i].addtime +'</small>\
 </td>\
-<td class="view-message text-right">\
-<a class="btn btn-xs purple" id="'+data[i].wxid +"|"+ data[i].wxname+'" ><i class="fa fa-user-plus" aria-hidden="true"></i></a>\
+<td>\
+<span class="label label-sm label-danger"><small><strong>'+ data[i].attrsimple +'</strong></small></span>\
 </td>\
-					';
+<td style="width:auto">\
+'+ techspans +'\
+</td>\
+';
 					$(showtbody).append($('<tr class="unread"></tr>').append(trc));
 					}
 				}

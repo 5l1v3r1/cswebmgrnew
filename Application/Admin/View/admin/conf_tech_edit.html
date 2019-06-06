@@ -274,14 +274,37 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label">Technology id</label>
 										<div class="col-md-9">
-                      <input name="techid" value="{$tech.techid}" class="form-control input-inline input-medium" readonly>
+                      						<input name="techid" value="{$tech.techid}" class="form-control input-inline input-medium" readonly />
 										</div>
 									</div>
 									<div class="form-group has-error">
 										<label class="col-md-3 control-label">Technology</label>
 										<div class="col-md-9">
-											<input name="content" type="text"  class="form-control input-inline input-medium" value="{$tech.content}" required>
+											<input name="content" type="text"  class="form-control input-inline input-medium" value="{$tech.content}" required />
 											<span class="help-inline"> Technology content </span>
+										</div>
+									</div>
+									<div class="form-group has-error">
+										<label class="col-md-3 control-label">Technology Attr</label>
+										<div class="col-md-9">
+											<div class="checkbox-list">
+												<select name="attr" class="form-control input-inline input-large">
+													<if condition="$tech.attr eq 0 ">
+														<option value="0" selected>Common  *Conventional technology  </option>
+														<option value="1">Unusual *Rare technology </option>
+														<option value="2">Important *Technology with a large order quantity </option>
+													<elseif condition="$tech.attr eq 1"/>
+														<option value="0">Common  *Conventional technology  </option>
+														<option value="1" selected>Unusual *Rare technology </option>
+														<option value="2">Important *Technology with a large order quantity </option>
+													<else />
+														<option value="0">Common  *Conventional technology  </option>
+														<option value="1">Unusual *Rare technology </option>
+														<option value="2" selected>Important *Technology with a large order quantity </option>
+													</if>
+												</select>
+												
+											</div>
 										</div>
 									</div>
 									<div class="form-group">
@@ -290,23 +313,25 @@
 											<textarea name="description" class="form-control" rows="3">{$tech.description}</textarea>
 										</div>
 									</div>
-								<div class="form-actions">
-									<div class="row">
-										<div class="col-md-offset-3 col-md-9">
-											<button type="submit" class="btn green">Submit</button>
-                      <a href="{:U('Configure/techlist');}" type="button" class="btn default">Cancel</a>
+									<div class="form-actions">
+										<div class="row">
+											<div class="col-md-offset-3 col-md-9">
+												<button type="submit" class="btn green">Submit</button>
+												<a href="{:U('Configure/techlist');}" type="button" class="btn default">Cancel</a>
+											</div>
 										</div>
 									</div>
+							
 								</div>
 							</form>
 						</div>
+					<!-- END SAMPLE FORM PORTLET-->
+					<!-- BEGIN SAMPLE FORM PORTLET-->
+
+					<!-- END SAMPLE FORM PORTLET-->
+					<!-- BEGIN SAMPLE FORM PORTLET-->
+
 					</div>
-					<!-- END SAMPLE FORM PORTLET-->
-					<!-- BEGIN SAMPLE FORM PORTLET-->
-
-					<!-- END SAMPLE FORM PORTLET-->
-					<!-- BEGIN SAMPLE FORM PORTLET-->
-
 				</div>
 			</div>
 			<!-- END PAGE CONTENT-->

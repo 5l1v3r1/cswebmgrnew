@@ -420,7 +420,7 @@ class WorkerController extends CommonController {
 		$this->assign('workers',$workers);
 		/* get technology list*/
 		$Model = M('technologies');
-		$teches = $Model->field("techid as email,content as name")->select();
+		$teches = $Model->field("techid as email,content as name,attr as attr")->select();
 		$this->assign('teches',$teches);
       $this->display(T('admin/workers_recommand'));
     }

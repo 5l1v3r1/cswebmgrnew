@@ -9,7 +9,7 @@ class ApiController  extends Controller {
 		$Model = M('technologies');
 		$teches = $Model->select();
 		foreach($teches as $k=>$v){
-			$item = $v["techid"].". ".$v["content"]." ; ";
+			$item = $v["techid"].". ".$v["content"].$v["description"]." ; ";
 			$techinfo = $techinfo.$item;
 		}
 		$this->assign('techinfo',$techinfo);
