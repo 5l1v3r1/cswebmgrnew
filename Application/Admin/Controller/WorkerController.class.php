@@ -413,4 +413,15 @@ class WorkerController extends CommonController {
       $this->ajaxReturn($res);
 
     }
+	/* add new worker */
+    public function workerRecommandPage(){
+      $Model = M('workers');
+		$workers = $Model->field("wxid as email,wxname as name")->where("status = 0")->order('wxname asc')->select();
+		$this->assign('workers',$workers);
+		/* get technology list*/
+		$Model = M('technologies');
+		$teches = $Model->field("techid as email,content as name")->select();
+		$this->assign('teches',$teches);
+      $this->display(T('admin/workers_recommand'));
+    }
 }
