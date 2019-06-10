@@ -402,14 +402,17 @@
 											<div class="portlet box purple" >
 												<div class="portlet-title">
 													<div class="caption">
-														<i class="fa fa-gift"></i>Recomand Olders
+														<i class="fa fa-gift"></i>Olders
 														<span class="label label-sm label-success">Complete</span>
 														<span class="label label-sm label-danger">Ongoing</span>
 														<span class="label label-sm label-warning">Unpaid</span>
-														<span class="label label-sm label-primary">Attr</span>
-														<span class="label label-sm label-info">Remark</span>
+														
 													</div>
 													<div class="tools">
+														
+														
+														<span >Mark </span><i class="fa fa-sort-numeric-desc" aria-hidden="true" id= "ShowOlderByMarkDesc"></i>  <i class="fa fa-sort-numeric-asc" id= "ShowOlderByMarkAsc" aria-hidden="true"></i>
+														<span >| Date </span><i class="fa fa-sort-numeric-desc" aria-hidden="true" id= "ShowOlderByDateDesc"></i>  <i class="fa fa-sort-numeric-asc" id= "ShowOlderByDateAsc" aria-hidden="true"></i>
 														<a href="javascript:;" class="collapse" data-original-title="" title="">
 														</a>
 														<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
@@ -439,6 +442,8 @@
 														<i class="fa fa-gift"></i>Recomand Newers
 													</div>
 													<div class="tools">
+														<span >Mark </span><i class="fa fa-sort-numeric-desc" aria-hidden="true" id= "ShowNewByMarkDesc"></i>  <i class="fa fa-sort-numeric-asc" id= "ShowNewByMarkAsc" aria-hidden="true"></i>
+														<span >| Date </span><i class="fa fa-sort-numeric-desc" aria-hidden="true" id= "ShowNewByDateDesc"></i>  <i class="fa fa-sort-numeric-asc" id= "ShowNewByDateAsc" aria-hidden="true"></i>
 														<a href="javascript:;" class="collapse" data-original-title="" title="">
 														</a>
 														<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
@@ -554,9 +559,57 @@
 								datatype: 'json',
 								success: function(data) {
 									//callback(data); // return data in callback
-									console.log(data[0]);
+									//console.log(data[0]);
 									showOldWorkers(data[0],"#oldworkernum","#ShowOldWorkers");
 									showNewWorkers(data[1],"#newworkernum","#ShowNewWorkers");
+									$('#ShowOlderByDateDesc').click(data[0],function(event){
+										var datas = event.data;
+										datas.sort(cmpdateDESC);
+									    showOldWorkers(datas,"#oldworkernum","#ShowOldWorkers");
+										
+									}) ;
+									$('#ShowOlderByDateAsc').click(data[0],function(event){
+										var datas = event.data;
+										datas.sort(cmpdate);
+									    showOldWorkers(datas,"#oldworkernum","#ShowOldWorkers");
+										
+									}) ;
+									$('#ShowOlderByMarkDesc').click(data[0],function(event){
+										var datas = event.data;
+										datas.sort(cmpmarkDESC);
+									    showOldWorkers(datas,"#oldworkernum","#ShowOldWorkers");
+										
+									}) ;
+									$('#ShowOlderByMarkAsc').click(data[0],function(event){
+										var datas = event.data;
+										datas.sort(cmpmark);
+									    showOldWorkers(datas,"#oldworkernum","#ShowOldWorkers");
+										
+									}) ;
+									$('#ShowNewByMarkDesc').click(data[1],function(event){
+										var datas = event.data;
+										datas.sort(cmpmarkDESC);
+									    showNewWorkers(datas,"#newworkernum","#ShowNewWorkers");
+										
+									}) ;
+									$('#ShowNewByMarkAsc').click(data[1],function(event){
+										var datas = event.data;
+										datas.sort(cmpmark);
+									    showNewWorkers(datas,"#newworkernum","#ShowNewWorkers");
+										
+									}) ;
+									$('#ShowNewByDateDesc').click(data[1],function(event){
+										var datas = event.data;
+										datas.sort(cmpdateDESC);
+									    showNewWorkers(datas,"#newworkernum","#ShowNewWorkers");
+										
+									}) ;
+									$('#ShowNewByDateAsc').click(data[1],function(event){
+										var datas = event.data;
+										datas.sort(cmpdate);
+									    showNewWorkers(datas,"#newworkernum","#ShowNewWorkers");
+										
+									}) ;
 								},
 								error: function(xhr, status, error) {
 										alert(xhr.responseText);
@@ -648,13 +701,23 @@
 					for(var i=0;i<data.length;i++){
 						var techspans = "";
 						for(var j=0;j<data[i].techarr.length;j++){
-							//console.log(data[i].techarr[j]);
-							if(j %2 == 0 && j != 0){
-								techspans = techspans + '<br><span class="label label-sm label-danger">'+ data[i].techarr[j].content + '</span>';
-							}else{
-								techspans = techspans + '<span class="label label-sm label-danger">'+ data[i].techarr[j].content + '</span>';
-							}
-
+								//console.log(data[i].techarr[j]);
+								var attrclass = '';
+								var spanclass = "";
+								if(data[i].techarr[j].attr == 1){
+									attrclass = 'text-danger';
+									spanclass = 'class="label label-sm '+ attrclass +'"';
+								}else if(data[i].techarr[j].attr == 2)
+								{
+									attrclass = 'text-success';
+									spanclass = 'class="label label-sm '+ attrclass +'"';
+								}
+								if(j %4 == 0 && j != 0){
+									techspans = techspans + '<br><small> <i class="fa fa-circle '+ attrclass +'" aria-hidden="true"></i><span '+spanclass+'> '+ data[i].techarr[j].content + '</span></small>';
+								}else{
+									techspans = techspans + '<small> <i class="fa fa-circle '+ attrclass +'" aria-hidden="true"></i><span '+spanclass+'> '+ data[i].techarr[j].content + '</span></small>';
+								}
+								
 							}
 							var trc = '\
 <td><small><i class="fa fa-paperclip"></i> '+ (i+1) +'\
@@ -686,6 +749,22 @@
 				//alert($(this).val());  
 				
 			});  
+			function cmpmark(a, b){
+				return a.mark_sum-b.mark_sum;
+			}
+			function cmpmarkDESC(a, b){
+				return b.mark_sum-a.mark_sum;
+			}
+			function cmpdate(a,b){
+				var dateA=new Date(a.addtime), dateB=new Date(b.addtime)
+    			return dateA-dateB //sort by date ascending
+			}
+			function cmpdateDESC(a,b){
+				var dateA=new Date(a.addtime), dateB=new Date(b.addtime)
+    			return dateB-dateA; //sort by date ascending
+			}
+
+			
 
 			</script>
 </block>
