@@ -33,10 +33,28 @@ class OrderController extends CommonController {
 		$se_conditionall = "";
 		$search = "";
 		if(!empty(I('get.search'))){
-			$search = I('get.search');
+			$search = trim(I('get.search'));
 			//print_r($search);
-			$se_condition = 'AND (db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
-			$se_conditionall = '(db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+			if($search == "warning"){
+				$se_condition = 'AND ((db_worker_order.w_state = 1) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour))';
+				$se_conditionall = '((db_worker_order.w_state = 1) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour))';
+			}else if($search == "paylate"){
+				$se_condition = 'AND ((db_worker_order.w_state = 2 AND db_guest_order.g_state != 2 ) AND now() >= date_sub(db_guest_order.g_deadline,interval 72 hour))';
+				$se_conditionall = '((db_worker_order.w_state = 2 AND db_guest_order.g_state != 2 ) AND now() >= date_sub(db_guest_order.g_deadline,interval 72 hour))';
+			}
+			else if($search == "unpaid"){
+				$se_condition = 'AND (db_worker_order.w_state = 2 AND db_guest_order.g_state = 2 )';
+				$se_conditionall = '(db_worker_order.w_state = 2 AND db_guest_order.g_state = 2)';
+			}
+			else if($search == "nogive"){
+				$se_condition = 'AND (db_worker_order.w_state = 4 )';
+				$se_conditionall = '(db_worker_order.w_state = 4)';
+			}
+			else{
+				$se_condition = 'AND (db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+				$se_conditionall = '(db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+			}
+			
 			// 赋值分页输出
 			//print($se_condition);
 
@@ -53,6 +71,7 @@ class OrderController extends CommonController {
 			<!--
 			0. no
 			1. worker is doing
+			4. worker is completed and no give
 			2. worker has completed and no pay
 			3. worker has completed and paid
 		*/
@@ -73,8 +92,8 @@ class OrderController extends CommonController {
 				//echo "warning incomplte orders";
 				//echo "completed orders";
 				//$todate = "2017-12-25 00:00:00";
-				$orderinfolist = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_orders.paymethod,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('(db_worker_order.w_state = 1) AND db_worker_order.w_deadline <= date_sub(curdate(),interval 1 day) '.$se_condition)->order('db_orders.createtime asc')->page($pp.',20')->select();
-				$count = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('(db_worker_order.w_state = 1) AND db_worker_order.w_deadline <= date_sub(curdate(),interval 1 day) '.$se_condition)->count();
+				$orderinfolist = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_orders.paymethod,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('(db_worker_order.w_state = 1) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour) '.$se_condition)->order('db_orders.createtime asc')->page($pp.',20')->select();
+				$count = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('(db_worker_order.w_state = 1) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour) '.$se_condition)->count();
 				break;
 			default:
 				//$orderinfolist = $Model->select();db_workers.wxname
@@ -115,6 +134,7 @@ class OrderController extends CommonController {
 			$orderinfolist[$k] = $v;
 		}
 		//print_r($orderinfolist);
+		//$orderinfolist = arraySequence($orderinfolist, 'warningflag', $sort = 'SORT_DESC');
 		/* ongoing orders*/
 
 		//dump($orderinfolist);
@@ -578,6 +598,18 @@ class OrderController extends CommonController {
 		$res = Recommand($data);
 
 		$this->ajaxReturn($res);
+	}
+	public function ajaxGetGwname(){
+		//$data = 'ok';
+		$data = I('post.data');
+		$Model = M('orders');
+		
+		//$data = array(array("email"=>"1","name"=>"php"),array("email"=>"9","name"=>"C"));
+
+
+		//$res = Recommand($data);
+
+		//$this->ajaxReturn($res);
 	}
 	public function showDataAnalysisPage(){
 		$res = [];

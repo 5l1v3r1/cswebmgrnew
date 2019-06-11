@@ -115,38 +115,44 @@
 					Dashboard</a>
 				</li>
 				<li>
+					<a href="{:U('Worker/workerRecommandPage');}">
+						<i class="fa fa-smile-o" aria-hidden="true"></i>
+						Workers Recommand
+					</a>
+				</li>
+				<li>
 					<a href="{:U('Worker/workerlist');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-list" aria-hidden="true"></i>
 						ALL Workers Workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=4');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						free workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=5');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						busy workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=2');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						Income > 0
 					</a>
 				</li>
 				<li >
 					<a href="{:U('Worker/workerlist?type=1');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						Income = 0
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=3');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-times" aria-hidden="true"></i>
 						dead workers
 					</a>
 				</li>
@@ -167,7 +173,7 @@
 			<ul class="sub-menu">
 				<li>
 					<a href="{:U('Tool/exchangeToolPage');}">
-						<i class="fa fa-usd" aria-hidden="true"></i> Exchange Transfer Tool
+						<i class="fa fa-exchange" aria-hidden="true"></i> Transfer Tools
 					</a>
 				</li>
 			</ul>
@@ -181,16 +187,19 @@
 			<ul class="sub-menu">
 				<li>
 					<a href="{:U('Configure/exchangelist');}">
+						<i class="fa fa-line-chart" aria-hidden="true"></i>
 						Exchange Rate
 					</a>
 				</li>
 				<li class="active">
 					<a href="{:U('Configure/techlist');}">
+						<i class="fa fa-microchip" aria-hidden="true"></i>
 						Technologies Conf
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Configure/tradelist');}">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
 						Trade Conf
 					</a>
 				</li>
@@ -274,8 +283,15 @@
 									<div class="form-group has-error">
 										<label class="col-md-3 control-label">Technology</label>
 										<div class="col-md-9">
-											<input name="content" type="text"  class="form-control input-inline input-medium" value="{$tech.content}" required>
+											<input name="content" type="text"  class="form-control input-inline input-medium" required />
 											<span class="help-inline"> Technology content </span>
+										</div>
+									</div>
+									<div class="form-group has-error">
+										<label class="col-md-3 control-label">Sort ID</label>
+										<div class="col-md-9">
+											<input name="sortid" type="number"  class="form-control input-inline input-medium" min=0 step=1 required />
+											<span class="help-inline"> {:C('TECH_SORTID_TIPS');} </span>
 										</div>
 									</div>
 									<div class="form-group has-error">
@@ -291,9 +307,16 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label class="col-md-3 control-label">docurls</label>
+										<div class="col-md-9">
+											<textarea name="docurls" class="form-control" rows="3"></textarea>
+											<span class="help-inline"> %###% split urls</span>
+										</div>
+									</div>
+									<div class="form-group">
 										<label class="col-md-3 control-label">Textarea</label>
 										<div class="col-md-9">
-											<textarea name="description" class="form-control" rows="3">{$tech.description}</textarea>
+											<textarea name="description" class="form-control" rows="3"></textarea>
 										</div>
 									</div>
 									<div class="form-actions">

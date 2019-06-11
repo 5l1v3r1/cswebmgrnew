@@ -26,7 +26,7 @@
 				<i class="icon-close"></i>
 				</a>
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search...">
+					<input type="text" class="form-control" placeholder="Search..." />
 					<span class="input-group-btn">
 					<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
 					</span>
@@ -109,38 +109,44 @@
 					Dashboard</a>
 				</li>
 				<li>
+					<a href="{:U('Worker/workerRecommandPage');}">
+						<i class="fa fa-smile-o" aria-hidden="true"></i>
+						Workers Recommand
+					</a>
+				</li>
+				<li>
 					<a href="{:U('Worker/workerlist');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-list" aria-hidden="true"></i>
 						ALL Workers Workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=4');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						free workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=5');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						busy workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=2');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						Income > 0
 					</a>
 				</li>
 				<li >
 					<a href="{:U('Worker/workerlist?type=1');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						Income = 0
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=3');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-times" aria-hidden="true"></i>
 						dead workers
 					</a>
 				</li>
@@ -161,7 +167,7 @@
 			<ul class="sub-menu">
 				<li>
 					<a href="{:U('Tool/exchangeToolPage');}">
-						<i class="fa fa-usd" aria-hidden="true"></i> Exchange Transfer Tool
+						<i class="fa fa-exchange" aria-hidden="true"></i> Transfer Tools
 					</a>
 				</li>
 			</ul>
@@ -175,16 +181,19 @@
 			<ul class="sub-menu">
 				<li>
 					<a href="{:U('Configure/exchangelist');}">
+						<i class="fa fa-line-chart" aria-hidden="true"></i>
 						Exchange Rate
 					</a>
 				</li>
 				<li class="active">
 					<a href="{:U('Configure/techlist');}">
+						<i class="fa fa-microchip" aria-hidden="true"></i>
 						Technologies Conf
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Configure/tradelist');}">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
 						Trade Conf
 					</a>
 				</li>
@@ -292,11 +301,17 @@
 										<th>
 											 Technology ID
 										</th>
-										<th >
+										<th>
+											Sort ID
+										</th>
+										<th>
 											 Technology content
 										</th>
 										<th >
-											 Technology attr<br><small>(0.common 1.unusual 2.important)</small>
+											 Technology attr
+										</th>
+										<th width="10%">
+											 Case Urls
 										</th>
 										<th >
 											 Worker numbers
@@ -315,6 +330,9 @@
 												<td>
 													{$vo.techid}
 												</td>
+												<td>
+													{$vo.sortid}
+												</td>
 												<td>{$vo.content}</td>
 												<td>
 													<if condition="$vo.attr eq 0 ">
@@ -324,7 +342,8 @@
 													<else />
 														Important <small>*Technology with a large order quantity</small>
 													</if>
-												</td>
+												</td> 
+												<td>{$vo.docurls}</td>
 												<td>{$vo.workernum}</td>
 												<td>{$vo.description}</td>
 												<td>

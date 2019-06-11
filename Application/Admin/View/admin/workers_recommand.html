@@ -60,198 +60,99 @@
 				</li>
 			</ul>
 		</li>
-		<li class="active open">
+		<li>
 			<a href="javascript:;">
 			<i class="icon-basket"></i>
 			<span class="title">eCommerce</span>
 			<span class="arrow "></span>
 			</a>
 			<ul class="sub-menu">
-				<if condition="$fflag eq 1">
-					<li>
-						<a href="{:U('Order/showDataAnalysisPage');}">
-						<i class="icon-home"></i>
-						Dashboard</a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=2');}">
-						<i class="icon-bell"></i>
-						<span class="badge badge-danger">{$cin}</span>
-						Orders Ongoing</a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=4');}">
-						<i class="fa fa-warning"></i>
-						<span class="badge badge-danger">{$cin1}</span>
-						<font color="red">Orders Warning</font></a>
-					</li>
-					<li class="active">
-						<a href="{:U('Order/orderlist?flag=1');}">
-						<i class="fa fa-lock"></i>
-						Complete Orders</a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=3');}">
-						<i class="icon-basket"></i>
-						Orders All</a>
-					</li>
-					<li>
-						<a href="#">
-							<i class="icon-bar-chart"></i>
-							Data Analysis
-						</a>
-					</li>
-				<elseif condition="$fflag eq 2"/>
-					<li>
-						<a href="{:U('Order/showDataAnalysisPage');}">
-						<i class="icon-home"></i>
-						Dashboard</a>
-					</li>
-					<li class="active">
-						<a href="{:U('Order/orderlist?flag=2');}">
-						<i class="icon-bell"></i>
-						<span class="badge badge-danger">{$cin}</span>
-						Orders Ongoing</a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=4');}">
-						<i class="fa fa-warning"></i>
-						<span class="badge badge-danger">{$cin1}</span>
-						<font color="red">Orders Warning</font></a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=1');}">
-						<i class="fa fa-lock"></i>
-						Complete Orders</a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=3');}">
-						<i class="icon-basket"></i>
-						Orders All</a>
-					</li>
-					<li>
-						<a href="#">
-							<i class="icon-bar-chart"></i>
-							Data Analysis
-						</a>
-					</li>
-				<elseif condition="$fflag eq 4"/>
-					<li>
-						<a href="{:U('Order/showDataAnalysisPage');}">
-						<i class="icon-home"></i>
-						Dashboard</a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=2');}">
-						<i class="icon-bell"></i>
-						<span class="badge badge-danger">{$cin}</span>
-						Orders Ongoing</a>
-					</li>
-					<li class="active">
-						<a href="{:U('Order/orderlist?flag=4');}">
-						<i class="fa fa-warning"></i>
-						<span class="badge badge-danger">{$cin1}</span>
-						<font color="red">Orders Warning</font></a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=1');}">
-						<i class="fa fa-lock"></i>
-						Complete Orders</a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=3');}">
-						<i class="icon-basket"></i>
-						Orders All</a>
-					</li>
-					<li>
-						<a href="#">
-							<i class="icon-bar-chart"></i>
-							Data Analysis
-						</a>
-					</li>
-				<else />
-					<li>
-						<a href="{:U('Order/showDataAnalysisPage');}">
-						<i class="icon-home"></i>
-						Dashboard</a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=2');}">
-						<i class="icon-bell"></i>
-						<span class="badge badge-danger">{$cin}</span>
-						Orders Ongoing</a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=4');}">
-						<i class="fa fa-warning"></i>
-						<span class="badge badge-danger">{$cin1}</span>
-						<font color="red">Orders Warning</font></a>
-					</li>
-					<li>
-						<a href="{:U('Order/orderlist?flag=1');}">
-						<i class="fa fa-lock"></i>
-						Complete Orders</a>
-					</li>
-					<li class="active">
-						<a href="{:U('Order/orderlist?flag=3');}">
-						<i class="icon-basket"></i>
-						Orders All</a>
-					</li>
-					<li>
-						<a href="#">
-							<i class="icon-bar-chart"></i>
-							Data Analysis
-						</a>
-					</li>
-				</if>
-
+				<li>
+					<a href="{:U('Order/showDataAnalysisPage');}">
+					<i class="icon-home"></i>
+					Dashboard</a>
+				</li>
+				<li>
+					<a href="{:U('Order/orderlist?flag=2');}">
+					<i class="icon-bell"></i>
+					<span class="badge badge-danger">{$cin}</span>
+					Orders Ongoing</a>
+				</li>
+				<li>
+					<a href="{:U('Order/orderlist?flag=4');}">
+					<i class="fa fa-warning"></i>
+					<span class="badge badge-danger">{$cin1}</span>
+					<font color="red">Orders Warning</font></a>
+				</li>
+				<li>
+					<a href="{:U('Order/orderlist?flag=1');}">
+					<i class="fa fa-lock"></i>
+					Complete Orders</a>
+				</li>
+				<li>
+					<a href="{:U('Order/orderlist?flag=3');}">
+					<i class="icon-basket"></i>
+					Orders All</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="icon-bar-chart"></i>
+						Data Analysis
+					</a>
+				</li>
 			</ul>
 		</li>
-		<li>
+		<li class="active open">
 			<a href="javascript:;">
 				<i class="fa fa-code"></i>
 				<span class="title">Workers</span>
 				<span class="arrow "></span>
 			</a>
 			<ul class="sub-menu">
-				<li>
+				<li class="active">
 					<a href="{:U('Worker/showDataAnalysisPage');}">
 					<i class="icon-home"></i>
 					Dashboard</a>
 				</li>
-				<li>
+				<li class="active">
+					<a href="{:U('Worker/workerRecommandPage');}">
+						<i class="fa fa-smile-o" aria-hidden="true"></i>
+						Workers Recommand
+					</a>
+				</li>
+				<li >
 					<a href="{:U('Worker/workerlist');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-list" aria-hidden="true"></i>
 						ALL Workers Workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=4');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						free workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=5');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						busy workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=2');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						Income > 0
 					</a>
 				</li>
 				<li >
 					<a href="{:U('Worker/workerlist?type=1');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						Income = 0
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=3');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-times" aria-hidden="true"></i>
 						dead workers
 					</a>
 				</li>
@@ -272,7 +173,7 @@
 			<ul class="sub-menu">
 				<li>
 					<a href="{:U('Tool/exchangeToolPage');}">
-						<i class="fa fa-usd" aria-hidden="true"></i> Exchange Transfer Tool
+						<i class="fa fa-exchange" aria-hidden="true"></i> Transfer Tools
 					</a>
 				</li>
 			</ul>
@@ -286,16 +187,19 @@
 			<ul class="sub-menu">
 				<li>
 					<a href="{:U('Configure/exchangelist');}">
+						<i class="fa fa-line-chart" aria-hidden="true"></i>
 						Exchange Rate
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Configure/techlist');}">
+						<i class="fa fa-microchip" aria-hidden="true"></i>
 						Technologies Conf
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Configure/tradelist');}">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
 						Trade Conf
 					</a>
 				</li>

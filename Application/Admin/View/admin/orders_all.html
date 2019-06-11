@@ -32,7 +32,7 @@
 				<i class="icon-close"></i>
 				</a>
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search...">
+					<input type="text" class="form-control" placeholder="Search..." />
 					<span class="input-group-btn">
 					<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
 					</span>
@@ -220,38 +220,44 @@
 					Dashboard</a>
 				</li>
 				<li>
+					<a href="{:U('Worker/workerRecommandPage');}">
+						<i class="fa fa-smile-o" aria-hidden="true"></i>
+						Workers Recommand
+					</a>
+				</li>
+				<li>
 					<a href="{:U('Worker/workerlist');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-list" aria-hidden="true"></i>
 						ALL Workers Workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=4');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						free workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=5');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						busy workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=2');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						Income > 0
 					</a>
 				</li>
 				<li >
 					<a href="{:U('Worker/workerlist?type=1');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						Income = 0
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=3');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-times" aria-hidden="true"></i>
 						dead workers
 					</a>
 				</li>
@@ -272,7 +278,7 @@
 			<ul class="sub-menu">
 				<li>
 					<a href="{:U('Tool/exchangeToolPage');}">
-						<i class="fa fa-usd" aria-hidden="true"></i> Exchange Transfer Tool
+						<i class="fa fa-exchange" aria-hidden="true"></i> Transfer Tools
 					</a>
 				</li>
 			</ul>
@@ -286,16 +292,19 @@
 			<ul class="sub-menu">
 				<li>
 					<a href="{:U('Configure/exchangelist');}">
+						<i class="fa fa-line-chart" aria-hidden="true"></i>
 						Exchange Rate
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Configure/techlist');}">
+						<i class="fa fa-microchip" aria-hidden="true"></i>
 						Technologies Conf
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Configure/tradelist');}">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
 						Trade Conf
 					</a>
 				</li>
@@ -430,14 +439,21 @@
 									<div class="col-md-12 col-sm-12">
 
 										<div class="form-group">
-											<div class="col-md-5 col-sm-12">
+											<div class="col-md-12 col-sm-12">
 												<label>Keywords search</label>
-												<input name="search" type="text" size="50" class="form-control input-inline input-large" placeholder="Keywords..." value="{$search}" >
+												<input name="search" type="text" size="50" class="form-control input-inline input-large" placeholder="Keywords..." value="{$search}" />
+												<button class="btn yellow table-group-action-submit"><i class="fa fa-search"></i></button>
+												<a class="btn red filter-cancel" type="reset" href="{:U('Order/orderlist?p=1&flag='.$fflag.'');}"><i class="fa fa-times"></i></a>
+												<label>
+													<i class="fa fa-key"></i><i class="fa fa-key"></i><i class="fa fa-key"></i>
+													<a href = "{:U('Order/orderlist?p=1&search=warning&flag='.$fflag.'');}" type="button" class="btn btn-xs  red-stripe"> Warning </a>
+													<a href = "{:U('Order/orderlist?p=1&search=paylate&flag='.$fflag.'');}" type="button" class="btn btn-xs  green-stripe"> Paylate </a>
+													<a href = "{:U('Order/orderlist?p=1&search=unpaid&flag='.$fflag.'');}" type="button" class="btn btn-xs yellow-stripe"> Unpaid </a>
+													<a href = "{:U('Order/orderlist?p=1&search=nogive&flag='.$fflag.'');}" type="button" class="btn btn-xs yellow-stripe"> nogive </a>
+												</label>
+														
 											</div>
-											<div class="col-md-5 col-sm-12">
-												<button class="btn yellow table-group-action-submit"><i class="fa fa-search"></i> Search</button>
-												<a class="btn red filter-cancel" type="reset" href="{:U('Order/orderlist?p=1');}"><i class="fa fa-times"></i> Reset</a>
-											</div>
+											
 										</div>
 
 										<!--
@@ -592,6 +608,7 @@
 															<case value="1"><span class="label label-sm label-danger"><i class="fa fa-volume-up"></i>  doing</span></case>
 															<case value="2"><span class="label label-sm label-danger"><i class="fa fa-volume-up"></i>  done & no paid</span></case>
 															<case value="3"><span class="label label-sm label-success"><i class="fa fa-volume-up"></i>  done & paid</span></case>
+															<case value="4"><span class="label label-sm label-warning"><i class="fa fa-volume-up"></i>  done & no give</span></case>
 															<default /><span class="label label-sm label-default"><i class="fa fa-volume-up"></i> unset </span>
 														</switch>
 													</td>
@@ -617,6 +634,9 @@
 																		</div>
 																		<div class="modal-body">
 																			<p>Are you sure to delete this order: #{$vo['orderid']} ?</p>
+																			<p>createtime : {$vo.createtime}</p>
+																			<p>Guest Wxid : {$vo.gwxid}</p>
+																			<p>Guest Name : {$vo.gwxname}</p>
 
 																		</div>
 																		<div class="modal-footer">
@@ -652,7 +672,7 @@
 																		</div>
 																		<div class="form-group">
 																			<if condition="$vo.gremark eq 4">
-																				<input  data-tabindex="2" type="radio" name="remarkoption" value="4" checked/>
+																				<input  data-tabindex="2" type="radio" name="remarkoption" value="4" checked />
 																			<else />
 																				<input  data-tabindex="2" type="radio" name="remarkoption" value="4" />
 																			</if>

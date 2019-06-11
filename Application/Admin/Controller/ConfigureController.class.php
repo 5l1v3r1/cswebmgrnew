@@ -84,7 +84,9 @@ class ConfigureController extends CommonController {
 	}
 	public function edittech(){
 		$cond['techid'] = I('post.techid');
+		$data['sortid'] = I('post.sortid');//sort id
 		$data['content'] = I('post.content');
+		$data['docurls'] = I('post.docurls');//sort id
 		$data['description'] = I('post.description');
 		$data['attr'] = I('post.attr');
 		$Model = M('technologies');
@@ -129,6 +131,8 @@ class ConfigureController extends CommonController {
 	}
 	public function addtech(){
 		$data['content'] = I('post.content');//description
+		$data['sortid'] = I('post.sortid');//sort id docurls
+		$data['docurls'] = I('post.docurls');//sort id
 		$data['description'] = I('post.description');
 		$data['attr'] = I('post.attr');
 		$Model = M('technologies');

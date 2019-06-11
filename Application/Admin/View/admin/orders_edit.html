@@ -32,7 +32,7 @@
 				<i class="icon-close"></i>
 				</a>
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search...">
+					<input type="text" class="form-control" placeholder="Search..." />
 					<span class="input-group-btn">
 					<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
 					</span>
@@ -220,38 +220,44 @@
 					Dashboard</a>
 				</li>
 				<li>
+					<a href="{:U('Worker/workerRecommandPage');}">
+						<i class="fa fa-smile-o" aria-hidden="true"></i>
+						Workers Recommand
+					</a>
+				</li>
+				<li>
 					<a href="{:U('Worker/workerlist');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-list" aria-hidden="true"></i>
 						ALL Workers Workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=4');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						free workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=5');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						busy workers
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=2');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						Income > 0
 					</a>
 				</li>
 				<li >
 					<a href="{:U('Worker/workerlist?type=1');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						Income = 0
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Worker/workerlist?type=3');}">
-						<i class="icon-basket"></i>
+						<i class="fa fa-user-times" aria-hidden="true"></i>
 						dead workers
 					</a>
 				</li>
@@ -272,7 +278,7 @@
 			<ul class="sub-menu">
 				<li>
 					<a href="{:U('Tool/exchangeToolPage');}">
-						<i class="fa fa-usd" aria-hidden="true"></i> Exchange Transfer Tool
+						<i class="fa fa-exchange" aria-hidden="true"></i> Transfer Tools
 					</a>
 				</li>
 			</ul>
@@ -286,16 +292,19 @@
 			<ul class="sub-menu">
 				<li>
 					<a href="{:U('Configure/exchangelist');}">
+						<i class="fa fa-line-chart" aria-hidden="true"></i>
 						Exchange Rate
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Configure/techlist');}">
+						<i class="fa fa-microchip" aria-hidden="true"></i>
 						Technologies Conf
 					</a>
 				</li>
 				<li>
 					<a href="{:U('Configure/tradelist');}">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
 						Trade Conf
 					</a>
 				</li>
@@ -544,21 +553,31 @@
 														<if condition="$orderinfo.w_state eq 0 ">
 															<option value="0" selected>null</option>
 															<option value="1">worker is doing</option>
+															<option value="4">worker has completed and no give</option>
 															<option value="2">worker has completed and no pay</option>
 															<option value="3">worker has completed and paid</option>
 														<elseif condition="$orderinfo.w_state eq 1"/>
 															<option value="0">null</option>
 															<option value="1" selected>worker is doing</option>
+															<option value="4">worker has completed and no give</option>
 															<option value="2">worker has completed and no pay</option>
 															<option value="3">worker has completed and paid</option>
 														<elseif condition="$orderinfo.w_state eq 2"/>
 															<option value="0">null</option>
 															<option value="1">worker is doing</option>
+															<option value="4">worker has completed and no give</option>
 															<option value="2" selected>worker has completed and no pay</option>
+															<option value="3">worker has completed and paid</option>
+														<elseif condition="$orderinfo.w_state eq 4"/>
+															<option value="0">null</option>
+															<option value="1">worker is doing</option>
+															<option value="4" selected>worker has completed and no give</option>
+															<option value="2">worker has completed and no pay</option>
 															<option value="3">worker has completed and paid</option>
 														<else />
 															<option value="0">null</option>
 															<option value="1">worker is doing</option>
+															<option value="4">worker has completed and no give</option>
 															<option value="2">worker has completed and no pay</option>
 															<option value="3" selected>worker has completed and paid</option>
 														</if>
