@@ -398,13 +398,13 @@
 											<div class="form-group has-error">
 												<label class="col-md-4 control-label">Guest Wechat ID</label>
 												<div class="col-md-8">
-													<input name="guest_wxid" type="text" placeholder="Guest Wechat ID" class="form-control input-inline input-medium" required>
+													<input name="guest_wxid" id="g_wxid" type="text" placeholder="Guest Wechat ID" class="form-control input-inline input-medium" required>
 												</div>
 											</div>
 											<div class="form-group has-error">
 												<label class="col-md-4 control-label">Guest Wechat Name</label>
 												<div class="col-md-8">
-													<input name="guest_wxname" type="text" placeholder="Guest Wechat Name" class="form-control input-inline input-medium" required>
+													<input name="guest_wxname" id="g_wxname" type="text" placeholder="Guest Wechat Name" class="form-control input-inline input-medium" required>
 												</div>
 											</div>
 											<div class="form-group has-error">
@@ -517,7 +517,7 @@
 														<option value="4">worker has completed and no give</option>
 														<option value="2">worker has completed and no pay</option>
 														<option value="3">worker has completed and paid</option>
-														
+
 													</select>
 												</div>
 											</div>
@@ -794,32 +794,41 @@
 				}
 /*pay method */
 			$("input[name='moneytype']").val("RMB");
-			$("input[name='paymethod']").bind("click",function(){  
+			$("input[name='paymethod']").bind("click",function(){
 				var moneytype = "RMB";
 				if($(this).val() == "Paypal"){
 					moneytype = "USD";
 				}
-				
+
 				$("input[name='moneytype']").val(moneytype);
-				//测试操作代码  
-				//alert($(this).val());  
-				
-			});  
-			function getGuestWxname(){
-				
+				//测试操作代码
+				//alert($(this).val());
+
+			});
+			$('#g_wxid').bind('input propertychange', function() {
+			    //console.log($('#g_wxid').val());
+					getGuestWxname($('#g_wxid').val());
+			});
+			function getGuestWxname(data){
+
 				$.ajax({
 					url: "{:U('Order/ajaxGetGwname');}", // server url
 					type: 'POST', //POST or GET
-					data: {"data":datas}, // data to send in ajax format or querystring format
+					data: {"data":data}, // data to send in ajax format or querystring format
 					datatype: 'json',
 					success: function(data) {
 						//callback(data); // return data in callback
 						//console.log(data[1]);
-						showOldWorkers(data[0],"#oldworkernum","#ShowOldWorkers");
-						showNewWorkers(data[1],"#newworkernum","#ShowNewWorkers");
+						//console.log(data);
+						if(data != null){
+							$('#g_wxname').val(data.wxname);
+						}else{
+							$('#g_wxname').val("");
+						}
+
 					},
 					error: function(xhr, status, error) {
-							alert(xhr.responseText);
+							console.log(xhr.responseText);
 					}
 				});
 			}

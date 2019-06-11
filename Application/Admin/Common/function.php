@@ -526,7 +526,7 @@ function getMonthsData($fy,$ty,$cf){
         {
           $dataii[$c["year"]] = intval($c["ordernum"]);
         }else if($cf == 2){
-          $dataii[$c["year"]] = intval($c["profitavgperday"]);            
+          $dataii[$c["year"]] = intval($c["profitavgperday"]);
         }
         //$dataii[$c["year"]] = $c["profit"];
 
@@ -828,10 +828,18 @@ function Recommand($data){
       if(in_array($v['wxid'],$worklist)){
         $teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content,db_technologies.attr')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
         $techsss = "";
+        $techattrflag = 0;
+        $score_techattr = 0;
         foreach($teches as $c){
           $techsss = $techsss.'#'.$c["techid"].'#';
+          //attr
+          if($c["attr"] >=$techattrflag){
+            $score_techattr = $score_techattr + $c["attr"];
+          }
         }
+        //echo $score_techattr."<br>";
         $v['techarr'] = $teches;
+        $v['techarr_attr_score'] = $score_techattr;
         #print_r($teches);
         $ORDER = M('orders');
         /* complete orders*/
@@ -986,6 +994,10 @@ function Recommand($data){
   *             cs   +1
   *             abroad +2
   *             other  +0
+  * tech attr 6 :
+  *             0  0  common
+  *             1  6  rare
+  *             2  3  important
   */
   $rate_ordercomplete = 10;
   $rate_remark = 15;
@@ -1042,7 +1054,7 @@ function Recommand($data){
     }
     $workerOld[$k]["mark_attrs"] = $attr_mark;
     /* total */
-    $workerOld[$k]["mark_sum"] = $workerOld[$k]["mark_ordercomplete"] + $workerOld[$k]["mark_orderongoing"] +$workerOld[$k]["mark_remark"] + $workerOld[$k]["mark_attrs"];
+    $workerOld[$k]["mark_sum"] = $workerOld[$k]["mark_ordercomplete"] + $workerOld[$k]["mark_orderongoing"] +$workerOld[$k]["mark_remark"] + $workerOld[$k]["mark_attrs"]+$workerOld[$k]["techarr_attr_score"]/2;
 
     $workerOld[$k]["mark_ordercomplete"] = round($workerOld[$k]["mark_ordercomplete"],1);
     $workerOld[$k]["mark_orderongoing"] = round($workerOld[$k]["mark_orderongoing"],1);
@@ -1076,7 +1088,7 @@ function Recommand($data){
     }
     $workerNew[$k]["mark_attrs"] = $attr_mark;
     /* cal total score*/
-    $workerNew[$k]["mark_sum"] = $workerNew[$k]["mark_attrs"];
+    $workerNew[$k]["mark_sum"] = $workerNew[$k]["mark_attrs"]+$workerNew[$k]["techarr_attr_score"]/2;
   }
 
   $workerNew = arraySequence($workerNew, "mark_sum", $sort = 'SORT_DESC');

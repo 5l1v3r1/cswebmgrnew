@@ -54,7 +54,7 @@ class OrderController extends CommonController {
 				$se_condition = 'AND (db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
 				$se_conditionall = '(db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
 			}
-			
+
 			// 赋值分页输出
 			//print($se_condition);
 
@@ -601,9 +601,11 @@ class OrderController extends CommonController {
 	}
 	public function ajaxGetGwname(){
 		//$data = 'ok';
-		$data = I('post.data');
-		$Model = M('orders');
-		
+		$Model = M('guests');
+		$map['wxid'] = I('post.data');
+		$res = $Model->field("wxname")->where($map)->find();
+		$this->ajaxReturn($res);
+
 		//$data = array(array("email"=>"1","name"=>"php"),array("email"=>"9","name"=>"C"));
 
 
