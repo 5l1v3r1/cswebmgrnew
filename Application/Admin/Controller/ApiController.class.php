@@ -7,9 +7,17 @@ class ApiController  extends Controller {
 		$res = $Model->where("id = 1")->find();
 		$this->assign('res',$res);
 		$Model = M('technologies');
-		$teches = $Model->select();
+		$teches = $Model->order("sortid asc")->select();
+		$flag = 0;
 		foreach($teches as $k=>$v){
-			$item = $v["techid"].". ".$v["content"].$v["description"]." ; ";
+			if($v["sortid"]%100 == 0){
+				$techinfo = $techinfo."*********<br>";
+			}
+			if($v["description"] != ""){
+				$item = "[".$v["techid"]."] ".$v["content"]."/* ".$v["description"]."*/;  <br>";
+			}else{
+				$item = "[".$v["techid"]."] ".$v["content"]."".$v["description"].";  <br>";
+			}
 			$techinfo = $techinfo.$item;
 		}
 		$this->assign('techinfo',$techinfo);
