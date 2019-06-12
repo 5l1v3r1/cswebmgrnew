@@ -41,8 +41,8 @@ class OrderController extends CommonController {
 				$se_condition = 'AND ((db_worker_order.w_state = 1) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour))';
 				$se_conditionall = '((db_worker_order.w_state = 1) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour))';
 			}else if($search == "paylate"){
-				$se_condition = 'AND ((db_worker_order.w_state = 2 AND db_guest_order.g_state != 2 ) AND now() >= date_sub(db_guest_order.g_deadline,interval 72 hour))';
-				$se_conditionall = '((db_worker_order.w_state = 2 AND db_guest_order.g_state != 2 ) AND now() >= date_sub(db_guest_order.g_deadline,interval 72 hour))';
+				$se_condition = 'AND (((db_worker_order.w_state = 2 OR db_worker_order.w_state = 3) AND db_guest_order.g_state != 2 ) AND now() >= date_add(db_worker_order.w_deadline,interval 72 hour))';
+				$se_conditionall = '(((db_worker_order.w_state = 2 OR db_worker_order.w_state = 3) AND db_guest_order.g_state != 2 ) AND now() >= date_add(db_worker_order.w_deadline,interval 72 hour))';
 			}
 			else if($search == "unpaid"){
 				$se_condition = 'AND (db_worker_order.w_state = 2 AND db_guest_order.g_state = 2 )';
