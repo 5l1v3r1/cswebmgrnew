@@ -236,7 +236,7 @@ class WorkerController extends CommonController {
     /* add new worker */
     public function workernewpage(){
       $Model = M('technologies');
-      $content = $Model->select();
+      $content = $Model->order('sortid asc')->select();
       $this->assign('teches',$content);
       $this->display(T('admin/workers_add'));
     }
@@ -281,14 +281,14 @@ class WorkerController extends CommonController {
     	$Model = M('workers');
     	$worker = $Model->where($data_)->find();
     	$Mtech = M('technologies');
-    	$teches = $Mtech->select();
+    	$teches = $Mtech->order('sortid asc')->select();
     	//dump($worker);
     	if(!empty($worker))
     	{
     		//dump($worker);
     		/* add to worker_tech*/
     		$MM = M('worker_tech');
-    		$techesexit = $MM->join('inner join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid')->where('db_worker_tech.wxid = "'.$data_['wxid'].'"')->select();
+    		$techesexit = $MM->join('inner join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid')->where('db_worker_tech.wxid = "'.$data_['wxid'].'"')->order('db_technologies.sortid asc')->select();
 
     		$techstr = '';
     		foreach($techesexit as $k=>$v){
@@ -359,7 +359,7 @@ class WorkerController extends CommonController {
     	$v = $W->where($m)->find();
     	//dump($v);
     	$MM = M('worker_tech');
-    	$teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
+    	$teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->order('db_technologies.sortid asc')->select();
     	$v['teches'] = $teches;
     	/*order info*/
     	$ORDER = M('orders');
