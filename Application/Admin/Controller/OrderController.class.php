@@ -149,13 +149,13 @@ class OrderController extends CommonController {
 				$v["warningflag"] = 0;
 			}
 			$gstep =  round(($td-strtotime($v["w_deadline"]))/3600,2);//hours
-			if($gstep > 0 && abs($gstep) >= 24 *2 && abs($gstep) < 24 *3 && ($v["w_state"] == 2 || $v["w_state"] == 3)){
+			if($gstep > 0 && abs($gstep) >= 24 *2 && abs($gstep) < 24 *3 && ($v["w_state"] == 2 || $v["w_state"] == 3) && ($v["g_state"] != 2)){ 
 				$v["gwarningflag"] = 1;
 				
-			}else if($gstep > 0 && abs($gstep) >= 24 *3 && abs($gstep) < 24 *4 && ($v["w_state"] == 2 || $v["w_state"] == 3)){
+			}else if($gstep > 0 && abs($gstep) >= 24 *3 && abs($gstep) < 24 *4 && ($v["w_state"] == 2 || $v["w_state"] == 3) && ($v["g_state"] != 2) ){
 				$v["gwarningflag"] = 2;
 				
-			}else if($gstep > 0 && abs($gstep) >= 24 *4 && ($v["w_state"] == 2 || $v["w_state"] == 3)){
+			}else if($gstep > 0 && abs($gstep) >= 24 *4 && ($v["w_state"] == 2 || $v["w_state"] == 3)  && ($v["g_state"] != 2)){
 				$v["gwarningflag"] = 3;
 				
 			}else{
