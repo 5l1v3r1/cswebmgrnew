@@ -799,7 +799,7 @@ function Recommand($data){
     foreach($workers as $k=>$v){
       $MM = M('worker_tech');
 
-      $techeslist = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.wxid')->where('db_worker_tech.wxid = "'.$v['wxid'].'" and '.$datasql.'')->select();
+      $techeslist = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.wxid')->where('db_worker_tech.wxid = "'.$v['wxid'].'" and '.$datasql.'')->order('db_technologies.sortid asc')->select();
       //dump($techeslist);
       if($techeslist != NULL){
         array_push($worklist ,$techeslist[0]['wxid']);
@@ -826,7 +826,7 @@ function Recommand($data){
     foreach($workers as $k=>$v){
       $MM = M('worker_tech');
       if(in_array($v['wxid'],$worklist)){
-        $teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content,db_technologies.attr')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
+        $teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content,db_technologies.attr')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->order('db_technologies.sortid asc')->select();
         $techsss = "";
         $techattrflag = 0;
         $score_techattr = 0;
@@ -1235,7 +1235,7 @@ function getAllWorkerData(){
 }
 /* one tech -> workers statistics */
 function getTechWorkerDatas(){
-    $techlist = M('technologies')->field("techid,content as techname")->select();
+    $techlist = M('technologies')->field("techid,content as techname")->order('sortid asc')->select();
     $worker_doing_wxids = M('orders')->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_workers.wxid')->where('db_worker_order.w_state = 1')->group("db_workers.wxid")->select();
     $worker_unpaid_wxids = M('orders')->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_workers.wxid')->where('db_worker_order.w_state = 2')->group("db_workers.wxid")->select();
     //$worker_doing_wxidsstr = implode(",",$worker_doing_wxids);

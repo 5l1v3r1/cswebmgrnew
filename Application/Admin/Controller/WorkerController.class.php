@@ -81,7 +81,7 @@ class WorkerController extends CommonController {
         foreach($workers as $k=>$v){
         	$MM = M('worker_tech');
 
-        	$techeslist = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.wxid')->where('db_worker_tech.wxid = "'.$v['wxid'].'" and db_worker_tech.techid in('.$techstr.')')->select();
+        	$techeslist = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.wxid')->where('db_worker_tech.wxid = "'.$v['wxid'].'" and db_worker_tech.techid in('.$techstr.')')->order('db_technologies.sortid asc')->select();
         	//dump($techeslist);
         	if($techeslist != NULL){
         		array_push($worklist ,$techeslist[0]['wxid']);
@@ -94,7 +94,7 @@ class WorkerController extends CommonController {
         foreach($workers as $k=>$v){
           $MM = M('worker_tech');
           if(in_array($v['wxid'],$worklist)){
-          	$teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
+          	$teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->order('db_technologies.sortid asc')->select();
           	$v['techarr'] = $teches;
           	$workitem = getWorkerInfo($v['wxid']);
           	$v['ordercomplete'] = $workitem[0];//$ordercomplete;
@@ -159,7 +159,7 @@ class WorkerController extends CommonController {
 			foreach($workers as $k=>$v){
 				$MM = M('worker_tech');
 				$map['wxid'] = $v['wxid'];
-				$teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->select();
+				$teches = $MM->join('left join db_technologies on db_worker_tech.techid = db_technologies.techid')->field('db_worker_tech.techid,db_technologies.content')->where('db_worker_tech.wxid = "'.$v['wxid'].'"')->order('db_technologies.sortid asc')->select();
 				$v['techarr'] = $teches;
 				/*order info*/
 				$ORDER = M('orders');
@@ -224,7 +224,7 @@ class WorkerController extends CommonController {
       $workersres = array_slice($workersres, $Page->firstRow,$Page->listRows);
       //dump($workers);
       $Mtech = M('technologies');
-      $teches = $Mtech->select();
+      $teches = $Mtech->order('sortid asc')->select();
       $this->assign('workers',$workersres);
       $this->assign('teches',$teches);
       $this->assign('techstr',$techstr);
