@@ -35,6 +35,7 @@ class OrderController extends CommonController {
 		if(!empty(I('get.search'))){
 			$search = trim(I('get.search'));
 			//echo strpos($search,"DD:",0); //CD: createdate DD
+			//echo strpos($search,"DD:");
 			//exit(0);
 			//print_r($search);
 			if($search == "warning"){
@@ -52,25 +53,26 @@ class OrderController extends CommonController {
 				$se_condition = 'AND (db_worker_order.w_state = 4 )';
 				$se_conditionall = '(db_worker_order.w_state = 4)';
 			}
-			else if(strpos($search,"CD:",0) == 0){
+			else if(strpos($search,"CD:") !== false){
 				//echo "aa";
 				//exit();
 				$search = str_replace("CD:","",$search);
 				//echo $dd;
 				//exit();
-				$se_condition = 'AND (db_orders.createtime like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
-				$se_conditionall = '(db_orders.createtime like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+				$se_condition = 'AND (db_orders.createtime like "%'.$search.'%")';
+				$se_conditionall = '(db_orders.createtime like "%'.$search.'%" )';
 			}
-			else if(strpos($search,"DD:",0) == 0){
+			else if(strpos($search,"DD:") !== false){
 				//echo "aa";
-				//exit();
+				//exit(0);
 				$search = str_replace("DD:","",$search);
-				//echo $dd;
-				//exit();
-				$se_condition = 'AND (db_worker_order.w_deadline like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
-				$se_conditionall = '(db_worker_order.w_deadline like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+				//echo $search;
+				//exit(0);
+				$se_condition = 'AND (db_worker_order.w_deadline like "%'.$search.'%")';
+				$se_conditionall = '(db_worker_order.w_deadline like "%'.$search.'%")';
 			}
 			else{
+
 				$se_condition = 'AND (db_orders.createtime like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
 				$se_conditionall = '(db_orders.createtime like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
 			}
