@@ -11,12 +11,12 @@ class ApiController  extends Controller {
 		$flag = 0;
 		foreach($teches as $k=>$v){
 			if($v["sortid"]%100 == 0){
-				$techinfo = $techinfo."*********<br>";
+				$techinfo = $techinfo."/*****/<br>";
 			}
 			if($v["description"] != ""){
-				$item = "[".$v["techid"]."] ".$v["content"]."/* ".$v["description"]."*/;  <br>";
+				$item = "[".$v["sortid"]."] ".$v["content"]." /* ".$v["description"]." */;  <br>";
 			}else{
-				$item = "[".$v["techid"]."] ".$v["content"]."".$v["description"].";  <br>";
+				$item = "[".$v["sortid"]."] ".$v["content"]."".$v["description"].";  <br>";
 			}
 			$techinfo = $techinfo.$item;
 		}
