@@ -8,17 +8,18 @@ class ApiController  extends Controller {
 		$this->assign('res',$res);
 		$Model = M('technologies');
 		$teches = $Model->order("sortid asc")->select();
-		$flag = 0;
+		$i = 1;
 		foreach($teches as $k=>$v){
 			if($v["sortid"]%100 == 0){
 				$techinfo = $techinfo."/*****/<br>";
 			}
 			if($v["description"] != ""){
-				$item = "[".$v["sortid"]."] ".$v["content"]." /* ".$v["description"]." */;  <br>";
+				$item = "[".$i."] ".$v["content"]." /* ".$v["description"]." */;  <br>";
 			}else{
-				$item = "[".$v["sortid"]."] ".$v["content"]."".$v["description"].";  <br>";
+				$item = "[".$i."] ".$v["content"]."".$v["description"].";  <br>";
 			}
 			$techinfo = $techinfo.$item;
+			$i = $i + 1;
 		}
 		$this->assign('techinfo',$techinfo);
 		$this->display(T('admin/apipage'));
