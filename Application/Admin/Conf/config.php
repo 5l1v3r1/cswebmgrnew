@@ -14,5 +14,6 @@ return array(
 	'PERMISSION_DENIED_WARNING' => 'Sorry, Permission denied!',
 	'DATEORIYEAR' => 2018,
 	'TECH_SORTID_TIPS'=>'WEB start with 9x,other [1-8]x',
+	'ORDER_SEARCH_TIPS'=>'CD: CRATEDATE ; DD: WORKER DEADLINE',
 
 );

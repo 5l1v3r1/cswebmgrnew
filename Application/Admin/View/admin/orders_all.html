@@ -450,6 +450,7 @@
 													<a href = "{:U('Order/orderlist?p=1&search=paylate&flag='.$fflag.'');}" type="button" class="btn btn-xs  green-stripe"> Paylate </a>
 													<a href = "{:U('Order/orderlist?p=1&search=unpaid&flag='.$fflag.'');}" type="button" class="btn btn-xs yellow-stripe"> Unpaid </a>
 													<a href = "{:U('Order/orderlist?p=1&search=nogive&flag='.$fflag.'');}" type="button" class="btn btn-xs yellow-stripe"> nogive </a>
+													<span class="label label-success"><small><i>{:C(ORDER_SEARCH_TIPS);}</i></small></span>
 												</label>
 														
 											</div>
@@ -517,7 +518,7 @@
 											<th width="8%">Create Date</th>
 											<th width="12%"><i class="fa fa-wechat font-green"></i> Guest Wechat</th>
 											<th >Project</th>
-											<th width="8%">G_Deadline</th>
+											<th width="10%">G_Deadline</th>
 											<th width="10%">Payment</th>
 											<th width="12%"><i class="fa fa-wechat font-red"></i> Worker Wechat</th>
 											<th width="10%">W_deadline</th>
@@ -553,7 +554,21 @@
 														</small>
 													</td>
 													<td><small>{$vo.projectname}</small></td>
-													<td><small>{$vo.g_deadline}</small></td>
+													<td>
+														<small>
+															<if condition="$vo.w_deadline neq '' ">
+																<switch name="vo.gwarningflag">
+																	<case value="1"><i class="fa fa-volume-control-phone font-red" ></i></case>
+																	<case value="2"><i class="fa fa-volume-control-phone font-red" ></i><i class="fa fa-volume-control-phone font-red" ></i></case>
+																	<case value="3"><i class="fa fa-volume-control-phone font-red" ></i><i class="fa fa-volume-control-phone font-red" ></i><i class="fa fa-volume-control-phone font-red" ></i></case>
+																	<default />
+																</switch>
+																{$vo.g_deadline}
+															<else />
+																<span class="label label-sm label-default"> unset </span>
+															</if>
+														</small>
+													</td>
 													<td>
 														<small>
 															<i class="fa fa-angle-right"></i> {$vo.totalprice}{$vo.moneytype}

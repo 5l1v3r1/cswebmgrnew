@@ -241,11 +241,11 @@ class WorkerController extends CommonController {
       $this->display(T('admin/workers_add'));
     }
     public function workernew(){
-      $data_['wxid'] = I('post.wxid');
+      $data_['wxid'] = trim(I('post.wxid'));
       $Model = M('workers');
       $content = $Model->where($data_)->find();
       $teches = [];
-      $teches = I('post.tech','','htmlspecialchars');//
+      $teches = trim(I('post.tech','','htmlspecialchars'));//
       $attrarr = [];
       $attrarr = I('post.attrs','','htmlspecialchars');//
       //dump($teches);

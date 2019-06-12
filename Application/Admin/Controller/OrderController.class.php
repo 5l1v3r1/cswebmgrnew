@@ -34,6 +34,8 @@ class OrderController extends CommonController {
 		$search = "";
 		if(!empty(I('get.search'))){
 			$search = trim(I('get.search'));
+			//echo strpos($search,"DD:",0); //CD: createdate DD
+			//exit(0);
 			//print_r($search);
 			if($search == "warning"){
 				$se_condition = 'AND ((db_worker_order.w_state = 1) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour))';
@@ -50,9 +52,27 @@ class OrderController extends CommonController {
 				$se_condition = 'AND (db_worker_order.w_state = 4 )';
 				$se_conditionall = '(db_worker_order.w_state = 4)';
 			}
+			else if(strpos($search,"CD:",0) == 0){
+				//echo "aa";
+				//exit();
+				$search = str_replace("CD:","",$search);
+				//echo $dd;
+				//exit();
+				$se_condition = 'AND (db_orders.createtime like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+				$se_conditionall = '(db_orders.createtime like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+			}
+			else if(strpos($search,"DD:",0) == 0){
+				//echo "aa";
+				//exit();
+				$search = str_replace("DD:","",$search);
+				//echo $dd;
+				//exit();
+				$se_condition = 'AND (db_worker_order.w_deadline like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+				$se_conditionall = '(db_worker_order.w_deadline like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+			}
 			else{
-				$se_condition = 'AND (db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
-				$se_conditionall = '(db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+				$se_condition = 'AND (db_orders.createtime like "%'.$search.'%" OR db_worker_order.w_deadline like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+				$se_conditionall = '(db_orders.createtime like "%'.$search.'%" OR db_worker_order.w_deadline like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
 			}
 
 			// 赋值分页输出
@@ -127,6 +147,19 @@ class OrderController extends CommonController {
 				$v["warningflag"] = 3;
 			}else{
 				$v["warningflag"] = 0;
+			}
+			$gstep =  round(($td-strtotime($v["w_deadline"]))/3600,2);//hours
+			if($gstep > 0 && abs($gstep) >= 24 *2 && abs($gstep) < 24 *3 && ($v["w_state"] == 2 || $v["w_state"] == 3)){
+				$v["gwarningflag"] = 1;
+				
+			}else if($gstep > 0 && abs($gstep) >= 24 *3 && abs($gstep) < 24 *4 && ($v["w_state"] == 2 || $v["w_state"] == 3)){
+				$v["gwarningflag"] = 2;
+				
+			}else if($gstep > 0 && abs($gstep) >= 24 *4 && ($v["w_state"] == 2 || $v["w_state"] == 3)){
+				$v["gwarningflag"] = 3;
+				
+			}else{
+				$v["gwarningflag"] = 0;
 			}
 			//echo $step;
 			//print_r($v);
@@ -234,9 +267,9 @@ class OrderController extends CommonController {
 		$Model = M('orders');
 		$Model->data($data)->add();
 		/*guest*/
-		$cond['wxid'] = I('post.guest_wxid','','htmlspecialchars');//
+		$cond['wxid'] = trim(I('post.guest_wxid','','htmlspecialchars'));//
 		$guest_wxid = $cond['wxid'];
-		$cell['wxname'] = I('post.guest_wxname','','htmlspecialchars');//
+		$cell['wxname'] = trim(I('post.guest_wxname','','htmlspecialchars'));//
 		$Model = M('guests');
 		//dump($cond);
 		$guestinfo = $Model->where($cond)->find();

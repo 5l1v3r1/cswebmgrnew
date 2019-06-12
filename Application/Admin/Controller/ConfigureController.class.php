@@ -186,6 +186,9 @@ class ConfigureController extends CommonController {
 			$pagetitle = "Create Group notice ";
 			$field_char = "create_group";
 
+		}else if($cond['tid'] == 5){
+			$pagetitle = "Worker notice1 ";
+			$field_char = "workers_notice1";
 		}else{
 			$pagetitle = "Worker notice1 ";
 			$field_char = "workers_notice1";
@@ -223,6 +226,11 @@ class ConfigureController extends CommonController {
 		}else if($cond['tid'] == 4){
 			$pagetitle = "Create Group notice ";
 			$field_char = "create_group";
+
+		}
+		else if($cond['tid'] == 5){
+			$pagetitle = "Worker notice1 ";
+			$field_char = "workers_notice1";
 
 		}else{
 			$pagetitle = "Worker notice1 ";

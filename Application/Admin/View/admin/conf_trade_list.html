@@ -337,6 +337,16 @@
 												Edit → </a>
 											</li>
 										</ul>
+										<h4 class="block">Worker Get work notice</h4>
+										<div class="well copy5" id="notice1" data-clipboard-target="#notice1" >
+											{$res["workers_notice1"]}
+										</div>
+										<ul class="pager">
+											<li class="previous">
+												<a href="{:U('Configure/tradeInfoEditPage?tid=5');}">
+												Edit → </a>
+											</li>
+										</ul>
 										<h4 class="block">Create Group Notice</h4>
 										<div class="well copy4" id="creategroup" data-clipboard-target="#creategroup">
 											{$res["create_group"]}
@@ -347,6 +357,7 @@
 												Edit → </a>
 											</li>
 										</ul>
+										
 										<h4 class="block">Worker technologies info</h4>
 										<div class="well copy2" id="techlist" data-clipboard-target="#techlist">
 											{$techinfo}{$res["worker_techlist"]}
@@ -408,6 +419,7 @@ Layout.init(); // init current layout
 			var clipboard2 = new ClipboardJS('.copy2');
 			var clipboard3 = new ClipboardJS('.copy3');
 			var clipboard4 = new ClipboardJS('.copy4');
+			var clipboard5 = new ClipboardJS('.copy5');
 
 			clipboard.on('success', function(e) {
 			    console.info('Action:', e.action);
@@ -439,6 +451,13 @@ Layout.init(); // init current layout
 			    e.clearSelection();
 			});
 			clipboard4.on('success', function(e) {
+			    console.info('Action:', e.action);
+			    console.info('Text:', e.text);
+			    console.info('Trigger:', e.trigger);
+
+			    e.clearSelection();
+			});
+			clipboard5.on('success', function(e) {
 			    console.info('Action:', e.action);
 			    console.info('Text:', e.text);
 			    console.info('Trigger:', e.trigger);
