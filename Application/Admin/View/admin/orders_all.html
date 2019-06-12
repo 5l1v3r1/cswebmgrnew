@@ -556,7 +556,6 @@
 													<td><small>{$vo.projectname}</small></td>
 													<td>
 														<small>
-															<if condition="$vo.w_deadline neq '' ">
 																<switch name="vo.gwarningflag">
 																	<case value="1"><i class="fa fa-volume-control-phone font-red" ></i></case>
 																	<case value="2"><i class="fa fa-volume-control-phone font-red" ></i><i class="fa fa-volume-control-phone font-red" ></i></case>
@@ -564,9 +563,6 @@
 																	<default />
 																</switch>
 																{$vo.g_deadline}
-															<else />
-																<span class="label label-sm label-default"> unset </span>
-															</if>
 														</small>
 													</td>
 													<td>

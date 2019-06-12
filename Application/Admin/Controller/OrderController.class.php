@@ -639,7 +639,7 @@ class OrderController extends CommonController {
 		$res = $Model->field("wxname")->where($map)->find();
 		$this->ajaxReturn($res);
 
-		//$data = array(array("email"=>"1","name"=>"php"),array("email"=>"9","name"=>"C"));
+		//
 
 
 		//$res = Recommand($data);
