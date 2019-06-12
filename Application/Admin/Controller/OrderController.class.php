@@ -71,8 +71,8 @@ class OrderController extends CommonController {
 				$se_conditionall = '(db_worker_order.w_deadline like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
 			}
 			else{
-				$se_condition = 'AND (db_orders.createtime like "%'.$search.'%" OR db_worker_order.w_deadline like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
-				$se_conditionall = '(db_orders.createtime like "%'.$search.'%" OR db_worker_order.w_deadline like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+				$se_condition = 'AND (db_orders.createtime like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
+				$se_conditionall = '(db_orders.createtime like "%'.$search.'%" OR db_guests.wxid like "%'.$search.'%" OR db_guests.wxname Like "%'.$search.'%" OR db_workers.wxid like "%'.$search.'%" OR db_workers.wxname Like "%'.$search.'%")';
 			}
 
 			// 赋值分页输出
@@ -149,15 +149,15 @@ class OrderController extends CommonController {
 				$v["warningflag"] = 0;
 			}
 			$gstep =  round(($td-strtotime($v["w_deadline"]))/3600,2);//hours
-			if($gstep > 0 && abs($gstep) >= 24 *2 && abs($gstep) < 24 *3 && ($v["w_state"] == 2 || $v["w_state"] == 3) && ($v["g_state"] != 2)){ 
+			if($gstep > 0 && abs($gstep) >= 24 *2 && abs($gstep) < 24 *3 && ($v["w_state"] == 2 || $v["w_state"] == 3) && ($v["g_state"] != 2)){
 				$v["gwarningflag"] = 1;
-				
+
 			}else if($gstep > 0 && abs($gstep) >= 24 *3 && abs($gstep) < 24 *4 && ($v["w_state"] == 2 || $v["w_state"] == 3) && ($v["g_state"] != 2) ){
 				$v["gwarningflag"] = 2;
-				
+
 			}else if($gstep > 0 && abs($gstep) >= 24 *4 && ($v["w_state"] == 2 || $v["w_state"] == 3)  && ($v["g_state"] != 2)){
 				$v["gwarningflag"] = 3;
-				
+
 			}else{
 				$v["gwarningflag"] = 0;
 			}
