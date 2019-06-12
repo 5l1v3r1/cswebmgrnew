@@ -22,7 +22,7 @@ class ConfigureController extends CommonController {
 	}
 	public function techlist(){
 		$Model = M('technologies');
-		$teches = $Model->select();
+		$teches = $Model->order('sortid asc')->select();
 		$Model = M('worker_tech');
 		foreach($teches as $k=>$v){
 			$techcount = $Model->where('techid = '.$v['techid'])->count();
