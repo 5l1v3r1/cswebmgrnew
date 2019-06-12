@@ -8,16 +8,22 @@ class CommonController extends Controller
 	public function _initialize()
 	{
 
-		if(empty(cookie('admin_uid')))
+		if(empty(session('admin_uid')))
 		{
 			$this->error(C('LOGIN_TIPS'),U('Login/index'),3);
 			return 0;
-		}else if(!in_array(cookie('admin_uid'),explode(',',C('AUTH_SUPERADMIN'))))//whether is superadmin or not
+		}else//whether is superadmin or not
 		{
+			$pwdtxt = encryptDecrypt('3330', session('admin_uid'),0);
+			//echo $pwdtxt;
+			//exit();
 			$auth =new Auth();
 			//echo MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME;
 			//echo cookie('admin_uid');
-			if(!$auth->check(strtolower(MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME),cookie('admin_uid')))
+			//echo $pwdtxt."<br>";
+			//echo substr($pwdtxt , 17);
+			//exit(0);
+			if(!$auth->check(strtolower(MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME),substr($pwdtxt , 17)))
 			{
 				//$this->error(C('PERMISSION_DENIED_WARNING'));
 				$this->error(C('PERMISSION_DENIED_WARNING'), U('Login/index'),3);

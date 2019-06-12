@@ -1,4 +1,43 @@
 <?php
+function encryptDecrypt($key, $string, $decrypt){
+   $method = 'DES-ECB';//加密方法
+   $options = 0;//数据格式选项（可选）
+   $iv = '';//加密初始化向量（可选）
+    if($decrypt){
+        $decrypted = openssl_encrypt($string, $method, md5(md5($key)), $options);
+        return $decrypted;
+    }else{
+        $encrypted = openssl_decrypt($string, $method, md5(md5($key)), 0);
+        return $encrypted;
+    }
+}
+function checkSession(){
+  session('admin_uid',null);
+  $data['username']= I('post.username','','htmlspecialchars');//get name
+  $data['password'] = md5($data['username'].I('post.password','','htmlspecialchars'));//get name
+  $data['code'] = I('post.code','','htmlspecialchars');//get code
+  $Model = M('admin');
+  //$data['uid'] = uniqid('cs_');
+  //print_r($data);
+  $content = $Model->field('uid,username')->where($data)->find();
+  //dump($content);
+  if(!empty($content))//exist
+  {
+    //echo "hahah";
+          //session('admin_id',$content['uid'],36000);
+          $pwdtxt = encryptDecrypt('3330', uniqid('520_').$content['uid'],1);
+          session('admin_uid',$pwdtxt,36000);
+          //echo session('admin_uid');
+          //exit(0);
+          return 1;
+
+
+  }else
+  {
+    session('admin_uid',null);
+    return 0;
+  }
+}
 /**
  *
  * @params array $array target array
