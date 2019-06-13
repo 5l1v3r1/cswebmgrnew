@@ -59,8 +59,8 @@ class OrderController extends CommonController {
 				$search = str_replace("CD:","",$search);
 				//echo $dd;
 				//exit();
-				$se_condition = 'AND (db_orders.createtime like "%'.$search.'%")';
-				$se_conditionall = '(db_orders.createtime like "%'.$search.'%" )';
+				$se_condition = 'AND (db_orders.createtime like "'.$search.'%")';
+				$se_conditionall = '(db_orders.createtime like "'.$search.'%" )';
 			}
 			else if(strpos($search,"DD:") !== false){
 				//echo "aa";
@@ -68,8 +68,8 @@ class OrderController extends CommonController {
 				$search = str_replace("DD:","",$search);
 				//echo $search;
 				//exit(0);
-				$se_condition = 'AND (db_worker_order.w_deadline like "%'.$search.'%")';
-				$se_conditionall = '(db_worker_order.w_deadline like "%'.$search.'%")';
+				$se_condition = 'AND (db_worker_order.w_deadline like "'.$search.'%")';
+				$se_conditionall = '(db_worker_order.w_deadline like "'.$search.'%")';
 			}
 			else{
 
