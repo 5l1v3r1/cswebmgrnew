@@ -398,25 +398,25 @@
 											<div class="form-group has-error">
 												<label class="col-md-4 control-label">Order ID</label>
 												<div class="col-md-8">
-													<input name="orderid" type="text" value="{$orderinfo.orderid}" class="form-control input-inline input-medium" readonly>
+													<input name="orderid" type="text" value="{$orderinfo.orderid}" class="form-control input-inline input-medium" readonly />
 												</div>
 											</div>
 											<div class="form-group has-error">
 												<label class="col-md-4 control-label">Guest Wechat ID</label>
 												<div class="col-md-8">
-													<input name="guest_wxid" type="text" placeholder="Guest Wechat ID" class="form-control input-inline input-medium" value="{$orderinfo.gwxid}" required>
+													<input name="guest_wxid" type="text" placeholder="Guest Wechat ID" class="form-control input-inline input-medium" value="{$orderinfo.gwxid}" required />
 												</div>
 											</div>
 											<div class="form-group has-error">
 												<label class="col-md-4 control-label">Guest Wechat Name</label>
 												<div class="col-md-8">
-													<input name="guest_wxname" type="text" placeholder="Guest Wechat Name" class="form-control input-inline input-medium" value="{$orderinfo.gwxname}"  required>
+													<input name="guest_wxname" type="text" placeholder="Guest Wechat Name" class="form-control input-inline input-medium" value="{$orderinfo.gwxname}"  required />
 												</div>
 											</div>
 											<div class="form-group has-error">
 												<label class="col-md-4 control-label">Project Name</label>
 												<div class="col-md-8">
-													<div class="ms-ctn form-control ms-as-string " style="" id="ms-emails"><span class="ms-helper " style="display: inline;"></span><div class="ms-sel-ctn"><input class="form-control input-inline input-large" type="text" placeholder="Enter project name ..." required></div><div class="ms-trigger"><div class="ms-trigger-ico"></div></div></div>
+													<div class="ms-ctn form-control ms-as-string " style="" id="ms-emails"><span class="ms-helper " style="display: inline;"></span><div class="ms-sel-ctn"><input class="form-control input-inline input-large" type="text" placeholder="Enter project name ..." required /></div><div class="ms-trigger"><div class="ms-trigger-ico"></div></div></div>
 													<!--<input name="projectname" type="text" placeholder="Project name" class="form-control" required>-->
 												</div>
 											</div>
@@ -424,7 +424,7 @@
 												<label class="col-md-4 control-label">Guest deadline</label>
 												<div class="col-md-8">
 													<div class="input-group date form_meridian_datetimenew" data-date="{$dateform}">
-														<input name="g_deadtime" type="text" size="10" class="form-control input-inline" placeholder="Guest deadline" value="{$orderinfo.g_deadline}" required>
+														<input name="g_deadtime" type="text" size="10" class="form-control input-inline" placeholder="Guest deadline" value="{$orderinfo.g_deadline}" required />
 														<span class="input-group-btn">
 														<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
 														<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
@@ -438,16 +438,16 @@
 													<div class="radio-list">
 														<label class="radio-inline">
 														<if condition="$orderinfo['paymethod'] eq 'Wechat'">
-															<input type="radio" name="paymethod" value="Wechat" checked> Wechat
+															<input type="radio" name="paymethod" value="Wechat" checked /> Wechat
 														<else />
-															<input type="radio" name="paymethod" value="Wechat"> Wechat
+															<input type="radio" name="paymethod" value="Wechat" /> Wechat
 														</if>
 														</label>
 														<label class="radio-inline">
 															<if condition="$orderinfo['paymethod'] eq 'Paypal'">
-																<input type="radio" name="paymethod" value="Paypal" checked> Paypal
+																<input type="radio" name="paymethod" value="Paypal" checked /> Paypal
 															<else />
-																<input type="radio" name="paymethod" value="Paypal"> Paypal
+																<input type="radio" name="paymethod" value="Paypal" /> Paypal
 															</if>
 
 														</label>
@@ -462,9 +462,9 @@
 														</label>
 														<label class="radio-inline">
 															<if condition="$orderinfo['paymethod'] eq 'Taobao'">
-																<input type="radio" name="paymethod" value="Taobao" checked> Taobao
+																<input type="radio" name="paymethod" value="Taobao" checked /> Taobao
 															<else />
-																<input type="radio" name="paymethod" value="Taobao"> Taobao
+																<input type="radio" name="paymethod" value="Taobao" /> Taobao
 															</if>
 														</label>
 
@@ -480,13 +480,13 @@
 											<div class="form-group has-error">
 												<label class="col-md-4 control-label">Total Price</label>
 												<div class="col-md-8">
-													<input name="totalprice" type="numbe"  min="0" step="0.01" class="form-control input-inline input-medium" value="{$orderinfo.totalprice}" required>
+													<input name="totalprice" type="numbe"  min="0" step="0.01" class="form-control input-inline input-medium" value="{$orderinfo.totalprice}" required />
 												</div>
 											</div>
 											<div class="form-group has-error">
 												<label class="col-md-4 control-label">Guarantee</label>
 												<div class="col-md-8">
-													<input name="guarantee" type="number" min="0" step="0.01" class="form-control input-inline input-medium" value="{$orderinfo.guarantee}" required>
+													<input name="guarantee" type="number" min="0" step="0.01" class="form-control input-inline input-medium" value="{$orderinfo.guarantee}" required />
 												</div>
 											</div>
 											<!--
@@ -505,7 +505,7 @@
 												<div class="col-md-8">
 													<select name="g_state" class="form-control input-inline input-large">
 														<if condition="$orderinfo.g_state eq 0 ">
-									            <option value="0" selected>Guest have no paid gurrentee</option>
+									            <option value="0" selected >Guest have no paid gurrentee</option>
 									            <option value="1">Guest have only paid gurrentee</option>
 									            <option value="2">Guest have pain all money</option>
 									          <elseif condition="$orderinfo.g_state eq 1"/>
@@ -524,15 +524,15 @@
 											<div class="form-group">
 												<label class="col-md-4 control-label">Select worker</label>
 												<div class="col-md-8">
-													<input id="oriid" name="oriid" type="hidden" value="{$orderinfo[wxid]}" readonly>
-													<div class="ms-ctn form-control ms-as-string " style="" id="ms-workers"><span class="ms-helper " style="display: inline;"></span><div class="ms-sel-ctn"><input class="form-control input-inline input-large" type="text" placeholder="Enter project name ..." required></div><div class="ms-trigger"><div class="ms-trigger-ico"></div></div></div>
+													<input id="oriid" name="oriid" type="hidden" value="{$orderinfo[wxid]}" readonly />
+													<div class="ms-ctn form-control ms-as-string " style="" id="ms-workers"><span class="ms-helper " style="display: inline;"></span><div class="ms-sel-ctn"><input class="form-control input-inline input-large" type="text" placeholder="Enter project name ..." required /></div><div class="ms-trigger"><div class="ms-trigger-ico"></div></div></div>
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-md-4 control-label">Worker deadline</label>
 												<div class="col-md-8">
 													<div class="input-group date form_meridian_datetimenew" data-date="{$dateform}">
-														<input name="w_deadline" type="text" size="10" class="form-control input-inline " placeholder="Worker deadline" value="{$orderinfo.w_deadline}" >
+														<input name="w_deadline" type="text" size="10" class="form-control input-inline " placeholder="Worker deadline" value="{$orderinfo.w_deadline}" />
 														<span class="input-group-btn">
 														<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
 														<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
@@ -543,7 +543,7 @@
 											<div class="form-group">
 												<label class="col-md-4 control-label">Worker salary</label>
 												<div class="col-md-8">
-													<input name="w_payment" type="number" min="0" step="0.01" class="form-control input-inline input-medium" value="{$orderinfo.w_payment}" required>
+													<input name="w_payment" type="number" min="0" step="0.01" class="form-control input-inline input-medium" value="{$orderinfo.w_payment}" />
 												</div>
 											</div>
 											<div class="form-group">
