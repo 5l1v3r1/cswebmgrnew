@@ -32,7 +32,7 @@
 				<i class="icon-close"></i>
 				</a>
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search...">
+					<input type="text" class="form-control" placeholder="Search..." />
 					<span class="input-group-btn">
 					<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
 					</span>
@@ -222,48 +222,13 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="#">eCommerce</a>
+						<a href="#">Workers</a>
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<if condition="$fflag eq 1">
-							<a href="{:U('Order/orderlist?flag=1');}">Complete Orders</a>
-						<elseif condition="$fflag eq 2" />
-							<a href="{:U('Order/orderlist?flag=2');}">Ongoing Orders</a>
-						<elseif condition="$fflag eq 4" />
-							<a href="{:U('Order/orderlist?flag=4');}">Warning Orders</a>
-						<else />
-							<a href="{:U('Order/orderlist?flag=3');}">Orders All</a>
-						</if>
-						<i class="fa fa-angle-right"></i>
-					</li>
-					<li>
-						<a href="#">New Order</a>
+						<a href="#">Worker Recommand</a>
 					</li>
 				</ul>
-				<div class="page-toolbar">
-					<div class="btn-group pull-right">
-						<button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
-						Actions <i class="fa fa-angle-down"></i>
-						</button>
-						<ul class="dropdown-menu pull-right" role="menu">
-							<li>
-								<a href="#">Action</a>
-							</li>
-							<li>
-								<a href="#">Another action</a>
-							</li>
-							<li>
-								<a href="#">Something else here</a>
-							</li>
-							<li class="divider">
-							</li>
-							<li>
-								<a href="#">Separated link</a>
-							</li>
-						</ul>
-					</div>
-				</div>
 			</div>
 			<!-- END PAGE HEADER-->
 			<!-- BEGIN PAGE CONTENT-->
@@ -273,17 +238,41 @@
 					<div class="portlet box purple ">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-gift"></i> Add a new order
+								<i class="fa fa-shopping-cart"></i>Worker Listing
 							</div>
-							<div class="tools">
-								<a href="" class="collapse">
+							<div class="actions">
+								<a href="{:U('Worker/workernewpage');}" class="btn default yellow-stripe">
+									<i class="fa fa-plus"></i>
+									<span class="hidden-480"> New worker </span>
 								</a>
-								<a href="#portlet-config" data-toggle="modal" class="config">
-								</a>
-								<a href="" class="reload">
-								</a>
-								<a href="" class="remove">
-								</a>
+								<div class="btn-group">
+									<a class="btn default yellow-stripe dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+									<i class="fa fa-share"></i>
+									<span class="hidden-480">
+									Tools </span>
+									<i class="fa fa-angle-down"></i>
+									</a>
+									<ul class="dropdown-menu pull-right">
+										<li>
+											<a href="javascript:;">
+											Export to Excel </a>
+										</li>
+										<li>
+											<a href="javascript:;">
+											Export to CSV </a>
+										</li>
+										<li>
+											<a href="javascript:;">
+											Export to XML </a>
+										</li>
+										<li class="divider">
+										</li>
+										<li>
+											<a href="javascript:;">
+											Print Invoices </a>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 						<div class="portlet-body form">
@@ -292,7 +281,7 @@
 											<div class="form-group has-error">
 												<label class="col-md-2 control-label">Select Technologies</label>
 												<div class="col-md-4">
-													<div class="ms-ctn form-control ms-as-string " style="" id="ms-emails"><span class="ms-helper " style="display: inline;"></span><div class="ms-sel-ctn"><input class="form-control input-inline input-large" type="text" placeholder="Enter project name ..." required></div><div class="ms-trigger"><div class="ms-trigger-ico"></div></div></div>
+													<div class="ms-ctn form-control ms-as-string " style="" id="ms-emails"><span class="ms-helper " style="display: inline;"></span><div class="ms-sel-ctn"><input class="form-control input-inline input-large" type="text" placeholder="Enter project name ..." required /></div><div class="ms-trigger"><div class="ms-trigger-ico"></div></div></div>
 													<!--<input name="projectname" type="text" placeholder="Project name" class="form-control" required>-->
 												</div>
 											</div>
@@ -307,14 +296,12 @@
 												<div class="portlet-title">
 													<div class="caption">
 														<i class="fa fa-gift"></i>Olders
-														<span class="label label-sm label-success">Complete</span>
-														<span class="label label-sm label-danger">Ongoing</span>
-														<span class="label label-sm label-warning">Unpaid</span>
+														<span class="label label-sm label-success"><small>Complete</small></span>
+														<span class="label label-sm label-danger"><small>Ongoing</small></span>
+														<span class="label label-sm label-warning"><small>Unpaid</small></span>
 														
 													</div>
 													<div class="tools">
-														
-														
 														<span >Mark </span><i class="fa fa-sort-numeric-desc" aria-hidden="true" id= "ShowOlderByMarkDesc"></i>  <i class="fa fa-sort-numeric-asc" id= "ShowOlderByMarkAsc" aria-hidden="true"></i>
 														<span >| Date </span><i class="fa fa-sort-numeric-desc" aria-hidden="true" id= "ShowOlderByDateDesc"></i>  <i class="fa fa-sort-numeric-asc" id= "ShowOlderByDateAsc" aria-hidden="true"></i>
 														<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -328,9 +315,9 @@
 												<div class="portlet-body" >
 													<h6><span class="text-success" id="oldworkernum"></span></h6>
 													<!-- max-height:630px;overflow-y: scroll;  -->
-														<div style="">
+														<div style="overflow-y: scroll;">
 
-															<table class="table table-striped table-advance table-hover">
+															<table class="table table-striped table-advance table-hover table-responsive">
 																<tbody id="ShowOldWorkers">
 
 																</tbody>
@@ -358,8 +345,8 @@
 												</div>
 												<div class="portlet-body" >
 													<h6><span class="text-success" id="newworkernum"></span></h6>
-														<div style="">
-															<table class="table table-striped table-advance table-hover">
+														<div style="overflow-y: scroll;">
+															<table class="table table-striped table-advance table-hover  table-responsive">
 																<tbody id="ShowNewWorkers">
 																</tbody>
 															</table>

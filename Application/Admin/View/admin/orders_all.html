@@ -354,29 +354,6 @@
 						</if>
 					</li>
 				</ul>
-				<div class="page-toolbar">
-					<div class="btn-group pull-right">
-						<button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
-						Actions <i class="fa fa-angle-down"></i>
-						</button>
-						<ul class="dropdown-menu pull-right" role="menu">
-							<li>
-								<a href="#">Action</a>
-							</li>
-							<li>
-								<a href="#">Another action</a>
-							</li>
-							<li>
-								<a href="#">Something else here</a>
-							</li>
-							<li class="divider">
-							</li>
-							<li>
-								<a href="#">Separated link</a>
-							</li>
-						</ul>
-					</div>
-				</div>
 			</div>
 			<!-- END PAGE HEADER-->
 			<!-- BEGIN PAGE CONTENT-->
@@ -441,17 +418,13 @@
 										<div class="form-group">
 											<div class="col-md-12 col-sm-12">
 												<label>Keywords search</label>
-												<input name="search" type="text" size="50" class="form-control input-inline input-large" placeholder="Keywords..." value="{$search}" />
+												<input name="search" type="text" class="form-control input-inline input-large" placeholder="{:C(ORDER_SEARCH_TIPS);}" value="{$search}" />
 												<button class="btn yellow table-group-action-submit"><i class="fa fa-search"></i></button>
 												<a class="btn red filter-cancel" type="reset" href="{:U('Order/orderlist?p=1&flag='.$fflag.'');}"><i class="fa fa-times"></i></a>
-												<label>
-													<i class="fa fa-key"></i><i class="fa fa-key"></i><i class="fa fa-key"></i>
-													<a href = "{:U('Order/orderlist?p=1&search=warning&flag='.$fflag.'');}" type="button" class="btn btn-xs  red-stripe"> Warning </a>
-													<a href = "{:U('Order/orderlist?p=1&search=paylate&flag='.$fflag.'');}" type="button" class="btn btn-xs  green-stripe"> Paylate </a>
-													<a href = "{:U('Order/orderlist?p=1&search=unpaid&flag='.$fflag.'');}" type="button" class="btn btn-xs yellow-stripe"> Unpaid </a>
-													<a href = "{:U('Order/orderlist?p=1&search=nogive&flag='.$fflag.'');}" type="button" class="btn btn-xs yellow-stripe"> nogive </a>
-													<span class="label label-success"><small><i>{:C(ORDER_SEARCH_TIPS);}</i></small></span>
-												</label>
+												<a href = "{:U('Order/orderlist?p=1&search=warning&flag='.$fflag.'');}" type="button" class="btn btn-xs "> Warning </a>
+												<a href = "{:U('Order/orderlist?p=1&search=paylate&flag='.$fflag.'');}" type="button" class="btn btn-xs "> Paylate </a>
+												<a href = "{:U('Order/orderlist?p=1&search=unpaid&flag='.$fflag.'');}" type="button" class="btn btn-xs "> Unpaid </a>
+												<a href = "{:U('Order/orderlist?p=1&search=nogive&flag='.$fflag.'');}" type="button" class="btn btn-xs "> nogive </a>
 														
 											</div>
 											
