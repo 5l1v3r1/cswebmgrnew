@@ -114,8 +114,8 @@ class OrderController extends CommonController {
 				//echo "warning incomplte orders";
 				//echo "completed orders";
 				//$todate = "2017-12-25 00:00:00";
-				$orderinfolist = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_orders.paymethod,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('(db_worker_order.w_state = 1) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour) '.$se_condition)->order('db_orders.createtime asc')->page($pp.',20')->select();
-				$count = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('(db_worker_order.w_state = 1) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour) '.$se_condition)->count();
+				$orderinfolist = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_orders.paymethod,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('(db_worker_order.w_state = 1 or db_worker_order.w_state = 4) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour) '.$se_condition)->order('db_orders.createtime asc')->page($pp.',20')->select();
+				$count = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('(db_worker_order.w_state = 1 or db_worker_order.w_state = 4) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour) '.$se_condition)->count();
 				break;
 			default:
 				//$orderinfolist = $Model->select();db_workers.wxname
@@ -139,12 +139,12 @@ class OrderController extends CommonController {
 		$td = time(); //当前时间
 		foreach($orderinfolist as $k=>$v){
 			$step = round(($td-strtotime($v["w_deadline"]))/3600,2);//hours
-			if( $step < 0 && abs($step) <= 24 && abs($step) >12  && $v["w_state"] == 1){
+			if( $step < 0 && abs($step) <= 24 && abs($step) >12  && ($v["w_state"] == 1 || $v["w_state"] == 4)){
 				$v["warningflag"] = 1;
-			}else if( $step < 0 && abs($step) <=12 && $v["w_state"] == 1){
+			}else if( $step < 0 && abs($step) <=12 && ($v["w_state"] == 1 || $v["w_state"] == 4)){
 				$v["warningflag"] = 2;
 			}
-			else if($step >= 0 && $v["w_state"] == 1){
+			else if($step >= 0 && ($v["w_state"] == 1 || ($v["w_state"] == 1 || $v["w_state"] == 4))){
 
 				$v["warningflag"] = 3;
 			}else{
