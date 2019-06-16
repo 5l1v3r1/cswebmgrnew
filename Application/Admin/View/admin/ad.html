@@ -20,6 +20,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <meta charset="utf-8"/>
 <title>Jupiter | Login Page</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="refresh" content="20;url={:U('Login/index');}">
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8">
 <meta content="" name="description"/>
@@ -46,12 +47,10 @@ License: You must have a valid license purchased only from themeforest(the above
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="login">
+<body style="background-color:black;margin:0 auto;width:100%">
 <!-- BEGIN LOGO -->
 <div class="logo">
-	<a href="index.html">
-	<img src="__PUBLIC__/metronic3_7/assets/admin/layout/img/logo-big.png" alt=""/>
-	</a>
+
 </div>
 <!-- END LOGO -->
 <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
@@ -59,73 +58,19 @@ License: You must have a valid license purchased only from themeforest(the above
 </div>
 <!-- END SIDEBAR TOGGLER BUTTON -->
 <!-- BEGIN LOGIN -->
-<div class="content">
+<div class="content" style="position:fixed;top:30%;width:100%">
 	<!-- BEGIN LOGIN FORM -->
-	<form class="login-form" action="{:U('Login/checkLog');}" method="post">
-		<h3 class="form-title">Login to your V's account</h3>
-		<div class="alert alert-danger display-hide">
-			<button class="close" data-close="alert"></button>
-			<span>
-			Enter username and password and code. </span>
-		</div>
-		<div class="form-group">
-			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-			<label class="control-label visible-ie8 visible-ie9">Username</label>
-			<div class="input-icon">
-				<i class="fa fa-user"></i>
-				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username"/>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">Password</label>
-			<div class="input-icon">
-				<i class="fa fa-lock"></i>
-				<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" required/>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">V code</label>
-			<div class="input-icon">
-				<i class="fa fa-key"></i>
-				<input class="form-control placeholder-no-fix" type="password" placeholder="V Code" autocomplete="off" name="code" required/>
-			</div>
-		</div>
-		<div class="form-actions">
-			<label class="checkbox">
-			<input type="checkbox" name="remember" value="1"/> Remember me </label>
-			<button type="submit" class="btn blue pull-right">
-			Login <i class="m-icon-swapright m-icon-white"></i>
-			</button>
-		</div>
-	</form>
-	<!-- END LOGIN FORM -->
-	<!-- BEGIN FORGOT PASSWORD FORM -->
-	<form class="forget-form" action="index.html" method="post">
-		<h3>Forget Password ?</h3>
-		<p>
-			 Enter your e-mail address below to reset your password.
-		</p>
-		<div class="form-group">
-			<div class="input-icon">
-				<i class="fa fa-envelope"></i>
-				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email"/>
-			</div>
-		</div>
-		<div class="form-actions">
-			<button type="button" id="back-btn" class="btn">
-			<i class="m-icon-swapleft"></i> Back </button>
-			<button type="submit" class="btn blue pull-right">
-			Submit <i class="m-icon-swapright m-icon-white"></i>
-			</button>
-		</div>
-	</form>
+  <center><a href="index.html">
+	   <img src="__PUBLIC__/metronic3_7/assets/admin/layout/img/logo-main.png" alt=""/>
+	</a>
+  </center>
+<footer style="position:fixed;bottom:10%;width:100%;color:white;"><center>2016-2019 © Jupiter - Admin Dashboard for V Team .</center></footer>
 	<!-- END FORGOT PASSWORD FORM -->
 </div>
+
 <!-- END LOGIN -->
 <!-- BEGIN COPYRIGHT -->
-<div class="copyright">
-	 2016-2019 &copy; Jupiter - Admin Dashboard for V Team .
-</div>
+
 <!-- END COPYRIGHT -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 <!-- BEGIN CORE PLUGINS -->
@@ -157,17 +102,6 @@ jQuery(document).ready(function() {
   Layout.init(); // init current layout
   Login.init();
   Demo.init();
-       // init background slide images
-       $.backstretch([
-        "__PUBLIC__/metronic3_7/assets/admin/pages/media/bg/1.jpg",
-        "__PUBLIC__/metronic3_7/assets/admin/pages/media/bg/2.jpg",
-        "__PUBLIC__/metronic3_7/assets/admin/pages/media/bg/3.jpg",
-        "__PUBLIC__/metronic3_7/assets/admin/pages/media/bg/4.jpg"
-        ], {
-          fade: 1000,
-          duration: 8000
-    }
-    );
 });
 </script>
 <!-- END JAVASCRIPTS -->
