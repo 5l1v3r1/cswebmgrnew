@@ -479,8 +479,8 @@ Page Header
     margin-left: 0;
   }
 }
-/*** 
-Horizontal Menu 
+/***
+Horizontal Menu
 ***/
 .page-header.navbar {
   /* Header container */
@@ -1695,8 +1695,8 @@ Quick Sidebar Layout
   right: 0;
 }
 
-/*** 
-Quick Sidebar Toggler 
+/***
+Quick Sidebar Toggler
 ***/
 .page-quick-sidebar-toggler {
   overflow: hidden;
@@ -2423,7 +2423,7 @@ Page footer
   position: fixed;
   bottom: 10px;
   z-index: 10001;
-  display: none;
+  display: block;
   right: 10px;
 }
 .scroll-to-top > i {
@@ -2598,8 +2598,8 @@ Theme Panel
   margin-right: 255px;
 }
 
-/***  
-Page Loading       
+/***
+Page Loading
 ***/
 .page-on-load {
   background: #fefefe;
