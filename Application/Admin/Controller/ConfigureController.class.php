@@ -258,8 +258,8 @@ class ConfigureController extends CommonController {
 		print_r($techinfo);
 		//$this->display(T('admin/conf_trade_list'));
 	}
-	public function shotcutlist(){
-		/*$Model = M('configure_exchange');
+	public function shortcutlistpage(){
+		/*$Model = M('auth_rule');
 		$items = $Model->select();
 
 		$output = [];
@@ -276,6 +276,55 @@ class ConfigureController extends CommonController {
 		*/
 		$this->display(T('admin/conf_shortcut_list'));
 
+	}
+	public function shortcutlist(){
+		$res = [];
+		$Model = M('configure_shortcut');
+		$res = $Model->select();
+		$this->ajaxReturn($res);
+		/*$Model = M('auth_rule');
+		$items = $Model->select();
+
+		$output = [];
+		$colors = ["bg-red","bg-blue","bg-green","bg-purple","bg-yellow"];
+		$i=0;
+		foreach($items as $k=>$v){
+			$v['color'] = $colors[$i%5];
+			$items[$k] = $v;
+			array_push($output ,$items[$k]);
+			$i = $i + 1;
+		}
+		//dump($items);
+		$this->assign('currencies',$output);
+		*/
+		
+
+	}
+	public function addshortcutpage(){
+		$Model = M('auth_rule');
+		$items = $Model->field("id,name")->select();
+		foreach($items as $k=>$v){
+			$news = [];
+			$news = explode("-",$v['name']);
+			$v['name'] = "";
+			$v['name'] = $news[1]."/".$news[2];
+			$items[$k] = $v;
+		}
+		//dump($items);
+		$this->assign('rules',$items);
+		$this->display(T('admin/conf_shortcut_add'));
+	}
+	public function addshortcut(){
+		$data['style'] = I('post.style');//style
+		$data['icon'] = I('post.icon');//icon
+		$data['ruleid'] = I('post.ruleid');//sort id
+		$data['description'] = I('post.description');
+		$Model = M('configure_shortcut');
+		$maxid = $Model->max('sortid');
+		$data['sortid'] = $maxid + 1;
+		$Model->data($data)->add();
+		$this->success('Add shortcut successfully!',U('Configure/shortcutlistpage'),1);
+		
 	}
 
 }
