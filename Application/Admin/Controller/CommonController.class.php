@@ -25,9 +25,9 @@ class CommonController extends Controller
 			//exit(0);
 			if(!$auth->check(strtolower(MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME),substr($pwdtxt , 17)))
 			{
-				//$this->error(C('PERMISSION_DENIED_WARNING'));
-				$this->error(C('PERMISSION_DENIED_WARNING'), U('Login/index'),3);
-				return 0;
+
+				//$this->error(C('PERMISSION_DENIED_WARNING'), U('Login/index'),3);
+				//return 0;
 			}
 			// incomplte orders num
 			/*

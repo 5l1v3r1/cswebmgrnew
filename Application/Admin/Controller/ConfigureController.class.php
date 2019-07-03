@@ -29,7 +29,7 @@ class ConfigureController extends CommonController {
 			$v['workernum'] = $techcount;
 			$teches[$k] = $v;
 		}
-		
+
 		$this->assign('teches',$teches);
 		//print_r($teches);
 		$this->display(T('admin/conf_tech_list'));
@@ -257,6 +257,25 @@ class ConfigureController extends CommonController {
 		$this->assign('techinfo',$techinfo);
 		print_r($techinfo);
 		//$this->display(T('admin/conf_trade_list'));
+	}
+	public function shotcutlist(){
+		/*$Model = M('configure_exchange');
+		$items = $Model->select();
+
+		$output = [];
+		$colors = ["bg-red","bg-blue","bg-green","bg-purple","bg-yellow"];
+		$i=0;
+		foreach($items as $k=>$v){
+			$v['color'] = $colors[$i%5];
+			$items[$k] = $v;
+			array_push($output ,$items[$k]);
+			$i = $i + 1;
+		}
+		//dump($items);
+		$this->assign('currencies',$output);
+		*/
+		$this->display(T('admin/conf_shortcut_list'));
+
 	}
 
 }
