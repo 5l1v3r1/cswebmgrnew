@@ -306,7 +306,7 @@
 													</div>
 													<div class="portlet-body ">
 														<div class="dd" id="nestable3">
-															
+															<ol class="dd-list" id="ool"></ol>
 																
 															
 														</div>
@@ -365,6 +365,7 @@
 						console.log(data);
 						drawnestble(data);
 						
+						
 
 					},
 					error: function(xhr, status, error) {
@@ -372,14 +373,54 @@
 					}
 				});
 		}
-			
+		
+		
+		function senddate(data){
+			$.ajax({
+				url: "{:U('Configure/updateshortcutsort');}", // server url
+				type: 'GET', //POST or GET
+				data:{"data":data},
+				datatype: 'json',
+				success: function(data) {
+					//callback(data); // return data in callback
+					console.log(data);
+					
 
-    function updateOutput(e) {
+
+
+				},
+				error: function(xhr, status, error) {
+						alert(xhr.responseText);
+				}
+			});
+		}
+
+    
+		//drawnestble()
+	function drawnestble(data){
+		$("#ool").html("");
+		for(var i=0;i<data.length;i++){
+		    //console.log(data[i].ID);
+			var trc = '\
+	<li class="dd-item dd3-item" data-id="'+data[i].ID+'">\
+		<div class="dd-handle dd3-handle">Drag</div><div class="dd3-content" "><a class="btn btn-xs '+ data[i].style +'">'+ data[i].style +'</a><i class="'+data[i].icon+'" aria-hidden="true"></i> URL:'+ data[i].name +'<span class="badge badge-roundless badge-danger pull-right" id="del'+data[i].ID+'">DEL</span><span class="badge badge-roundless badge-success pull-right" id="edit'+data[i].ID+'">EDIT</span></div>\
+	</li>\
+	';
+			$("#ool").append(trc);
+		
+		}
+		//uinestable();
+		
+		
+	}
+	function updateOutput(e) {
+		
         var list = e.length ? e : $(e.target),
             output = list.data('output');
-		    console.log(e);
+			senddate(list.nestable('serialize'));
+		    //console.log(list.nestable('serialize'));
         	if (window.JSON) {
-				console.log(list.nestable('serialize'));
+				//console.log(list.nestable('serialize'));
 			} else {
 				console.log("none");
 			}
@@ -391,22 +432,6 @@
 			group: 1
 		})
 		.on('change', updateOutput);
-	}
-		//drawnestble()
-	function drawnestble(data){
-		$("#nestable3").html("");
-		var oo = $("#nestable3").append($('<ol class="dd-list"></ol>'));
-		for(var i=0;i<data.length;i++){
-		    //console.log(data[i].ID);
-			var trc = '\
-	<li class="dd-item dd3-item" data-id="'+data[i].ID+'">\
-		<div class="dd-handle dd3-handle">Drag</div><div class="dd3-content" id="del'+data[i].ID+'">Item 13</div>\
-	</li>\
-	';
-			oo.append(trc);
-		
-		}
-		
 	}
 	
 $("#del13").on("click",function(){  

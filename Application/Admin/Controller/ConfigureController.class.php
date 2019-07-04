@@ -280,8 +280,38 @@ class ConfigureController extends CommonController {
 	public function shortcutlist(){
 		$res = [];
 		$Model = M('configure_shortcut');
-		$res = $Model->select();
+		$res = $Model->field("db_configure_shortcut.ID,db_configure_shortcut.sortid,db_configure_shortcut.icon,db_configure_shortcut.style,db_configure_shortcut.ruleid,db_configure_shortcut.description,db_auth_rule.name")->join('left join db_auth_rule on db_configure_shortcut.ruleid = db_auth_rule.id')->select();
 		$this->ajaxReturn($res);
+		/*$Model = M('auth_rule');
+		$items = $Model->select();
+
+		$output = [];
+		$colors = ["bg-red","bg-blue","bg-green","bg-purple","bg-yellow"];
+		$i=0;
+		foreach($items as $k=>$v){
+			$v['color'] = $colors[$i%5];
+			$items[$k] = $v;
+			array_push($output ,$items[$k]);
+			$i = $i + 1;
+		}
+		//dump($items);
+		$this->assign('currencies',$output);
+		*/
+		
+
+	}
+	public function updateshortcutsort(){
+		$data = I('get.data');
+		//$data = array(array("id"=>"1"),array("id"=>"2"));
+		$i = 0;
+		$Model = M('configure_shortcut');
+		foreach($data as $k=>$v){
+			$cond['ID'] = $v["id"];
+			$sd['sortid'] = $i;
+			$Model->where($cond)->save($sd);
+			$i = $i + 1;
+		}
+		$this->ajaxReturn($data);
 		/*$Model = M('auth_rule');
 		$items = $Model->select();
 
