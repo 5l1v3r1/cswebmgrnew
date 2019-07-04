@@ -195,10 +195,16 @@
 						Technologies Conf
 					</a>
 				</li>
-				<li class="active">
+				<li>
 					<a href="{:U('Configure/tradelist');}">
 						<i class="fa fa-info-circle" aria-hidden="true"></i>
 						Trade Conf
+					</a>
+				</li>
+				<li class="active">
+					<a href="{:U('Configure/shortcutlistpage');}">
+						<i class="fa fa-sliders" aria-hidden="true"></i>
+						Shortcut Conf
 					</a>
 				</li>
 
@@ -210,7 +216,7 @@
 	<div class="page-content">
 			<!-- BEGIN PAGE HEADER-->
 			<h3 class="page-title">
-			Trade <small>Trade</small>
+			Shortcut List <small>list shortcut</small>
 			</h3>
 			<div class="page-bar">
 				<ul class="page-breadcrumb">
@@ -220,11 +226,11 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="#">Configure</a>
+						<a href="#">Configuration</a>
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="{:U('Configure/tradelist');}">Trade</a>
+						<a href="#">Shortcut List</a>
 					</li>
 				</ul>
 			</div>
@@ -252,7 +258,7 @@
 												<div class="portlet box blue">
 													<div class="portlet-title">
 														<div class="caption">
-															<i class="fa fa-comments"></i>Nestable List 1
+															<i class="fa fa-comments"></i>Shortcut List 
 														</div>
 														<div class="tools">
 															<a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -285,10 +291,6 @@
 			</div>
 			<!-- END PAGE CONTENT-->
 	</div>
-
-<p><a href="{:U('Api/tradeApi');}" class="btn btn-icon-only btn-default"><i class="fa fa-info-circle" aria-hidden="true"></i></a></p>
-
-
 </block>
 <block name="footscript">
 	<!-- BEGIN PAGE LEVEL PLUGINS -->
@@ -362,11 +364,11 @@
 		$("#ool").html("");
 		for(var i=0;i<data.length;i++){
 		    //console.log(data[i].ID);
-				var href= "{:U('Configure/editshortcutpage');}";
-				console.log(href);
+			var href= "{:U('Configure/editshortcutpage');}";
+			//console.log(href);
 			var trc = '\
 	<li class="dd-item dd3-item" data-id="'+data[i].ID+'">\
-		<div class="dd-handle dd3-handle"></div><div class="dd3-content" "><a class="btn btn-xs '+ data[i].style +'">'+ data[i].style +'</a><i class="'+data[i].icon+'" aria-hidden="true"></i> URL:'+ data[i].name +'<span class="btn red btn-xs pull-right" id="del'+data[i].ID+'">DEL</span><a class="btn green btn-xs pull-right" href = "'+href+'/ID/'+ data[i].ID +'" id="edit'+data[i].ID+'">EDIT</a></div>\
+		<div class="dd-handle dd3-handle"></div><div class="dd3-content" "><a class="btn btn-xs '+ data[i].style +'">'+ data[i].style +'</a><i class="'+data[i].icon+'" aria-hidden="true"></i> URL:'+ data[i].name +'<span class="btn red btn-xs pull-right delgroup" id="del'+data[i].ID+'">DEL</span><a class="btn green btn-xs pull-right" href = "'+href+'/ID/'+ data[i].ID +'" id="edit'+data[i].ID+'">EDIT</a></div>\
 	</li>\
 	';
 			$("#ool").append(trc);
@@ -397,13 +399,35 @@
 		.on('change', updateOutput);
 	}
 
-$("#del13").on("click",function(){
-				console.log("xx");
-				//测试操作代码
-				//alert($(this).val());
+	$("#del1").on("click",function(){
+		
+		//测试操作代码
+		//alert($(this).val());
 
-			});
+	});
+	$(document).on('click', '.delgroup', function(){
+	  //console.log($(this).attr("id"));
+      var sid = $(this).attr("id")
+	  $.ajax({
+		url: "{:U('Configure/delshortcut');}", // server url
+		type: 'GET', //POST or GET
+		data:{"sid":sid},
+		datatype: 'json',
+		success: function(data) {
+			//callback(data); // return data in callback
+			//console.log(data);
+			getdata();
 
 
-		</script>
+
+
+		},
+		error: function(xhr, status, error) {
+				alert(xhr.responseText);
+		}
+	});
+	});
+
+
+</script>
 </block>

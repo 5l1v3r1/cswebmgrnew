@@ -56,6 +56,9 @@ class OrderController extends CommonController {
 			else if($search == "unsetting"){
 				$se_condition = 'AND (db_worker_order.w_state = 0 or  db_worker_order.w_state is null)';
 				$se_conditionall = '(db_worker_order.w_state = 0 or  db_worker_order.w_state is null)';
+			}else if($search == "wdoing"){
+				$se_condition = 'AND (db_worker_order.w_state = 1 )';
+				$se_conditionall = '(db_worker_order.w_state = 1)';
 			}
 			else if(strpos($search,"CD:") !== false){
 				//echo "aa";

@@ -3,20 +3,35 @@ namespace Admin\Controller;
 use Think\Controller;
 class LoginController extends Controller {
   public function index(){
+	  $redirect = I("get.redirect");
+	  $this->assign('redirect',$redirect);
       $this->display(T('admin/login'));
   }
 	public function checkLog()
 	{
-    $flag = checkSession();
+		$redirect = I("get.redirect");
+    	$flag = checkSession();
 		//dump($content);
 		if($flag == 1)//exist
 		{
-            $this->success(C('LOGIN_SUCCESS'), U("Dashboard/index"),3);
+			$redirectdec = base64_decode($redirect);
+			if(!empty($redirect)){
+				$redirectdec = base64_decode($redirect);
+				$this->success(C('LOGIN_SUCCESS'), U($redirectdec),3);
+			}else{
+				$this->success(C('LOGIN_SUCCESS'), U("Dashboard/index"),3);
+			}
+            
 
 
 		}else
 		{
-			$this->error(C('LOGIN_ERROR'), U('Login/index'),3);
+			if(!empty($redirect)){
+				$this->error(C('LOGIN_ERROR'), U('Login/index?redirect='.$redirect.''),3);
+			}else{
+				$this->error(C('LOGIN_ERROR'), U('Login/index'),3);
+			}
+			
 		}
 	}
 	public function logout()

@@ -360,10 +360,11 @@ class ConfigureController extends CommonController {
 
 	}
 	public function editshortcutpage(){
-		$d['ID'] = I('post.ID');//style
+		//$d['ID'] = I('get.ID');//style
 		$Model = M('configure_shortcut');
-		$res = $Model->field("db_configure_shortcut.ID,db_configure_shortcut.sortid,db_configure_shortcut.icon,db_configure_shortcut.style,db_configure_shortcut.ruleid,db_configure_shortcut.description,db_auth_rule.name")->join('left join db_auth_rule on db_configure_shortcut.ruleid = db_auth_rule.id')->where($d['ID'])->find();
+		$res = $Model->field("db_configure_shortcut.ID,db_configure_shortcut.sortid,db_configure_shortcut.icon,db_configure_shortcut.style,db_configure_shortcut.ruleid,db_configure_shortcut.description,db_auth_rule.name")->join('left join db_auth_rule on db_configure_shortcut.ruleid = db_auth_rule.id')->where('db_configure_shortcut.ID = '.I('get.ID'))->find();
 		//print_r($res);
+		//echo $d['ID'] ;
 		//exit(0);
 		$Model = M('auth_rule');
 		$items = $Model->field("id,name")->select();
@@ -394,8 +395,9 @@ class ConfigureController extends CommonController {
 	}
 	public function delshortcut(){
 		$cn['ID'] = I('get.sid');//style
+		$cn['ID'] = str_replace("del","",$cn['ID']);
 		$Model = M('configure_shortcut');
-		$Model->where($cn)->delte();
+		$Model->where($cn)->delete();
 		$res = [];
 		$res = $Model->field("db_configure_shortcut.ID,db_configure_shortcut.sortid,db_configure_shortcut.icon,db_configure_shortcut.style,db_configure_shortcut.ruleid,db_configure_shortcut.description,db_auth_rule.name")->join('left join db_auth_rule on db_configure_shortcut.ruleid = db_auth_rule.id')->order('db_configure_shortcut.sortid asc')->select();
 		$this->ajaxReturn($res);

@@ -257,9 +257,9 @@ License: You must have a valid license purchased only from themeforest(the above
 	<div class="scroll-to-top">
 
 		<p><a href="{:U('Api/tradeApi');}" class="btn btn-icon-only btn-default"><i class="fa fa-info-circle" aria-hidden="true"></i></a></p>
-		<p><a href="{:U('Tool/exchangeToolPage');}" class="btn btn-icon-only btn-default"><i class="fa fa-exchange" aria-hidden="true"></i></a></p>
-		<p><a href="{:U('Order/orderaddpage?flag='.$fflag.'');}" class="btn btn-icon-only btn-default"><i class="fa fa-cart-plus" aria-hidden="true"></i></a></p>
-		<p><a href="{:U('Worker/workernewpage');}" class="btn btn-icon-only btn-default"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a></p>
+		<foreach name="g_sts" item="vo">
+			<p><a href="{:U(''.$vo['name'].'');}" class="btn btn-icon-only {$vo[style]}"><i class="{$vo[icon]}" aria-hidden="true"></i></a></p>
+		</foreach>
 		<p><a class="btn btn-icon-only btn-default backtop"><i class="icon-arrow-up "></i></a></p>
 	</div>
 

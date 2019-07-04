@@ -10,7 +10,16 @@ class CommonController extends Controller
 
 		if(empty(session('admin_uid')))
 		{
-			$this->error(C('LOGIN_TIPS'),U('Login/index'),3);
+			//echo __SELF__;
+			//echo __APP__;
+			$urltmp = str_replace(__APP__."/","",__SELF__);
+			//echo $urltmp;
+			$urltmpenc = "";
+			if(!empty($urltmp)){
+				$urltmpenc = base64_encode($urltmp);
+			}
+			$this->error(C('LOGIN_TIPS'),U('Login/index?redirect='.$urltmpenc.''),3);
+			//exit(0);
 			return 0;
 		}else//whether is superadmin or not
 		{
@@ -25,9 +34,9 @@ class CommonController extends Controller
 			//exit(0);
 			if(!$auth->check(strtolower(MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME),substr($pwdtxt , 17)))
 			{
-
-				//$this->error(C('PERMISSION_DENIED_WARNING'), U('Login/index'),3);
-				//return 0;
+				//echo U('Login/index?modulename='.CONTROLLER_NAME.'');
+				$this->error(C('PERMISSION_DENIED_WARNING'), U('Login/index'),3);
+				return 0;
 			}
 			// incomplte orders num
 			/*
@@ -91,6 +100,19 @@ class CommonController extends Controller
 			/* get default date */
 			$dateform = date("Y-m-d",time());
 			$this->assign('dateform',$dateform);
+			
+			/*shortcut*/
+			$sts = [];
+			$Model = M('configure_shortcut');
+			$sts = $Model->field("db_configure_shortcut.ID,db_configure_shortcut.sortid,db_configure_shortcut.icon,db_configure_shortcut.style,db_configure_shortcut.ruleid,db_configure_shortcut.description,db_auth_rule.name")->join('left join db_auth_rule on db_configure_shortcut.ruleid = db_auth_rule.id')->order('db_configure_shortcut.sortid asc')->select();
+			foreach($sts as $k=>$v){
+				$news = [];
+				$news = explode("-",$v['name']);
+				$v['name'] = "";
+				$v['name'] = $news[1]."/".$news[2];
+				$sts[$k] = $v;
+			}
+			$this->assign('g_sts',$sts);
 
 		}
 	}
