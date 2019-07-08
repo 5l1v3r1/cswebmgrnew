@@ -33,7 +33,7 @@ class OrderController extends CommonController {
 		$se_conditionall = "";
 		$search = "";
 		$order_conditon = "";
-		
+
 		if(!empty(I('get.search'))){
 			$search = trim(I('get.search'));
 			//echo strpos($search,"DD:",0); //CD: createdate DD
@@ -326,6 +326,8 @@ class OrderController extends CommonController {
 		$this->success('Add a new order successfully!',U('Order/orderlist?flag='.$flag),1);
 	}
 	public function ordereditpage(){
+		$encurl= I('get.encurl');//encurl;
+
 		$orderid = I('get.orderid','','htmlspecialchars');//
 		//dump($condition);
 		$Model = M('orders');
@@ -437,6 +439,7 @@ class OrderController extends CommonController {
 		if(isset($_GET["flag"])){
 			$flag =I('get.flag');
 		}
+		$this->assign('encurl',$encurl);
 		$this->assign('fflag',$flag);// 赋值分页输出
 		$this->assign("orderinfo",$orderinfo);
 		$this->display(T('admin/orders_edit'));
@@ -448,6 +451,10 @@ class OrderController extends CommonController {
 				*/
 	}
 	public function orderupdate(){
+		$encurl= I('get.encurl');//encurl;
+		$decurl = base64_decode(str_replace(array('-', '_'), array('+', '/'),$encurl));
+		$tmp = str_replace(__APP__."/","",$decurl);
+		$newpara = str_replace("Order/orderlist/","",$tmp);
 		$projectname = "";
 		if(!empty(I('post.projectname'))){
 			// projectname is [1,2,3,4,5]
@@ -565,21 +572,22 @@ class OrderController extends CommonController {
 						$map['wxid'] = I('post.oriid','','htmlspecialchars');//
 						$WORKEROORDER->where($map)->delete();
 					}
-					$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist?flag='.$flag),1);
+					//$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist?flag='.$flag),1);
+					$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist/'.$newpara),1);
 
 
 				}else{
-					$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist?flag='.$flag),1);
+						$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist/'.$newpara),1);
 				}
 				//$Model->data($go)->add();
 
 			}else
 			{
-				$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist?flag='.$flag),1);
+					$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist/'.$newpara),1);
 
 			}
 		}else{
-			$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist?flag='.$flag),1);
+				$this->success('Update order #'.$orderid.' successfully!',U('Order/orderlist/'.$newpara),1);
 		}
 		/*
 		$data['projectname'] = I('post.projectname','','htmlspecialchars');//

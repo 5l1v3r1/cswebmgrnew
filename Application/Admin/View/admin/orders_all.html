@@ -433,9 +433,9 @@
 												<a href = "{:U('Order/orderlist?p=1&search=nogive&flag='.$fflag.'');}" type="button" class="btn btn-xs "> nogive </a>
 												<a href = "{:U('Order/orderlist?p=1&search=unsetting&flag='.$fflag.'');}" type="button" class="btn btn-xs "> unsetting </a>
 												<a href = "{:U('Order/orderlist?p=1&search=wdoing&flag='.$fflag.'');}" type="button" class="btn btn-xs "> doing </a>
-														
+
 											</div>
-											
+
 										</div>
 
 										<!--
@@ -611,7 +611,13 @@
 																</i>
 															</a>
 														</if>
-														<a class="btn  btn-xs red" href="{:U('Order/ordereditpage?flag='.$fflag.'&orderid='.$vo['orderid'].'');}">
+														<php>
+															//echo $_SERVER["REQUEST_URI"];
+															$urltmpenc = str_replace(array('+', '/'), array('-', '_'), base64_encode($_SERVER["REQUEST_URI"]));
+															//echo $urltmpenc;
+
+														 </php>
+														<a class="btn  btn-xs red" href="{:U('Order/ordereditpage?encurl='.$urltmpenc.'&flag='.$fflag.'&orderid='.$vo['orderid'].'');}">
 															<i class="fa fa-edit"></i>
 														</a>
 														<a class="btn btn-xs purple" href="#confirmModal{$vo['orderid']}" data-toggle="modal">
