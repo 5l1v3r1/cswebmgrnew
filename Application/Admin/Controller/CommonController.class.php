@@ -14,9 +14,11 @@ class CommonController extends Controller
 			//echo __APP__;
 			$urltmp = str_replace(__APP__."/","",__SELF__);
 			//echo $urltmp;
+			//echo $urltmp;
 			$urltmpenc = "";
 			if(!empty($urltmp)){
-				$urltmpenc = base64_encode($urltmp);
+				$urltmpenc = str_replace(array('+', '/'), array('-', '_'), base64_encode($urltmp));
+				//echo $urltmpenc;
 			}
 			$this->error(C('LOGIN_TIPS'),U('Login/index?redirect='.$urltmpenc.''),3);
 			//exit(0);

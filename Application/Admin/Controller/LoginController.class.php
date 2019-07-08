@@ -14,9 +14,8 @@ class LoginController extends Controller {
 		//dump($content);
 		if($flag == 1)//exist
 		{
-			$redirectdec = base64_decode($redirect);
 			if(!empty($redirect)){
-				$redirectdec = base64_decode($redirect);
+				$redirectdec = base64_decode(str_replace(array('-', '_'), array('+', '/'), $redirect));
 				$this->success(C('LOGIN_SUCCESS'), U($redirectdec),3);
 			}else{
 				$this->success(C('LOGIN_SUCCESS'), U("Dashboard/index"),3);
