@@ -318,7 +318,7 @@ class OrderController extends CommonController {
 			$Order = M('worker_order');
 			$Order->data($map)->add();
 		}
-		$flag =3;
+		$flag =2;
 		if(isset($_GET["flag"])){
 			$flag =I('get.flag');
 		}
