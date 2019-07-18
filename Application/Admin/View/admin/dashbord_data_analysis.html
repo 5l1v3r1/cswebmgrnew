@@ -396,6 +396,11 @@
 													</td>
 													<td>
 														 {$vo.revenuesum}
+														<br>
+														<foreach name="revenuesarr" item="vi">
+															 <small><i class="fa fa-check-square-o"></i> {$vi['revenues']} {$vi['moneytype']} </small>
+															 <br>
+														</foreach>
 													</td>
 													<td>
 														 {$vo.profitsum}
@@ -749,6 +754,7 @@
 			// initiate layout and plugins
 			Metronic.init(); // init metronic core components
 			Layout.init(); // init current layout
+			QuickSidebar.init(); // init quick sidebar
 			Demo.init(); // init demo features
 			ComponentsPickers.init();
         });
