@@ -4,7 +4,7 @@ use Think\Controller;
 class DashboardController extends CommonController {
     public function index()
     {
-      
+
         /* cal total complete income */
 
         /**/
@@ -28,9 +28,9 @@ class DashboardController extends CommonController {
         $this->assign('ongoingunpaid',$res[10]);
         $this->assign('ongoingdoing',$res[11]);
         $this->assign('ongoingunset',$res[12]);
-		$this->assign('unpaidsalary',$res[13]);
+    		$this->assign('unpaidsalary',$res[13]);
 
-		
+
         $this->assign('cydata',$cydata);//current day data info
 
         //print_r($res);
@@ -40,7 +40,16 @@ class DashboardController extends CommonController {
         $this->assign('todaymonth',date("Y-m"));
         $this->assign('todayyear',$year);
         /* display */
+        $searchcon = array();
+        $Model = M('orders');
+        $searchcon[0]='AND ((db_worker_order.w_state = 1) AND now() >= date_sub(db_worker_order.w_deadline,interval 24 hour))'; //warning
+        $searchcon[1]= 'AND (((db_worker_order.w_state = 2 OR db_worker_order.w_state = 3) AND db_guest_order.g_state != 2 ) AND now() >= date_add(db_worker_order.w_deadline,interval 72 hour))'; // paylate
+        $searchcon[2]= 'AND (db_worker_order.w_state = 2 AND db_guest_order.g_state = 2 )';//unpaid
+        $searchcon[3]= 'AND (db_worker_order.w_state = 4 )';//nogive
+        $searchcon[4]= 'AND (db_worker_order.w_state = 0 or  db_worker_order.w_state is null)';//unsetting
+        $searchcon[5]= 'AND (db_worker_order.w_state = 1 )';//wdoing
 
+        $count = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('(db_guest_order.g_state != 2 OR db_worker_order.w_state != 3) '.$se_condition)->count();
         /*
         month show
         */
