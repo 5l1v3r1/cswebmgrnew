@@ -56,12 +56,14 @@ class DashboardController extends CommonController {
             $cell["count"] = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->where('(db_guest_order.g_state != 2 OR db_worker_order.w_state != 3) '.$v)->count();
             array_push($toptips,$cell);
         }
-        print_r($toptips);
+        //print_r($toptips);
         $this->assign('toptips',$toptips);
         /*tips*/
         $Model = M('configure_tips');
-        $tips = $Model->select();
+        $tips = $Model->field("content")->select();
+        shuffle($tips);
         //print_r($tips);
+        $this->assign('tips',$tips);
 
         //$count = $Model->join('left join db_worker_order on db_worker_order.orderid = db_orders.orderid')->join('left join db_workers on db_worker_order.wxid = db_workers.wxid')->join('left join db_guest_order on db_guest_order.orderid = db_orders.orderid')->join('left join db_guests on db_guest_order.wxid = db_guests.wxid')->field('db_orders.orderid,db_orders.createtime,db_guests.wxid as gwxid,db_guests.wxname as gwxname,db_orders.projectname,db_guest_order.g_deadline,db_orders.moneytype,db_orders.totalprice,db_orders.guarantee,db_guest_order.g_state,db_workers.wxid,db_workers.wxname,db_worker_order.w_deadline,db_worker_order.w_payment,db_worker_order.w_state,db_guest_order.remark as gremark,db_orders.description')->where('(db_guest_order.g_state != 2 OR db_worker_order.w_state != 3) '.$se_condition)->count();
         /*
