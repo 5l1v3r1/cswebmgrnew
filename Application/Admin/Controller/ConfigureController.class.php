@@ -258,6 +258,58 @@ class ConfigureController extends CommonController {
 		print_r($techinfo);
 		//$this->display(T('admin/conf_trade_list'));
 	}
+	public function tipslist(){
+		$Model = M('configure_tips');
+		$tips = $Model->select();
+		/*$res = $Model->where("id = 1")->find();
+		$this->assign('res',$res);
+		$Model = M('technologies');
+		$teches = $Model->select();
+		foreach($teches as $k=>$v){
+			$item = $v["techid"].". ".$v["content"]." ; ";
+			$techinfo = $techinfo.$item;
+		}
+		$this->assign('techinfo',$techinfo);
+		$this->display(T('admin/conf_trade_list'));
+		*/
+		$this->assign('tips',$tips);
+		$this->display(T('admin/conf_tips_list'));
+	}
+	public function tipsaddpage(){
+		$this->display(T('admin/conf_tips_add'));
+	}
+	public function addtips(){
+		$data['content'] = I('post.content');//description
+		$data['description'] = I('post.description');
+		$Model = M('configure_tips');
+		$Model->data($data)->add();
+		$this->success('Add Tips successfully!',U('Configure/tipslist'),1);
+	}
+	public function edittipspage(){
+		$id = I('get.id');
+		$Model = M('configure_tips');
+		$cond['id'] = $id;
+		$result = $Model->where($cond)->find($cond);
+		//dump($result);
+		$this->assign('tips',$result);
+		$this->display(T('admin/conf_tips_edit'));
+	}
+	public function edittips(){
+		$cond['id'] = I('post.id');
+		$data['content'] = I('post.content');
+		$data['description'] = I('post.description');
+		$Model = M('configure_tips');
+		$flag = $Model->where($cond)->save($data);
+		$this->success('Update Tips successfully!',U('Configure/tipslist'),1);
+	}
+	public function deltips(){
+		$cond['id'] = I('get.id');
+		//echo $cond['techid'];
+		$Model = M('configure_tips');
+		$Model->where($cond)->delete();
+		$this->success('Delete tips successfully!',U('Configure/tipslist'),1);
+	}
+	
 	public function shortcutlistpage(){
 		/*$Model = M('auth_rule');
 		$items = $Model->select();
@@ -403,5 +455,6 @@ class ConfigureController extends CommonController {
 		$this->ajaxReturn($res);
 
 	}
+	
 
 }
