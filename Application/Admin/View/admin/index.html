@@ -214,6 +214,12 @@
 						Shortcut Conf
 					</a>
 				</li>
+				<li>
+					<a href="{:U('Configure/tipslist');}">
+						<i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+						Tips Conf
+					</a>
+				</li>
 
 			</ul>
 		</li>
@@ -337,6 +343,123 @@
 						<div class="portlet-body">
 							<div class="scroller" style="height: 420px;" data-always-visible="1" data-rail-visible="0">
 								<ul class="feeds">
+									<foreach name="toptips" item="vo">
+										 {$vo.flag}
+											<if condition="($vo.flag eq 'warning') AND  ($vo.count neq 0)">
+												<li>
+												<div class="col1">
+														<div class="cont">
+															<div class="cont-col1">
+																<div class="label label-sm label-danger">
+																	<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+																</div>
+															</div>
+															<div class="cont-col2">
+																<div class="desc text-danger">
+																	 <strong>We have {$vo.count} orders that will beyond the deadline</strong>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col2">
+														<div class="date">
+															<a href="{:U('Order/orderlist?p=1&search=warning&flag=2');}" class="btn btn-xs red"> Action </a>
+														</div>
+													</div>
+												</li>
+											<elseif condition="($vo.flag eq 'unsetting') AND  ($vo.count neq 0)" />
+													<li>
+														<div class="col1">
+																<div class="cont">
+																	<div class="cont-col1">
+																		<div class="label label-sm label-danger">
+																			<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+																		</div>
+																	</div>
+																	<div class="cont-col2">
+																		<div class="desc text-danger">
+																			 <strong>We have {$vo.count} orders that do not arrange workers</strong>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col2">
+																<div class="date">
+																	<a href="{:U('Order/orderlist?p=1&search=unsetting&flag=2');}" class="btn btn-xs red"> Action </a>
+																</div>
+															</div>
+														</li>
+												<elseif condition="($vo.flag eq 'nogive') AND  ($vo.count neq 0)" />
+															<li>
+																<div class="col1">
+																		<div class="cont">
+																			<div class="cont-col1">
+																				<div class="label label-sm label-danger">
+																					<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+																				</div>
+																			</div>
+																			<div class="cont-col2">
+																				<div class="desc text-danger">
+																					 <strong>We have {$vo.count} orders that have completed but not delivered to customer</strong>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col2">
+																		<div class="date">
+																			<a href="{:U('Order/orderlist?p=1&search=unsetting&flag=2');}" class="btn btn-xs red"> Action </a>
+																		</div>
+																	</div>
+																</li>
+												<elseif condition="($vo.flag eq 'paylate') AND  ($vo.count neq 0)" />
+													<li>
+														<div class="col1">
+																<div class="cont">
+																	<div class="cont-col1">
+																		<div class="label label-sm label-warning">
+																			<i class="fa fa-eye" aria-hidden="true"></i>
+																		</div>
+																	</div>
+																	<div class="cont-col2">
+																		<div class="desc text-warning">
+																			 <strong>We have {$vo.count} orders that customers aren't paid yet </strong>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col2">
+																<div class="date">
+																	<a href="{:U('Order/orderlist?p=1&search=paylate&flag=2');}" class="btn btn-xs yellow"> Action </a>
+																</div>
+															</div>
+														</li>
+
+												<else />
+												  <li>
+													<div class="col1">
+														<div class="cont">
+															<div class="cont-col1">
+																<div class="label label-sm label-info">
+																	<i class="fa fa-check"></i>
+																</div>
+															</div>
+															<div class="cont-col2">
+																<div class="desc">
+																	 You have 4 pending tasks. <span class="label label-sm label-warning ">
+																	Take action <i class="fa fa-share"></i>
+																	</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col2">
+														<div class="date">
+															 Just now
+														</div>
+													</div>
+													</li>
+												</if>
+									</foreach>
 									<li>
 										<div class="col1">
 											<div class="cont">

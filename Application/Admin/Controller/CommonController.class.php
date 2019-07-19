@@ -102,7 +102,7 @@ class CommonController extends Controller
 			/* get default date */
 			$dateform = date("Y-m-d",time());
 			$this->assign('dateform',$dateform);
-			
+
 			/*shortcut*/
 			$sts = [];
 			$Model = M('configure_shortcut');
