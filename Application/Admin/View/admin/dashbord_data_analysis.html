@@ -444,36 +444,22 @@
 										</table>
 									</div>
 								</div>
-
-								<hr/>
 								<div class="row static-info">
 									<div class="col-md-3 name">
 										 Revenues (ongoing):
 									</div>
 									<div class="col-md-3 value">
 										 <i class="fa fa-paper-plane"></i> {$ongoingrevenues} <i class='fa fa-rmb'></i>
+										 <br>
+										 <foreach name="ongoingrevenuesarr" item="vo">
+ 										 <small><i class="fa fa-check-square-o"></i> {$vo['revenues']} {$vo['moneytype']} <br/></small>
+ 										</foreach>
 									</div>
 									<div class="col-md-4 name">
-										 Order Unpaid && done:
+										 Profit (ongoing):
 									</div>
 									<div class="col-md-2 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingunpaid}
-									</div>
-								</div>
-
-								<div class="row static-info">
-									<div class="col-md-3 name">
-									</div>
-									<div class="col-md-3 value">
-										<foreach name="ongoingrevenuesarr" item="vo">
-										 <small><i class="fa fa-check-square-o"></i> {$vo['revenues']} {$vo['moneytype']} <br/></small>
-										</foreach>
-									</div>
-									<div class="col-md-4 name">
-										 Order Doing:
-									</div>
-									<div class="col-md-2 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingdoing}
+										 <i class="fa fa-paper-plane"></i> {$ongoingprofit}
 									</div>
 								</div>
 
@@ -484,20 +470,15 @@
 									<div class="col-md-3 value">
 										 <i class="fa fa-paper-plane"></i> {$ongoingprofit} <i class='fa fa-rmb'></i>
 									</div>
-									<div class="col-md-4 name">
-										Order Unset:
-									</div>
-									<div class="col-md-2 value">
-										 <i class="fa fa-paper-plane"></i> {$ongoingunset}
-									</div>
-								</div>
-								<div class="row static-info">
 									<div class="col-md-3 name">
 										 Salary (ongoing):
 									</div>
 									<div class="col-md-3 value">
 										 <i class="fa fa-paper-plane"></i> {$ongoingsalary} <i class='fa fa-rmb'></i>
 									</div>
+								</div>
+								<div class="row static-info">
+
 								</div>
 								<div class="row static-info">
 									<div class="col-md-3 name">
@@ -507,7 +488,6 @@
 										 <i class="fa fa-paper-plane"></i> {$cin}
 									</div>
 								</div>
-								<hr/>
 							</div>
 						</div>
 					</div>

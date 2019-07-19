@@ -337,12 +337,25 @@
 								<span class="caption-helper">recent activities...</span>
 							</div>
 						</div>
-
-
-
 						<div class="portlet-body">
-							<div class="scroller" style="height: 420px;" data-always-visible="1" data-rail-visible="0">
+							<div class="scroller" style="height: 450px;" data-always-visible="1" data-rail-visible="0">
 								<ul class="feeds">
+									<li>
+									<div class="col1">
+											<div class="cont">
+												<div class="cont-col1">
+													<div class="label label-sm label-primary">
+														<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+													</div>
+												</div>
+												<div class="cont-col2">
+													<div class="desc text-primary">
+														 <strong>Please remember to send wechat friend with twitter </strong>
+													</div>
+												</div>
+											</div>
+										</div>
+										</li>
 									<foreach name="toptips" item="vo">
 											<if condition="($vo.flag eq 'warning') AND  ($vo.count neq 0)">
 												<li>
@@ -500,17 +513,12 @@
 												</div>
 											</div>
 										</li>
-										
+
 									</foreach>
-									
+
 								</ul>
 							</div>
 						</div>
-
-
-
-
-
 					</div>
 				<!-- END PORTLET-->
 			</div>
@@ -520,155 +528,17 @@
 						<div class="portlet-title">
 							<div class="caption">
 								<i class="icon-bar-chart font-green-sharp hide"></i>
-								<span class="caption-subject font-green-sharp bold uppercase"> {$todayyear} (current year) statistic</span>
-								<span class="caption-helper">current year statistic...</span>
+								<span class="caption-subject font-green-sharp bold uppercase"> Today's Twitter</span>
+								<span class="caption-helper">today's tweeter...</span>
 							</div>
 						</div>
-						<div class="portlet-body">
-							<div class="portlet-body">
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Revenues :
-									</div>
-									<div class="col-md-8 value">
-										<i class="fa fa-paper-plane"></i> {$cydata.revenuesum} <i class="fa fa-rmb"></i>
-										<foreach name="cydata.moneyinfo" item="vo">
-											<small><i class="fa fa-check-square-o"></i> {$vo['moneytype']} {$vo['revenues']} </small>
-										</foreach>
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Profit :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.profitsum} <i class="fa fa-rmb"></i>
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Worker Salary :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.salarysum} <i class="fa fa-rmb"></i>
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 No. Orders :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.ordernum}
-									</div>
-								</div>
-								<div class="row static-info">
-									<div class="col-md-4 name">
-										 Average profit/day :
-									</div>
-									<div class="col-md-8 value">
-										 <i class="fa fa-paper-plane"></i> {$cydata.profitavg}
-									</div>
-								</div>
-							</div>
+						<div class="portlet-body" heigth="430px">
+							<a class="twitter-timeline" href="https://twitter.com/?ref_src=twsrc%5Etfw" data-height="450" data-chrome="nofooter noborders noheader">Tweets by xuebaCS</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 						</div>
 					</div>
 				<!-- END PORTLET-->
 				</div>
-				<div class="col-md-3 col-sm-3">
-					<!-- BEGIN PORTLET-->
-					<div class="portlet light ">
-						<div class="portlet-title">
-							<div class="caption">
-								<i class="icon-share font-red-sunglo hide"></i>
-								<span class="caption-subject font-red-sunglo bold uppercase">Day statistic</span>
-							</div>
-						</div>
-						<div class="portlet-body">
-							<div class="row">
-								<div class="col-md-12 col-sm-12">
-									<div class="input-group ">
-											<div class="input-group date form_meridian_date input-small" data-date="2012-12-21T15:25:00Z">
-												<input name="daysearchinput" type="text" size="10" class="form-control input-inline" placeholder="Day" value="{$today}" readonly>
-												<span class="input-group-btn">
-												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
-											</div>
-											<div class="input-group-btn input-large">
-												<button class="btn yellow table-group-action-submit" id="daysearchbtn"><i class="fa fa-search"></i></button>
-											</div>
-
-											<!-- /input-group -->
-									</div>
-								</div>
-								<div class="col-md-12 col-sm-12 ">
-									<div class="row static-info">
-										<div class="col-md-4 name">
-											 Revenues:
-										</div>
-										<div class="col-md-8 value">
-											 <i class="fa fa-paper-plane" ></i><span id="dayrevenues"></span>
-										</div>
-									</div>
-									<div id="daydatalist">
-									</div>
-									<div class="row static-info">
-										<div class="col-md-4 name">
-											 Profit :
-										</div>
-										<div class="col-md-8 value">
-											 <i class="fa fa-paper-plane"></i>  <span id="dayprofit"></span>
-										</div>
-									</div>
-									<div class="row static-info">
-										<div class="col-md-4 name">
-											 Salary :
-										</div>
-										<div class="col-md-8 value">
-											 <i class="fa fa-paper-plane"></i> <span id="daysalary"></span>
-										</div>
-									</div>
-									<div class="row static-info">
-										<div class="col-md-5 name">
-											 No. Order :
-										</div>
-										<div class="col-md-7 value">
-											 <i class="fa fa-paper-plane"></i> <span id="dayordernum"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</div>
 				<!-- END PORTLET-->
-				<div class="col-md-3 col-sm-3">
-					<!-- BEGIN PORTLET-->
-					<div class="portlet light ">
-						<div class="portlet-title">
-							<div class="caption">
-								<i class="icon-share font-blue-steel hide"></i>
-								<span class="caption-subject font-blue-steel bold uppercase">Tools Quick link</span>
-							</div>
-						</div>
-						<div class="portlet-body">
-							<div class="portlet-body">
-								<div class="portlet-body">
-									<div class="row static-info">
-										<div class="col-md-12 name">
-											<a href="{:U('Tool/exchangeToolPage');}" target="_blank" class="btn btn-block purple"> 1. Exchange Transfer Tools <i class="fa fa-link"></i></a>
-										</div>
-										<div class="col-md-12 name">
-											<a href="{:U('Api/tradeApi');}" target="_blank" class="btn btn-block red"> 2. Trade information api <i class="fa fa-link"></i></a>
-										</div>
-									</div>
-									<hr/>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</div>
 				<div class="clearfix"></div>
 				<!-- END PORTLET-->
 				<div class="col-md-6 col-sm-12">

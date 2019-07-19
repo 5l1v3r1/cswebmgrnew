@@ -34,12 +34,12 @@ class CommonController extends Controller
 			//echo $pwdtxt."<br>";
 			//echo substr($pwdtxt , 17);
 			//exit(0);
-			/*if(!$auth->check(strtolower(MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME),substr($pwdtxt , 17)))
+			if(!$auth->check(strtolower(MODULE_NAME.'-'.CONTROLLER_NAME.'-'.ACTION_NAME),substr($pwdtxt , 17)))
 			{
 				//echo U('Login/index?modulename='.CONTROLLER_NAME.'');
 				$this->error(C('PERMISSION_DENIED_WARNING'), U('Login/index'),3);
 				return 0;
-			}*/
+			}
 			// incomplte orders num
 			/*
 
