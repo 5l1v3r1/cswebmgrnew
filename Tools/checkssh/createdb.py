@@ -8,10 +8,10 @@ except:
 db = sqlite3.connect('database.db')
 cursor = db.cursor()
 cursor.execute('''
-    CREATE TABLE sshrecord(sid INTEGER PRIMARY KEY,usename TEXT,  clientip TEXT, hostname TEXT, region TEXT, postdate TEXT)
+    CREATE TABLE sshrecord(sid INTEGER PRIMARY KEY autoincrement,usename TEXT,  clientip TEXT, hostname TEXT, region TEXT, postdate TEXT)
 ''')
 db.commit()
-return
+exit(0)
 cursor.execute('''
     CREATE TABLE cats(cid INTEGER PRIMARY KEY autoincrement, cats TEXT UNIQUE)
 ''')
