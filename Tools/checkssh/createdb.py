@@ -2,13 +2,13 @@ import sqlite3
 import os
 #"$time" "$user" "$ip" "$hostname"
 try:
-    os.remove('database.db') 
+    os.remove('database.db')
 except:
     print("[!] no exit")
 db = sqlite3.connect('database.db')
 cursor = db.cursor()
 cursor.execute('''
-    CREATE TABLE sshrecord(sid INTEGER PRIMARY KEY,usename TEXT,  clientip TEXT, hostname TEXT, country TEXT, postdate TEXT)
+    CREATE TABLE sshrecord(sid INTEGER PRIMARY KEY,usename TEXT,  clientip TEXT, hostname TEXT, region TEXT, postdate TEXT)
 ''')
 db.commit()
 return
