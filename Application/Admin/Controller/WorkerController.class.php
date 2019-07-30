@@ -245,10 +245,11 @@ class WorkerController extends CommonController {
       $Model = M('workers');
       $content = $Model->where($data_)->find();
       $teches = [];
-      $teches = trim(I('post.tech','','htmlspecialchars'));//
+      $teches = I('post.tech','','htmlspecialchars');//
       $attrarr = [];
       $attrarr = I('post.attrs','','htmlspecialchars');//
       //dump($teches);
+      //exit(0);
       if(empty($content))
       {
         $data['wxid'] = $data_['wxid'];
